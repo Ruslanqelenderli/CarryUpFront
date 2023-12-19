@@ -1,0 +1,11 @@
+.logo {
+    position: absolute;
+    left: 32%;
+    top: 4%;
+}
+
+.link{
+  color: #38B4FF;
+ float: right;
+ font-weight: 500;
+}
