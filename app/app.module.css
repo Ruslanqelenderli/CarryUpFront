@@ -3,9 +3,33 @@
     left: 32%;
     top: 4%;
 }
+.profile{
+  background-color: #F1F1F1;
+  height: 100vh;
+  min-height: 580px;
+}
 
-.link{
-  color: #38B4FF;
- float: right;
- font-weight: 500;
+.header{
+  background-color: #ffff;
+  height: 55px;
+  padding: 18px;
+}
+.main{
+  margin: 45px 68px;
+  display: flex;
+}
+
+.profileImg{
+  border: 1px solid #b532ff4a;
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #d9d9d957;
+
+}
+.text{
+  color: #636363e3;
+  font-size: 19px;
+  font-weight: 500;
 }
