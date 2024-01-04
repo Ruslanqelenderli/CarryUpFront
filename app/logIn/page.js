@@ -1,6 +1,6 @@
 "use client";
 
-import { getData } from "@/components/postApi";
+import { getData } from "@/app/components/postApi";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";

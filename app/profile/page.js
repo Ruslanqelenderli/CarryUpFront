@@ -151,7 +151,7 @@ export default function Profile() {
             <li>
               <a
                 href="#"
-                
+
                 className="flex items-center p-1 pt-6 text-gray-900 rounded-md-lg dark:text-white  group"
 
               >
@@ -298,7 +298,6 @@ export default function Profile() {
                   height={35}
                   alt="Hide"
                   className="mt-0.5 hide"
-
                   priority={true}
                 />
               </div>
