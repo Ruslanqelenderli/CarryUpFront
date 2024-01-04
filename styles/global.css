@@ -14,19 +14,20 @@ label {
 }
 input {
   border-radius: 8px;
-  border: 1px solid linear-gradient(to right, #f8ccfd, #cbfbff);
+  border: 1px solid #b632ff6b;
 }
 input::placeholder {
   font-weight: 500;
+
   color: #cfcaff;
 }
 
 button {
   border-radius: 8px;
-  /* background-color: #635bb2 !important; */
+  background-color: #635bb2 !important;
 }
 button:hover {
-  /* background-color: #ada7eb !important; */
+  background-color: #ada7eb !important;
 }
 .line {
   height: 2px;
@@ -40,6 +41,9 @@ hr {
     rgba(77, 180, 255, 0.4) 0%,
     rgba(183, 48, 255, 0.4) 100%
   );
+  height: 1px;
+ 
+  border: none;
 }
 
 .hide {
@@ -50,4 +54,83 @@ hr {
 .app {
   height: 280px;
   width: 290px;
+}
+.link{
+  color: #38B4FF;
+ float: right;
+ font-weight: 500;
+}
+.aside{
+  
+  border: 1px solid #b532ff4a;
+  border-radius: 15px;
+}
+ul span {
+  color: #BBBBBB;
+  font-size: 20px;
+}
+.logout{
+  color: red !important;
+}
+
+.secondBox{
+  min-height: 475px;
+   height: 72vh;
+   font-size: 18px;
+   font-weight: 500;
+   color: #4A4A4A;
+}
+
+.firstBox{
+  min-height: 370px;
+   height: 40vh;
+}
+
+.secondBox label{
+  color: #4981A3;
+}
+.secondBox input {
+  border: 1px solid #3BB4FF;
+}
+.saveButton{
+  background-color: #8078D1;
+  color: white;
+}
+.cancelButton{
+  border:1px solid #8078D1;
+  color: #8078D1
+}
+
+/* .saveButton:hover{
+  border:1px solid #8078D1;
+  color: #8078D1;
+  background-color: white;
+}
+
+.cancelButton:hover{
+  background-color: #8078D1;
+  color: white;
+} */
+
+h3{
+  font-size: 19px;
+}
+
+.active-content{
+  display: block;
+}
+
+.active-tabs {
+  color: #706AB5;
+  
+}
+.active-tabs::before {
+  content: "";
+
+  position: absolute;
+
+  left: 56px;
+ 
+  height: 33px;
+  border-left: 5px solid #706AB5
 }
