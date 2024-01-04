@@ -14,20 +14,19 @@ label {
 }
 input {
   border-radius: 8px;
-  border: 1px solid #b632ff6b;
+  border: 1px solid linear-gradient(to right, #f8ccfd, #cbfbff);
 }
 input::placeholder {
   font-weight: 500;
-
   color: #cfcaff;
 }
 
 button {
   border-radius: 8px;
-  background-color: #635bb2 !important;
+  /* background-color: #635bb2 !important; */
 }
 button:hover {
-  background-color: #ada7eb !important;
+  /* background-color: #ada7eb !important; */
 }
 .line {
   height: 2px;
