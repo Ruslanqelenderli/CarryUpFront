@@ -1,44 +1,29 @@
-.radioButton,
-.radioButton1 {
-  display: none;
-}
-
-.radioButton + label {
-  z-index: 10;
-  /* margin: 0 10px 10px 0; */
-  position: relative;
-  color: #cfcaff;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
-  font-weight: bold;
-  background-color: #ffffff;
-  border: 1px solid #ced4da;
-  cursor: pointer;
-  transition: all 200ms ease;
-  border-radius: 0.5rem;
-  padding: 7px;
-}
-.radioButton1 + label {
-  z-index: 10;
-  /* margin: 0 10px 10px 0; */
-  margin-left: 7px;
-  position: relative;
-  color: #cfcaff;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
-  font-weight: bold;
-  background-color: #ffffff;
-  border: 1px solid #ced4da;
-  cursor: pointer;
-  transition: all 200ms ease;
-  border-radius: 0.5rem;
-  padding: 7px;
-}
-
-.radioButton,
-.radioButton1:checked + label {
-  color: #8fadcc;
-  background-color: #f4f9fd;
-}
-.radioButton:checked + label {
-    color: #8fadcc;
-    background-color: #f4f9fd;
-}
+/* Hide the default radio button */
+.custom-radio{
+    display: none;
+  }
+  
+  /* Style for the custom radio buttons using adjacent sibling selector */
+ .male-label, .female-label{
+    z-index: 10;
+    margin: 0 10px 10px 0;
+    position: relative;
+    color: #ced4da;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
+    font-weight: bold;
+    background-color: #ffffff;
+    border: 2px solid;
+    border-image: linear-gradient(to right, #f8ccfd, #cbfbff);
+    cursor: pointer;
+    transition: all 200ms ease;
+    padding: 5px 20px;
+    border-image-slice: 1;
+    border-radius: 15px;
+  }
+  
+  /* Style for the checked custom radio button */
+  .male-label:checked{
+    color: #495057;
+    background-color: #ced4da;
+  }
+  

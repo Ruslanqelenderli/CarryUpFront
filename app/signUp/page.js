@@ -5,7 +5,7 @@ import { useState } from "react";
 import { FaPhoneAlt, FaGoogle, FaRegEyeSlash, FaEye } from "react-icons/fa";
 import Navbar from "../components/navbar";
 import Image from "next/image";
-
+import styles from "./page.module.css"
 export default function SignUp() {
 
   const [formData, setformData] = useState({
@@ -122,24 +122,22 @@ export default function SignUp() {
                   onChange={handleChange}
                 />
               </div>
-              <div className="w-full md:w-1/2 px-3">
-                <label
-                  style={{ color: "rgba(117, 107, 227, 0.70)" }}
-                  className="block tracking-wide text-gray-700 text-xs font-bold text-left mb-1"
-                  htmlFor="grid-last-name"
-                >
+
+              {/* gender */}
+              <div className="w-full md:w-1/2 px-3 text-left">
+                <label style={{ color: "rgba(117, 107, 227, 0.70)", marginBottom: "12px" }} className="block tracking-wide text-gray-700 text-xs font-bold text-left mb-1">
                   Gender
                 </label>
-                <input
-                  style={{ border: "1px solid #c2deff" }}
-                  className="appearance-none block w-full text-gray-400 border border-gray-200 rounded-lg py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  id="grid-last-name"
-                  type="text"
-                  placeholder="Surname"
-                  name="surname"
-                  value={formData.surname}
-                  onChange={handleChange}
-                />
+
+                <label htmlFor="male" id="male-label" className={styles["male-label"]}>
+                  <input type="radio" id="male" name="gender" className={`${styles.male} ${styles['custom-radio']}`} />
+                  Male
+                </label>
+                <label htmlFor="female" className={styles["female-label"]}>
+                  <input type="radio" id="female" name="gender" className={`${styles.female} ${styles['custom-radio']}`} />
+                  Female
+                </label>
+
               </div>
             </div>
             <div className="flex flex-wrap -mx-3">
@@ -231,7 +229,7 @@ export default function SignUp() {
             )}
             <div className="flex flex-wrap -mx-3 mb-6">
               <div className="w-full px-3 mb-6 md:mb-0 text-left">
-                <label className="block text-gray-500 font-bold">
+                <label className="text-gray-500 font-bold flex">
                   <input className="mr-2" type="checkbox" />
                   <span className="text-sm" style={{ color: "#746BD4" }}>
                     I have read and agree to the{" "}
@@ -247,7 +245,7 @@ export default function SignUp() {
                   className="w-full shadow hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
                   type="submit"
                 >
-                  Log In
+                  Sign Up
                 </button>
               </div>
             </div>
