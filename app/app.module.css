@@ -8,7 +8,11 @@
   height: 100vh;
   min-height: 580px;
 }
-
+.mainPage{
+  background-color: #F1F1F1;
+  height: 100vh;
+  min-height: 990px;
+}
 .header{
   background-color: #ffff;
   height: 55px;

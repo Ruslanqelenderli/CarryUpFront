@@ -1,4 +1,5 @@
 import "../styles/global.css"
+import { Toaster } from "react-hot-toast";
 
 
 export default function RootLayout({ children }) {
@@ -6,7 +7,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
  
 
-      <body >{children}</body>
+      <body >
+      <Toaster position="bottom-center" />
+        {children}</body>
     </html>
   )
 }

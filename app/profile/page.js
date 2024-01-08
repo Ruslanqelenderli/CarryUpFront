@@ -17,17 +17,9 @@ export default function Profile() {
 
   return (
     <div className={style.profile}>
-      {/* <header className={style.header}>
-        <Image
-          src="/images/carry.png"
-          width={100}
-          height={60}
-          alt="Carry UP"
-          priority={true}
-        />
-      </header> */}
+     
       <Navbar />
-      <section className="flex my-10 mx-14">
+      <section className="flex my-8 mx-12">
         <div className="h-full px-4 py-4 w-80  bg-white aside shadow-md">
           <div className="pb-3 flex">
             <div className={style.profileImg}>

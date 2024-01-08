@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 
 const Navbar = () => {
+  
   return (
     <div>
       <nav className="bg-white border-gray-200 dark:bg-gray-900 ">
