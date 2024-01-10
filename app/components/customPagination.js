@@ -16,7 +16,7 @@ const CustomPagination = ({
   }
 
   return (
-    <div className="flex bg-white rounded-lg justify-center py-4">
+    <div className="flex bg-white rounded-lg justify-center py-4 absolute bottom-0 left-[40%]">
       <nav
         aria-label="Page navigation example"
         className="flex justify-center "

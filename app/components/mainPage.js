@@ -127,7 +127,8 @@ function MainPage() {
   return (
     <div className={style.profile}>
       <Navbar />
-      <div className="flex ">
+      
+      <div className="flex justify-between">
          <aside id="logo-sidebar" class=" aside  shadow-md  overflow-auto mt-4 mx-4 z-40 w-64  pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
    <div class="overflow-y-auto bg-white dark:bg-gray-800 leftSection">
    <form onSubmit={handleSubmit}>
@@ -282,7 +283,7 @@ function MainPage() {
                 </div>
               </div>
             </form>
-            <div className=" sticky bottom-0 flex mb-1 justify-between px-3 bg-white">
+            <div className=" sticky bottom-0 flex  justify-between  bg-white px-3 py-4">
             <button
               className="bg-transparent  font-semibold  py-1.5 px-4 border    rounded-md cancelButton "
               onClick={clearTripsData}
@@ -300,7 +301,7 @@ function MainPage() {
 </aside>
   
 
-<div className="bg-white aside shadow-md  w-[75%]  col-span-2  mt-4 mr-4 ">
+<div className="bg-white aside shadow-md  md:w-[77%] lg:w-[80%] xl:w-[80%%] col-span-2  mt-4 mr-4 relative ">
           <div className="grid grid-cols-3 gap-4 py-6 px-6 ">
             {records.map((v) => (
               <>
@@ -450,9 +451,10 @@ function MainPage() {
             currentPage={currentPage}
           />
         </div>
+     
       </div>
      
-
+    
 
     
     </div>
