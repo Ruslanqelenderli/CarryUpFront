@@ -24,7 +24,7 @@ function MainPage() {
     packageCategoryId: null,
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const [tripPerPage, setTripPerPage] = useState(4);
+  const [tripPerPage, setTripPerPage] = useState(6);
 
   const [tripData, setTripData] = useState([]);
 
@@ -102,13 +102,21 @@ function MainPage() {
 
   const nextPage = () => {
     if (currentPage !== lastIndex) {
+      if (tripData.length > lastIndex) {
       setCurrentPage(currentPage + 1);
+        
+      }
+     
     }
   };
 
   const prePage = () => {
     if (currentPage !== firstIndex) {
+      if (tripData.length > firstIndex) {
       setCurrentPage(currentPage - 1);
+        
+      }
+    
     }
   };
 
@@ -119,26 +127,26 @@ function MainPage() {
   return (
     <div className={style.profile}>
       <Navbar />
-
-      <div className="flex  my-7 mx-7">
-        <div className="leftSectionMain">
-          <div className="bg-white aside shadow-md  overflow-auto leftSection">
-            <form onSubmit={handleSubmit}>
-              <div className="pt-9 px-9 ">
-                <div className="flex mb-5">
-                  <div className="bg-white border-[#b532ff75]  border-solid border shadow-md  px-5 py-1.5 rounded-md text-[#AEA6FD]">
+      
+      <div className="flex justify-between">
+         <aside id="logo-sidebar" class=" aside  shadow-md  overflow-auto mt-4 mx-4 z-40 w-64  pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
+   <div class="overflow-y-auto bg-white dark:bg-gray-800 leftSection">
+   <form onSubmit={handleSubmit}>
+              <div className=" px-3 ">
+                <div className="flex mb-5 justify-between">
+                  <div className="bg-white border-[#b532ff75]  border-solid border shadow-md  px-4 py-1.5 rounded-md text-[#AEA6FD]">
                     For Send
                   </div>
-                  <div className="ml-3 bg-white border-[#b532ff75]  border-solid border shadow-md  px-5 py-1.5 rounded-md text-[#AEA6FD]">
+                  <div className="ml-3 bg-white border-[#b532ff75]  border-solid border shadow-md  px-4 py-1.5 rounded-md text-[#AEA6FD]">
                     For Carry
                   </div>
                 </div>
 
-                <label>Trip Create Date</label>
+                <label className="text-[15px]">Trip Create Date</label>
                 <div className=" mt-4">
                   <div className="w-full  md:mb-0">
                     <input
-                      className="appearance-none block w-full  text-gray-400 border rounded-lg py-2.5 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
+                      className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
                       id="grid-first-name"
                       type="date"
                       placeholder="DD/MM/YYYY"
@@ -150,11 +158,11 @@ function MainPage() {
                 </div>
                 <hr className="mb-5" />
               </div>
-              <div className=" px-9">
-                <label>Trip Title</label>
+              <div className=" px-3">
+                <label className="text-[15px]">Trip Title</label>
                 <div className="mt-4">
                   <input
-                    className="appearance-none block w-full  text-gray-400 border rounded-lg py-2.5 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
+                    className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
                     id="grid-first-name"
                     type="text"
                     placeholder=""
@@ -165,11 +173,11 @@ function MainPage() {
                 </div>
                 <hr className="mb-5" />
               </div>
-              <div className=" px-9">
-                <label>Trip Place Detail Travel Type</label>
+              <div className=" px-3">
+                <label className="text-[15px]">Trip Place Detail Travel Type</label>
                 <div className="mt-4">
                   <select
-                    className="appearance-none block w-full  text-gray-400 border rounded-lg py-2.5 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
+                    className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
                     name="tripPlaceDetailTravelType"
                     value={formData.tripPlaceDetailTravelType}
                     onChange={handleChange}
@@ -185,11 +193,11 @@ function MainPage() {
                 </div>
                 <hr className="mb-5" />
               </div>
-              <div className=" px-9">
-                <label>Package Price</label>
+              <div className=" px-3">
+                <label className="text-[15px]">Package Price</label>
                 <div className="mt-4">
                   <input
-                    className="appearance-none block w-full  text-gray-400 border rounded-lg py-2.5 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
+                    className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
                     id="grid-first-name"
                     type="number"
                     placeholder=""
@@ -200,11 +208,11 @@ function MainPage() {
                 </div>
                 <hr className="mb-5" />
               </div>
-              <div className=" px-9">
-                <label>Package CategoryId</label>
+              <div className=" px-3">
+                <label className="text-[15px]">Package CategoryId</label>
                 <div className="mt-4">
                   <select
-                    className="appearance-none block w-full  text-gray-400 border rounded-lg py-2.5 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
+                    className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
                     name="packageCategoryId"
                     value={formData.packageCategoryId}
                     onChange={handleChange}
@@ -215,11 +223,11 @@ function MainPage() {
                 </div>
                 <hr className="mb-5" />
               </div>
-              <div className=" px-9">
-                <label>Trip Place Detail From Place</label>
+              <div className=" px-3">
+                <label className="text-[15px]">Trip Place Detail From Place</label>
                 <div className="mt-4">
                   <input
-                    className="appearance-none block w-full  text-gray-400 border rounded-lg py-2.5 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
+                    className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
                     id="grid-first-name"
                     type="text"
                     placeholder=""
@@ -230,11 +238,11 @@ function MainPage() {
                 </div>
                 <hr className="mb-5" />
               </div>
-              <div className=" px-9">
-                <label>Trip Place Detail To Place</label>
+              <div className=" px-3">
+                <label className="text-[15px]">Trip Place Detail To Place</label>
                 <div className="mt-4">
                   <input
-                    className="appearance-none block w-full  text-gray-400 border rounded-lg py-2.5 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
+                    className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
                     id="grid-first-name"
                     type="text"
                     placeholder=""
@@ -245,11 +253,11 @@ function MainPage() {
                 </div>
                 <hr className="mb-5" />
               </div>
-              <div className=" px-9">
-                <label>Trip Place Detail From Trip Date</label>
+              <div className=" px-3">
+                <label className="text-[15px]">Trip Place Detail From Trip Date</label>
                 <div className="mt-4">
                   <input
-                    className="appearance-none block w-full  text-gray-400 border rounded-lg py-2.5 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
+                    className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
                     id="grid-first-name"
                     type="date"
                     placeholder=""
@@ -260,11 +268,11 @@ function MainPage() {
                 </div>
                 <hr className="mb-5" />
               </div>
-              <div className=" px-9">
-                <label>Trip Place Detail To Trip Date</label>
+              <div className=" px-3">
+                <label className="text-[15px]" >Trip Place Detail To Trip Date</label>
                 <div className="mt-4">
                   <input
-                    className="appearance-none block w-full  text-gray-400 border rounded-lg py-2.5 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
+                    className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
                     id="grid-first-name"
                     type="date"
                     placeholder=""
@@ -275,46 +283,31 @@ function MainPage() {
                 </div>
               </div>
             </form>
-
-            {/* <div className=" px-9">
-                        <label>Packagesub CategoryId</label>
-                        <div className="mt-4">
-
-                            <select
-
-                                className="appearance-none block w-full  text-gray-400 border rounded-lg py-2.5 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-
-                            >
-                                <option selected>select</option>
-
-                            </select>
-                        </div>
-                        <hr className = "mb-5" />
-                    </div> */}
-          </div>
-          <div className="mt-5 ml-8">
+            <div className=" sticky bottom-0 flex  justify-between  bg-white px-3 py-4">
             <button
-              className="bg-transparent  font-semibold  py-1.5 px-6 border mr-4   rounded-md cancelButton "
+              className="bg-transparent  font-semibold  py-1.5 px-4 border    rounded-md cancelButton "
               onClick={clearTripsData}
             >
               Clear All
             </button>
             <button
-              className="bg-transparent  font-semibold  py-1.5 px-8 border mr-4   rounded-md saveButton "
+              className="bg-transparent  font-semibold  py-1.5 px-6 border    rounded-md saveButton "
               onClick={getTrips}
             >
-              Apply
+              Search
             </button>
           </div>
-        </div>
+   </div>
+</aside>
+  
 
-        <div className="bg-white aside shadow-md ml-6 w-[77%] h-[30rem] ">
-          <div className="grid gap-x-8 gap-y-4 grid-cols-2 py-6 px-9">
+<div className="bg-white aside shadow-md  md:w-[77%] lg:w-[80%] xl:w-[80%%] col-span-2  mt-4 mr-4 relative ">
+          <div className="grid grid-cols-3 gap-4 py-6 px-6 ">
             {records.map((v) => (
               <>
-                <div className="bg-white border relative border-[#A0CCFF] border-solid rounded-xl p-2.5 h-44">
-                  <div className="flex ">
-                    <span className="capitalize text-[#2F8EFF] font-semibold text-xl">
+                <div className="bg-white border relative border-[#A0CCFF] border-solid rounded-xl p-4 h-52 min-h-56 ">
+                  <div className="flex  ">
+                    <span className="capitalize text-[#2F8EFF] font-semibold ">
                       {v?.tripPlaceDetails.map((v) => v.fromPlace)}
                     </span>
                     <span
@@ -322,8 +315,9 @@ function MainPage() {
                       style={{
                         borderBottom: "3px solid #A0CCFF",
                         height: "22px",
-                        width: "140px",
+                        width: "126px",
                         margin: "0 10px",
+                        display:"flex"
                       }}
                     >
                       {v?.tripPlaceDetails.map((v) =>
@@ -375,7 +369,7 @@ function MainPage() {
                       )}
                     </span>
                     <span className="capitalize text-[#2F8EFF] font-semibold text-xl">
-                      {" "}
+                      
                       {v?.tripPlaceDetails.map((v) => v.toPlace)}
                     </span>
                   </div>
@@ -393,7 +387,8 @@ function MainPage() {
                     </div>
                     {v.description && v.description.substr(0, 20)} ...
                   </p>
-                  <span className="text-[#717171] font-medium ">
+                  <div className="my-3">
+                  <span className="text-[#717171] font-medium my-3">
                     Departure:{" "}
                     <span className="text-[#2F8EFF] font-medium">
                       {v?.tripPlaceDetails
@@ -414,15 +409,25 @@ function MainPage() {
                         : null}
                     </span>
                   </span>
+                  </div>
+                
 
-                  <div className="flex justify-between">
-                    <p className="text-[#717171] mt-3">
-                      Last date to apply{" "}
+                  <div className="flex justify-between mt-7">
+                    <p className="text-[#717171] mt-1 flex">
+                    <Image
+                              src="/icons/info.png"
+                              className="infoImg"
+                              width={20}
+                              height={10}
+                              alt="Info"
+                              priority={true}
+                            />{" "}  
+                 Last date to apply{" "}
                       {v?.package?.createDate
                         ? moment(v.package.createDate).format("DD.MM.YYYY")
                         : null}
                     </p>
-                    <span className="text-[#2F8EFF] font-medium text-4xl">
+                    <span className="text-[#2F8EFF] font-medium text-3xl">
                       {v?.package?.price}
                       <span className="text-lg ml-[2px]">
                         {v?.package?.currency == currency.AZN
@@ -449,7 +454,12 @@ function MainPage() {
             currentPage={currentPage}
           />
         </div>
+     
       </div>
+     
+    
+
+    
     </div>
   );
 }
