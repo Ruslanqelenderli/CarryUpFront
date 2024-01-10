@@ -16,7 +16,7 @@ const CustomPagination = ({
   }
 
   return (
-    <div className="flex bg-white rounded-lg justify-center">
+    <div className="flex bg-white rounded-lg justify-center py-4">
       <nav
         aria-label="Page navigation example"
         className="flex justify-center "
@@ -26,7 +26,7 @@ const CustomPagination = ({
             <a
               href="#"
               onClick={prePage}
-              className=" flex items-center  justify-center px-3 h-8 ms-0 leading-tight text-[#9E96F7] bg-white rounded-s-lg  hover:text-gray-700  dark:hover:text-white"
+              className=" flex items-center  justify-center px-3 h-8 ms-0 leading-tight text-[#7FBAFF] bg-white rounded-s-lg  hover:text-gray-700  dark:hover:text-white"
             >
               <span className="sr-only">Previous</span>
               <svg
@@ -57,8 +57,8 @@ const CustomPagination = ({
                       "flex items-center justify-center mr-5 px-3 h-8 leading-tight text-gray-500 bg-white  hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                     }
                     style={{
-                      background: page === currentPage ? "#9E96F7" : "none",
-                      color: page === currentPage ? "white" : "#DCD9FF",
+                      background: page === currentPage ? "#2F8EFF" : "none",
+                      color: page === currentPage ? "white" : "#7FBAFF",
                       borderRadius: page === currentPage ? "25px" : "none",
                     }}
                   >
@@ -73,7 +73,7 @@ const CustomPagination = ({
             <a
               href="#"
               onClick={nextPage}
-              className=" flex items-center  justify-center px-3 h-8 ms-0 leading-tight text-[#9E96F7] bg-white rounded-s-lg  hover:text-gray-700  dark:hover:text-white"
+              className=" flex items-center  justify-center px-3 h-8 ms-0 leading-tight text-[#7FBAFF] bg-white rounded-s-lg  hover:text-gray-700  dark:hover:text-white"
             >
               <span className="sr-only">Next</span>
               <svg
