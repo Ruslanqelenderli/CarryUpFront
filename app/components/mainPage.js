@@ -112,7 +112,7 @@ function MainPage() {
 
   const prePage = () => {
     if (currentPage !== firstIndex) {
-      if (tripData.length < firstIndex) {
+      if (tripData.length > firstIndex) {
       setCurrentPage(currentPage - 1);
         
       }
@@ -294,7 +294,7 @@ function MainPage() {
               className="bg-transparent  font-semibold  py-1.5 px-6 border    rounded-md saveButton "
               onClick={getTrips}
             >
-              Apply
+              Search
             </button>
           </div>
    </div>
@@ -305,7 +305,7 @@ function MainPage() {
           <div className="grid grid-cols-3 gap-4 py-6 px-6 ">
             {records.map((v) => (
               <>
-                <div className="bg-white border relative border-[#A0CCFF] border-solid rounded-xl p-2.5 h-44 ">
+                <div className="bg-white border relative border-[#A0CCFF] border-solid rounded-xl p-4 h-52 min-h-56 ">
                   <div className="flex  ">
                     <span className="capitalize text-[#2F8EFF] font-semibold ">
                       {v?.tripPlaceDetails.map((v) => v.fromPlace)}
@@ -375,7 +375,7 @@ function MainPage() {
                   </div>
                   <p
                     data-tooltip-target="tooltip-default"
-                    className="text-[#717171] italic capitalize mt-2"
+                    className="text-[#717171] italic capitalize mt-3"
                   >
                     <div
                       id="tooltip-default"
@@ -387,7 +387,8 @@ function MainPage() {
                     </div>
                     {v.description && v.description.substr(0, 20)} ...
                   </p>
-                  <span className="text-[#717171] font-medium ">
+                  <div className="my-3">
+                  <span className="text-[#717171] font-medium my-3">
                     Departure:{" "}
                     <span className="text-[#2F8EFF] font-medium">
                       {v?.tripPlaceDetails
@@ -408,8 +409,10 @@ function MainPage() {
                         : null}
                     </span>
                   </span>
+                  </div>
+                
 
-                  <div className="flex justify-between">
+                  <div className="flex justify-between mt-7">
                     <p className="text-[#717171] mt-1 flex">
                     <Image
                               src="/icons/info.png"
