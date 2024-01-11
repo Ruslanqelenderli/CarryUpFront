@@ -94,26 +94,29 @@ ul span {
   border: 1px solid #3BB4FF;
 }
 .saveButton{
-  background-color: #8078D1;
+  background-color: #AEA6FD !important;
   color: white;
 }
 .cancelButton{
-  border:1px solid #8078D1;
-  color: #8078D1;
+  border:1px solid #AEA6FD;
+  color: #AEA6FD;
+  background-color: white !important;
+  
+}
+.cancelButton:hover{
+
   background-color: white !important;
   
 }
 
-/* .saveButton:hover{
-  border:1px solid #8078D1;
-  color: #8078D1;
-  background-color: white;
+.infoImg{
+  width: 17px !important;
+  height: 17px !important;
+  margin-top: 5px;
+  margin-right: 5px;
+
 }
 
-.cancelButton:hover{
-  background-color: #8078D1;
-  color: white;
-} */
 
 h3{
   font-size: 19px;
@@ -139,7 +142,7 @@ h3{
 }
 
 .leftSection {
-  height: 27rem;
+  height:82vh
   
 }
 
