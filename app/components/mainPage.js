@@ -23,16 +23,13 @@ function MainPage() {
         tripPlaceDetailToTripDate: null,
         packageCategoryId: null,
     });
-    const [currentPage, setCurrentPage] = useState(1);
+    const [tripCurrentPage, setTripCurrentPage] = useState(1);
     const [tripPerPage, setTripPerPage] = useState(6);
-
+    const [tripTotalPages, settripTotalPages] = useState(0);
+    const [tripTotalCount, settripTotalCount] = useState(0);
     const [tripData, setTripData] = useState([]);
     const [sendData, setSendData] = useState([]);
 
-    const lastIndex = currentPage * tripPerPage;
-    const firstIndex = lastIndex - tripPerPage;
-    const recordTrips = tripData.slice(firstIndex, lastIndex);
-    const recordSends = sendData.slice(firstIndex, lastIndex);
     const [activeButton, setActiveButton] = useState("forCarry");
 
     const handleButtonClick = (button) => {
@@ -48,8 +45,8 @@ function MainPage() {
     };
 
     useEffect(() => {
-        getTrips();
-    }, []);
+        getTrips(tripCurrentPage);
+    }, [tripCurrentPage]);
 
     const getTrips = async (currentPage) => {
         try {
@@ -73,8 +70,8 @@ function MainPage() {
                             tripPlaceDetailToTripDate: formData.tripPlaceDetailToTripDate,
                             packageCategoryId: formData.packageCategoryId,
                         },
-                        pageSize: 0,
-                        currentPage: 0,
+                        pageSize: tripPerPage,
+                        currentPage: currentPage,
                     }),
                     cache: "force-cache",
                 }
@@ -83,8 +80,14 @@ function MainPage() {
 
             if (responseData?.list.length > 0) {
                 setTripData(responseData.list);
+                settripTotalPages(Math.ceil(responseData.totalCount/tripPerPage));
+                settripTotalCount(responseData.totalCount);
             } else {
                 setTripData(responseData.list);
+                settripTotalPages(0);
+                settripTotalCount(0);
+
+
                 toast.error("Trip not found!");
             }
         } catch (error) {
@@ -149,28 +152,23 @@ function MainPage() {
         });
     };
 
-    const nextPage = () => {
-        if (currentPage !== lastIndex) {
-            if (tripData.length > lastIndex) {
-                setCurrentPage(currentPage + 1);
-
-            }
+    const nextPageTrip = () => {
+        if (tripCurrentPage !== tripTotalPages) {
+            setTripCurrentPage(tripCurrentPage + 1);
 
         }
     };
 
-    const prePage = () => {
-        if (currentPage !== firstIndex) {
-            if (tripData.length > firstIndex) {
-                setCurrentPage(currentPage - 1);
+    const prePageTrip = () => {
+        if (tripCurrentPage !== 1) {
+                setTripCurrentPage(tripCurrentPage - 1);
 
-            }
 
         }
     };
 
     function changeCPage(id) {
-        setCurrentPage(id);
+        setTripCurrentPage(id);
     }
 
     return (
@@ -490,7 +488,7 @@ function MainPage() {
                     {activeButton === "forCarry" && (
                         <>
                             <div className="grid grid-cols-3 gap-4 py-6 px-6 ">
-                                {recordTrips.map((v) => (
+                                {tripData.map((v) => (
                                     <>
                                         <div className="bg-white border relative border-[#A0CCFF] border-solid rounded-xl p-4 h-52 min-h-56 ">
                                             <div className="flex  ">
@@ -633,12 +631,12 @@ function MainPage() {
                             </div>
                             <CustomPagination
                                 changeCPage={changeCPage}
-                                nextPage={nextPage}
-                                prePage={prePage}
-                                totalTrips={tripData.length}
+                                nextPage={nextPageTrip}
+                                prePage={prePageTrip}
+                                totalTrips={tripTotalCount}
                                 tripPerPage={tripPerPage}
-                                setCurrentPage={setCurrentPage}
-                                currentPage={currentPage}
+                                setCurrentPage={setTripCurrentPage}
+                                currentPage={tripCurrentPage}
                             />
                         </>
                     )}
