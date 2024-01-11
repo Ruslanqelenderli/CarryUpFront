@@ -138,7 +138,7 @@ function MainPage() {
                 <div className=" mt-4">
                   <div className="w-full  md:mb-0">
                     <input
-                      className="appearance-none block w-full  text-gray-400 border rounded-lg py-2.5 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
+                      className="appearance-none block w-full text-gray-400 border rounded-lg py-2.5 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
                       id="grid-first-name"
                       type="date"
                       placeholder="DD/MM/YYYY"
