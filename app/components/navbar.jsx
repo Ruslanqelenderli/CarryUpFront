@@ -8,7 +8,11 @@ const Navbar = () => {
       <nav className="bg-white border-gray-200 dark:bg-gray-900 ">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
           <a
+<<<<<<< HEAD
             href="#"
+=======
+           href="#"
+>>>>>>> a0a6bf5f75f2b1fa22affc6e64310c27068ebe81
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
               <Image
@@ -22,7 +26,7 @@ const Navbar = () => {
         />
             {/* <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span> */}
           </a>
-          <div className="flex items-center space-x-6 rtl:space-x-reverse">
+          <div class="flex items-center space-x-6 rtl:space-x-reverse">
             <a
               href="/logIn"
               className="text-sm  text-[#9C9C9C] dark:text-white hover:text-[#706AB5] "
