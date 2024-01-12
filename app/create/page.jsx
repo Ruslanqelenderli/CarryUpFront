@@ -87,7 +87,7 @@ const Create = () => {
               ></textarea>
               <p
                 id="result"
-                className="text-[#85AEFF] text-xs leading-normal font-medium"
+                className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
               >
                 {text.length} / {limit}
               </p>
@@ -118,7 +118,7 @@ const Create = () => {
                 <div className="">
                   <p
                     id="result"
-                    className="text-[#85AEFF] text-xs leading-normal font-medium"
+                    className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
                   >
                     {text1.length} / {limit1}
                   </p>
