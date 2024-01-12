@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import style from "../app.module.css";
 import { useState } from "react";
+import Navbar from "../components/navbar";
 
 export default function Profile() {
   const [toggleState, setToggleState] = useState(1)
@@ -16,16 +17,9 @@ export default function Profile() {
 
   return (
     <div className={style.profile}>
-      <header className={style.header}>
-        <Image
-          src="/images/carry.png"
-          width={100}
-          height={60}
-          alt="Carry UP"
-          priority={true}
-        />
-      </header>
-      <section className="flex my-10 mx-14">
+     
+      <Navbar />
+      <section className="flex my-8 mx-12">
         <div className="h-full px-4 py-4 w-80  bg-white aside shadow-md">
           <div className="pb-3 flex">
             <div className={style.profileImg}>
@@ -303,10 +297,10 @@ export default function Profile() {
               </div>
             </div>
             <div className="float-right m-5">
-              <button class="bg-transparent  font-semibold  py-1.5 px-8 border mr-4   rounded-md cancelButton">
+              <button className="bg-transparent  font-semibold  py-1.5 px-8 border mr-4   rounded-md cancelButton">
                 Cancel
               </button>
-              <button class="  font-bold py-1.5 px-10 border  rounded-md saveButton">
+              <button className="  font-bold py-1.5 px-10 border  rounded-md saveButton">
                 Save
               </button>
             </div>

@@ -1,11 +1,14 @@
 import "../styles/global.css"
+import { Toaster } from "react-hot-toast";
 
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inter@3.15.4/css/inter.css" />
-      <body >{children}</body>
+
+      <body>
+      <Toaster position="bottom-center" />
+        {children}</body>
     </html>
   )
 }
