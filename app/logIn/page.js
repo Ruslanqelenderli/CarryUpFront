@@ -52,7 +52,7 @@ export default function LogIn() {
 
       const accessToken = responseData?.list[0]?.accessToken;
       const refreshToken = responseData?.list[0]?.refreshToken;
-    
+
 
 
       if (accessToken && refreshToken) {
@@ -73,7 +73,7 @@ export default function LogIn() {
     }
   };
   return (
-    <main className=" flex flex-col items-center justify-center w-full flex-1 px-20  md:flex-row min-h-screen">
+    <main className="flex flex-col items-center justify-center w-full flex-1 px-20  md:flex-row min-h-screen">
       <div className="main flex flex-col bg-white rounded-md-2xl shadow-2xl justify-center  items-center px-7 pt-6 ">
         <Image
           src="/images/carry.png"
@@ -86,7 +86,7 @@ export default function LogIn() {
         <form className="w-full max-w-lg">
           <div className="flex flex-wrap -mx-3 pt-7">
             <div className="w-full  px-3 md:mb-0">
-              <label className="block  text-sm  mb-2">
+              <label className="block font-medium text-sm  mb-2 text-[#756be3]">
                 Phone Number or Email
               </label>
               <input
@@ -99,7 +99,7 @@ export default function LogIn() {
               />
             </div>
             <div className="w-full px-3 relative">
-              <label className="block text-sm  mb-2">Password</label>
+              <label className="block text-sm mb-2 text-[#756be3] font-medium">Password</label>
               <input
                 className="border w-full py-2.5 px-3  mb-3 focus:outline-none focus:shadow-outline"
                 type="password"
@@ -120,8 +120,8 @@ export default function LogIn() {
           </div>
 
           <div className="flex justify-between">
-            <label className="block text-gray-500 font-bold my-4">
-              <input type="checkbox" className="leading-loose " />{" "}
+            <label className=" text-gray-500 font-bold my-4 flex">
+              <input type="checkbox" className="leading-loose mr-2" />{" "}
               <span className="py-2 text-sm text-gray-600 leading-snug">
                 Remember Me
               </span>
@@ -133,13 +133,10 @@ export default function LogIn() {
             </label>
           </div>
           <button
-            className={`w-full text-white font-bold py-2.5 px-4 mt-4 transition-colors `}
+            className={`w-full text-white font-bold py-2.5 px-4 mt-4 transition-colors bg-[#ada7eb] rounded-lg`}
             type="button"
             onClick={signIn}
-            // disabled={isButtonDisabled}
-            style={{
-              backgroundColor: "#635bb2",
-            }}
+          // disabled={isButtonDisabled}
           >
             Log In
           </button>

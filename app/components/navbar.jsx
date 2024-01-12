@@ -19,20 +19,11 @@ const Navbar = () => {
             />
             {/* <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span> */}
           </a>
-          <div class="flex items-center space-x-6 rtl:space-x-reverse">
-            <a
-              href="/logIn"
-              className="text-sm  text-[#9C9C9C] dark:text-white hover:text-[#706AB5] "
-            >
-              LogIn
-            </a>
-            {/* <span>.</span> */}
-            <a
-              href="/signUp"
-              className="text-sm text-[#9C9C9C] dark:text-blue-500 hover:text-[#706AB5]"
-            >
-              <li>SignUp</li>
-            </a>
+          <div class="space-x-6 group">
+            <ul className="cursor-pointer flex flex-row gap-4 "> 
+            <li className="list-none"><a href="/logIn" className="text-sm text-[#9C9C9C] dark:text-white group-hover:text-[#706AB5]">LogIn</a></li> 
+            <li className="list-none"><a href="/signUp" className="text-sm text-[#9C9C9C] dark:text-blue-500 group-hover:text-[#706AB5]">SignUp</a></li> 
+            </ul>
           </div>
         </div>
       </nav>

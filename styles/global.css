@@ -9,8 +9,8 @@ body {
   background-image: linear-gradient(to right, #f8ccfd, #cbfbff);
 }
 label {
-  color: #756be3;
-  font-weight: 500;
+  /* color: #756be3; */
+  /* font-weight: 500; */
 }
 input {
   border-radius: 8px;
@@ -22,27 +22,26 @@ input::placeholder {
   color: #cfcaff;
 }
 
-button {
+/* button {
   border-radius: 8px;
   background-color: #635bb2 !important;
-}
-button:hover {
+} */
+/* button:hover {
   background-color: #ada7eb !important;
-}
+} */
 .line {
   height: 2px;
   width: 50%;
   background-color: red;
 }
-
-hr {
+*/ hr {
   background: linear-gradient(
     270deg,
     rgba(77, 180, 255, 0.4) 0%,
     rgba(183, 48, 255, 0.4) 100%
   );
   height: 1px;
- 
+
   border: none;
 }
 
@@ -55,74 +54,71 @@ hr {
   height: 280px;
   width: 290px;
 }
-.link{
-  color: #38B4FF;
- float: right;
- font-weight: 500;
+.link {
+  color: #38b4ff;
+  float: right;
+  font-weight: 500;
 }
-.aside{
-  
+.aside {
   border: 1px solid #b532ff4a;
   border-radius: 15px;
 }
 ul span {
-  color: #BBBBBB;
+  color: #bbbbbb;
   font-size: 20px;
 }
-.logout{
+.logout {
   color: red !important;
 }
 
-.secondBox{
+.secondBox {
   min-height: 475px;
-   height: 72vh;
-   font-size: 18px;
-   font-weight: 500;
-   color: #4A4A4A;
+  height: 72vh;
+  font-size: 18px;
+  font-weight: 500;
+  color: #4a4a4a;
 }
 
-.firstBox{
+.firstBox {
   min-height: 370px;
-   height: 40vh;
+  height: 40vh;
 }
 
-.secondBox label{
-  color: #4981A3;
+.secondBox label {
+  color: #4981a3;
 }
 .secondBox input {
-  border: 1px solid #3BB4FF;
+  border: 1px solid #3bb4ff;
 }
-.saveButton{
-  background-color: #8078D1;
+.saveButton {
+  background-color: #8078d1;
   color: white;
 }
-.cancelButton{
-  border:1px solid #8078D1;
-  color: #8078D1
+.cancelButton {
+  border: 1px solid #8078d1;
+  color: #8078d1;
 }
-
-/* .saveButton:hover{
-  border:1px solid #8078D1;
-  color: #8078D1;
+*/ .saveButton:hover {
+  border: 1px solid #8078d1;
+  color: #8078d1;
   background-color: white;
 }
 
-.cancelButton:hover{
-  background-color: #8078D1;
+.cancelButton:hover {
+  background-color: #8078d1;
   color: white;
-} */
+}
 
-h3{
+h3 {
   font-size: 19px;
 }
 
-.active-content{
+.active-content {
   display: block;
 }
 
 .active-tabs {
-  color: #706AB5;
-  
+  color: #706ab5;
 }
 .active-tabs::before {
   content: "";
@@ -130,7 +126,7 @@ h3{
   position: absolute;
 
   left: 56px;
- 
+
   height: 33px;
-  border-left: 5px solid #706AB5
+  border-left: 5px solid #706ab5;
 }
