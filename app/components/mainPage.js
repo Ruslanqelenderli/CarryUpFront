@@ -13,16 +13,16 @@ import { Tooltip } from "./tooltip";
 
 function MainPage() {
   const [formData, setFormData] = useState({
-    tripCreateDate: null,
-    tripTitle: null,
+    tripCreateDate: '',
+    tripTitle: '',
 
-    tripPlaceDetailTravelType: null,
-    packagePrice: null,
-    tripPlaceDetailFromPlace: null,
-    tripPlaceDetailToPlace: null,
-    tripPlaceDetailFromTripDate: null,
-    tripPlaceDetailToTripDate: null,
-    packageCategoryId: null,
+    tripPlaceDetailTravelType: '',
+    packagePrice: '',
+    tripPlaceDetailFromPlace: '',
+    tripPlaceDetailToPlace: '',
+    tripPlaceDetailFromTripDate: '',
+    tripPlaceDetailToTripDate: '',
+    packageCategoryId: '',
   });
   const [tripCurrentPage, setTripCurrentPage] = useState(1);
   const [tripPerPage, setTripPerPage] = useState(6);
@@ -141,16 +141,16 @@ const [loading,setLoading] = useState(false)
 
   const clearTripsData = () => {
     setFormData({
-      tripCreateDate: null,
-      tripTitle: null,
+      tripCreateDate: '',
+      tripTitle: '',
 
-      tripPlaceDetailTravelType: null,
-      packagePrice: null,
-      tripPlaceDetailFromPlace: null,
-      tripPlaceDetailToPlace: null,
-      tripPlaceDetailFromTripDate: null,
-      tripPlaceDetailToTripDate: null,
-      packageCategoryId: null,
+      tripPlaceDetailTravelType: '',
+      packagePrice: '',
+      tripPlaceDetailFromPlace: '',
+      tripPlaceDetailToPlace: '',
+      tripPlaceDetailFromTripDate: '',
+      tripPlaceDetailToTripDate: '',
+      packageCategoryId: '',
     });
   };
 
@@ -233,7 +233,7 @@ const [loading,setLoading] = useState(false)
                         placeholder=""
                         name="tripTitle"
                         maxLength="50"
-                        value={formData.tripTitle || null}
+                        value={formData.tripTitle}
                         onChange={handleChange}
                       />
                     </div>
@@ -384,7 +384,7 @@ const [loading,setLoading] = useState(false)
                         type="text"
                         placeholder=""
                         name="tripTitle"
-                        value={formData.tripTitle || null}
+                        value={formData.tripTitle}
                         onChange={handleChange}
                       />
                     </div>
@@ -479,7 +479,8 @@ const [loading,setLoading] = useState(false)
               </button>
               <button
                 className="bg-transparent  font-semibold  px-6 py-1.5 border    rounded-md saveButton "
-                onClick={getTrips}
+                onClick={()=>getTrips(tripCurrentPage)}
+
               >
                 Search
               </button>
@@ -516,10 +517,10 @@ const [loading,setLoading] = useState(false)
                   <>
                     <div className="bg-white border box  relative pt-4 pb-8 border-[#A0CCFF] border-solid rounded-[1rem]  h-[12rem] max-h-[16rem] hover:bg-[#449aff29] hover:border-[#0E6FE1] hover:shadow-xl transition duration-700 ease-in-out">
                       <div className="flex px-4 ">
-                        <span className="capitalize text-[#2F8EFF] font-semibold ">
-                          {v?.tripPlaceDetails.map((v) => v.fromPlace)}
-                        </span>
-                        <span
+                        <div className="capitalize text-[#2F8EFF] font-semibold ">
+                          {v?.tripPlaceDetails[0]?.fromPlace}
+                        </div>
+                        <div
                           className="w-44 "
                           style={{
                             borderBottom: "2.5px solid #5CA2F5",
@@ -528,8 +529,8 @@ const [loading,setLoading] = useState(false)
                             margin: "0 10px",
                           }}
                         >
-                          {v?.tripPlaceDetails.map((v) =>
-                            v.travelType == travelType.Plane ? (
+                          {
+                            v?.tripPlaceDetails[0]?.travelType == travelType.Plane ? (
                               <>
                                 <Image
                                   src="/icons/airplane1.png"
@@ -540,7 +541,7 @@ const [loading,setLoading] = useState(false)
                                   priority={true}
                                 />{" "}
                               </>
-                            ) : v.travelType == travelType.Bus ? (
+                            ) : v?.tripPlaceDetails[0]?.travelType == travelType.Bus ? (
                               <>
                                 <Image
                                   src="/icons/bus1.png"
@@ -551,7 +552,7 @@ const [loading,setLoading] = useState(false)
                                   priority={true}
                                 />{" "}
                               </>
-                            ) : v.travelType == travelType.Car ? (
+                            ) : v?.tripPlaceDetails[0]?.travelType == travelType.Car ? (
                               <>
                                 <Image
                                   src="/icons/car.png"
@@ -562,7 +563,7 @@ const [loading,setLoading] = useState(false)
                                   priority={true}
                                 />{" "}
                               </>
-                            ) : v.travelType == travelType.Ship ? (
+                            ) : v?.tripPlaceDetails[0]?.travelType == travelType.Ship ? (
                               <>
                                 <Image
                                   src="/icons/ship (1).png"
@@ -573,18 +574,115 @@ const [loading,setLoading] = useState(false)
                                   priority={true}
                                 />{" "}
                               </>
-                            ) : null
-                          )}
-                        </span>
-                        <span className="capitalize text-[#2F8EFF] font-semibold">
-                          {v?.tripPlaceDetails.map((v) => v.toPlace)}
-                        </span>
+                            ) : v?.tripPlaceDetails[0]?.travelType == travelType.Train ? (
+                              <>
+                                <Image
+                                  src="/icons/train1.png"
+                                  className="absolute top-[8px] car"
+                                  width={35}
+                                  height={30}
+                                  alt="Carry UP"
+                                  priority={true}
+                                />
+                              </> ) : null
+                          }
+                        </div>
+                        <div className="capitalize text-[#2F8EFF] font-semibold">
+                          {v?.tripPlaceDetails[0]?.toPlace}
+                        </div>
+                        <div>
+                          {v?.tripPlaceDetails.length > 1 && 
+                          <Image
+                          src="/icons/distance.png"
+                         className="bg-[#3C87E0] p-1 rounded ml-3"
+                          width={30}
+                          height={10}
+                          alt="distance"
+                          priority={true}
+                        />
+                        
+                          }
+                          {/* <div>
+                            {v.tripPlaceDetails[0] && v.tripPlaceDetails?.map((v) => (
+                                 <>
+                                   <div className="flex">
+                                   <div>{v.fromPlace}</div>
+                                   <div>
+                                   {
+                             v?.tripPlaceDetails?.travelType.map((v) => v) == travelType.Plane ? (
+                              <>
+                                <Image
+                                  src="/icons/airplane1.png"
+                                  className="absolute top-[10px] car"
+                                  width={35}
+                                  height={30}
+                                  alt="Carry UP"
+                                  priority={true}
+                                />{" "}
+                              </>
+                            ) : v?.tripPlaceDetails?.travelType.map((v) => v) == travelType.Bus ? (
+                              <>
+                                <Image
+                                  src="/icons/bus1.png"
+                                  className="absolute top-[10px] car"
+                                  width={35}
+                                  height={30}
+                                  alt="Carry UP"
+                                  priority={true}
+                                />{" "}
+                              </>
+                            ) : v?.tripPlaceDetails?.travelType.map((v) => v) == travelType.Car ? (
+                              <>
+                                <Image
+                                  src="/icons/car.png"
+                                  className="absolute top-[9px] car "
+                                  width={40}
+                                  height={30}
+                                  alt="Carry UP"
+                                  priority={true}
+                                />{" "}
+                              </>
+                            ) : v?.tripPlaceDetails?.travelType.map((v) => v) == travelType.Ship ? (
+                              <>
+                                <Image
+                                  src="/icons/ship (1).png"
+                                  className="absolute top-[10px] car"
+                                  width={35}
+                                  height={30}
+                                  alt="Carry UP"
+                                  priority={true}
+                                />{" "}
+                              </>
+                            ) :  v?.tripPlaceDetails?.travelType.map((v) => v) == travelType.Train ? (
+                              <>
+                                <Image
+                                  src="/icons/train1.png"
+                                  className="absolute top-[8px] car"
+                                  width={35}
+                                  height={30}
+                                  alt="Carry UP"
+                                  priority={true}
+                                />
+                              </> ) : null
+                          }
+                                   </div>
+                                   <div> {v.toPlace}</div>
+     
+     
+                                 </div>
+                                 </>
+                            ))}
+                           
+
+                          </div> */}
+                        </div>
                       </div>
                       <div >
                         <Tooltip text={v.title}>
                           <p className="px-4 mt-2 material-symbols-outlined ">
                             {v.title.slice(0, 10) + "..."}
                           </p>
+                          
                         </Tooltip>
                       </div>
 
@@ -595,10 +693,9 @@ const [loading,setLoading] = useState(false)
                             <span className="text-[#2F8EFF] font-medium">
                               {v?.tripPlaceDetails
                                 ? moment(
-                                    v?.tripPlaceDetails.map(
-                                      (v) => v.fromTripDate
+                                  v?.tripPlaceDetails[0]?.fromTripDate
                                     )
-                                  ).format("DD.MM.YYYY")
+                                  .format("DD.MM.YYYY")
                                 : null}
                             </span>
                           </p>
@@ -608,39 +705,14 @@ const [loading,setLoading] = useState(false)
                             <span className="text-[#2F8EFF] font-medium">
                               {v?.tripPlaceDetails
                                 ? moment(
-                                    v?.tripPlaceDetails.map((v) => v.toTripDate)
-                                  ).format("DD.MM.YYYY")
+                                  v?.tripPlaceDetails[0]?.toTripDate)
+                                  .format("DD.MM.YYYY")
                                 : null}
                             </span>
                           </p>
                         </div>
 
-                        {/* <span className="text-[#2F8EFF] font-medium text-md flex mt-4 bg-[#64D190]">
-                          <span className="text-lg ml-[2px]">
-                            {v?.package?.currency == currency.AZN ? (
-                              <Image
-                                src="/icons/manat.png"
-                                // className="infoImg"
-                                width={20}
-                                height={10}
-                                alt="Info"
-                                priority={true}
-                              />
-                            ) : v?.package?.currency == currency.USD ? (
-                              <Image
-                                src="/icons/dollar.png"
-                                // className="infoImg"
-                                width={20}
-                                height={10}
-                                alt="Info"
-                                priority={true}
-                              />
-                            ) : v?.package?.currency == currency.TL ? (
-                              "TL"
-                            ) : null}
-                          </span>
-                          {v?.package?.price}
-                        </span> */}
+                      
                         <span className="mt-0 relative" >
                           <div>
                           <Image
@@ -648,7 +720,7 @@ const [loading,setLoading] = useState(false)
                             className="hoverImg2"
                             width={50}
                             height={10}
-                            alt="Info"
+                            alt="tape"
                             priority={true}
                           />
                           </div>
@@ -658,7 +730,7 @@ const [loading,setLoading] = useState(false)
                             className="hoverImg"
                             width={70}
                             height={10}
-                            alt="Info"
+                            alt="tape"
                             priority={true}
                           />
                           </div>
@@ -671,16 +743,15 @@ const [loading,setLoading] = useState(false)
                                
                                 width={10}
                                 height={10}
-                                alt="Info"
+                                alt="manat"
                                 priority={true}
                               />
                             ) : v?.package?.currency == currency.USD ? (
                               <Image
                                 src="/icons/dollar.png"
-                                // className="infoImg"
                                 width={10}
                                 height={10}
-                                alt="Info"
+                                alt="dollar"
                                 priority={true}
                               />
                             ) : v?.package?.currency == currency.TL ? (
@@ -693,7 +764,7 @@ const [loading,setLoading] = useState(false)
                         </span>
                       </div>
 
-                      <div className="w-full flex justify-between mt-7 bg-[#5FA0EE] absolute bottom-0 p-2 rounded-b-[1rem] pl-4">
+                      <div className="w-full flex justify-between mt-7 bg-[#5FA0EE] absolute bottom-0 px-4 rounded-b-[1rem] py-2.5">
                         <p className="text-white  flex italic text-[14px] font-semibold">
                           <Image
                             src="/icons/info (3).png"
@@ -702,7 +773,7 @@ const [loading,setLoading] = useState(false)
                             height={10}
                             alt="Info"
                             priority={true}
-                          />{" "}
+                          />
                           Last date to apply{" "}
                           {v?.package?.createDate
                             ? moment(v.package.createDate).format("DD.MM.YYYY")
