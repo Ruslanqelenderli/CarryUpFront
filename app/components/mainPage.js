@@ -565,7 +565,7 @@ const [loading,setLoading] = useState(false)
                             ) : v.travelType == travelType.Ship ? (
                               <>
                                 <Image
-                                  src="/icons/ship1.png"
+                                  src="/icons/ship (1).png"
                                   className="absolute top-[10px] car"
                                   width={35}
                                   height={30}
@@ -696,7 +696,7 @@ const [loading,setLoading] = useState(false)
                       <div className="w-full flex justify-between mt-7 bg-[#5FA0EE] absolute bottom-0 p-2 rounded-b-[1rem] pl-4">
                         <p className="text-white  flex italic text-[14px] font-semibold">
                           <Image
-                            src="/icons/info1.png"
+                            src="/icons/info (3).png"
                             className="infoImg"
                             width={20}
                             height={10}
