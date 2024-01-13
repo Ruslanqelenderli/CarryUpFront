@@ -13,16 +13,16 @@ import { Tooltip } from "./tooltip";
 
 function MainPage() {
   const [formData, setFormData] = useState({
-    tripCreateDate: null,
-    tripTitle: null,
+    tripCreateDate: '',
+    tripTitle: '',
 
-    tripPlaceDetailTravelType: null,
-    packagePrice: null,
-    tripPlaceDetailFromPlace: null,
-    tripPlaceDetailToPlace: null,
-    tripPlaceDetailFromTripDate: null,
-    tripPlaceDetailToTripDate: null,
-    packageCategoryId: null,
+    tripPlaceDetailTravelType: '',
+    packagePrice: '',
+    tripPlaceDetailFromPlace: '',
+    tripPlaceDetailToPlace: '',
+    tripPlaceDetailFromTripDate: '',
+    tripPlaceDetailToTripDate: '',
+    packageCategoryId: '',
   });
   const [tripCurrentPage, setTripCurrentPage] = useState(1);
   const [tripPerPage, setTripPerPage] = useState(6);
@@ -141,16 +141,16 @@ const [loading,setLoading] = useState(false)
 
   const clearTripsData = () => {
     setFormData({
-      tripCreateDate: null,
-      tripTitle: null,
+      tripCreateDate: '',
+      tripTitle: '',
 
-      tripPlaceDetailTravelType: null,
-      packagePrice: null,
-      tripPlaceDetailFromPlace: null,
-      tripPlaceDetailToPlace: null,
-      tripPlaceDetailFromTripDate: null,
-      tripPlaceDetailToTripDate: null,
-      packageCategoryId: null,
+      tripPlaceDetailTravelType: '',
+      packagePrice: '',
+      tripPlaceDetailFromPlace: '',
+      tripPlaceDetailToPlace: '',
+      tripPlaceDetailFromTripDate: '',
+      tripPlaceDetailToTripDate: '',
+      packageCategoryId: '',
     });
   };
 
@@ -233,7 +233,7 @@ const [loading,setLoading] = useState(false)
                         placeholder=""
                         name="tripTitle"
                         maxLength="50"
-                        value={formData.tripTitle || null}
+                        value={formData.tripTitle}
                         onChange={handleChange}
                       />
                     </div>
@@ -384,7 +384,7 @@ const [loading,setLoading] = useState(false)
                         type="text"
                         placeholder=""
                         name="tripTitle"
-                        value={formData.tripTitle || null}
+                        value={formData.tripTitle}
                         onChange={handleChange}
                       />
                     </div>
@@ -479,7 +479,7 @@ const [loading,setLoading] = useState(false)
               </button>
               <button
                 className="bg-transparent  font-semibold  py-1.5 px-6 border    rounded-md saveButton "
-                onClick={getTrips}
+                onClick={()=>getTrips(tripCurrentPage)}
               >
                 Search
               </button>
