@@ -470,15 +470,15 @@ const [loading,setLoading] = useState(false)
                 </>
               )}
             </form>
-            <div className=" sticky bottom-0 flex  justify-between  bg-white px-3 py-4">
+            <div className=" sticky bottom-0 flex ml-3 justify-between  bg-white px-3 py-4">
               <button
-                className="bg-transparent  font-semibold  py-1.5 px-4 border    rounded-md cancelButton "
+                className="bg-transparent  font-semibold  px-4 py-1.5 border    rounded-md cancelButton "
                 onClick={clearTripsData}
               >
-                Clear All
+                Clear all
               </button>
               <button
-                className="bg-transparent  font-semibold  py-1.5 px-6 border    rounded-md saveButton "
+                className="bg-transparent  font-semibold  px-6 py-1.5 border    rounded-md saveButton "
                 onClick={getTrips}
               >
                 Search
@@ -514,7 +514,7 @@ const [loading,setLoading] = useState(false)
                <div className="grid grid-cols-3 gap-4 py-6 px-6 ">
                 {tripData.map((v) => (
                   <>
-                    <div className="bg-white border box  relative pt-4 pb-8 border-[#A0CCFF] border-solid rounded-[1rem]  h-[11.5rem] min-h-full hover:bg-[#449aff29] hover:border-[#0E6FE1] hover:shadow-xl transition duration-700 ease-in-out">
+                    <div className="bg-white border box  relative pt-4 pb-8 border-[#A0CCFF] border-solid rounded-[1rem]  h-[12rem] max-h-[16rem] hover:bg-[#449aff29] hover:border-[#0E6FE1] hover:shadow-xl transition duration-700 ease-in-out">
                       <div className="flex px-4 ">
                         <span className="capitalize text-[#2F8EFF] font-semibold ">
                           {v?.tripPlaceDetails.map((v) => v.fromPlace)}

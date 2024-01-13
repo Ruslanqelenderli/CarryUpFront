@@ -16,17 +16,17 @@ const CustomPagination = ({
   }
 
   return (
-    <div className="flex bg-white rounded-lg justify-center py-4 absolute bottom-0 left-[40%]">
+    <div className="flex bg-white rounded-lg w-full justify-center py-4 absolute bottom-0 ">
       <nav
         aria-label="Page navigation example"
         className="flex justify-center "
       >
-        <ul className="flex items-center -space-x-px h-8 text-sm">
+        <ul className="flex items-center -space-x-px h-8 text-sm ">
           <li>
             <a
               href="#"
               onClick={prePage}
-              className=" flex items-center  justify-center px-3 h-8 ms-0 leading-tight text-[#7FBAFF] bg-white rounded-s-lg  hover:text-gray-700  dark:hover:text-white"
+              className=" flex items-center  justify-center px-3 h-8 ms-0 leading-tight text-[#7FBAFF]  rounded-s-lg  hover:text-gray-700  dark:hover:text-white"
             >
               <span className="sr-only">Previous</span>
               <svg
@@ -54,7 +54,7 @@ const CustomPagination = ({
                     href="#"
                     onClick={() => setCurrentPage(page)}
                     className={
-                      "flex items-center justify-center mr-5 px-3 h-8 leading-tight text-gray-500 bg-white  hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                      "flex items-center justify-center mr-5 px-3 h-8 leading-tight"
                     }
                     style={{
                       background: page === currentPage ? "#2F8EFF" : "none",

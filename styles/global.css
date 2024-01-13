@@ -94,12 +94,12 @@ ul span {
   border: 1px solid #3BB4FF;
 }
 .saveButton{
-  background-color: #AEA6FD !important;
+  background-color: #75B4FF !important;
   color: white;
 }
 .cancelButton{
-  border:1px solid #AEA6FD;
-  color: #AEA6FD;
+  border:1px solid #b532ff75;
+  color: #aea6fd7d;
   background-color: white !important;
   
 }
