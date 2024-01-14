@@ -72,8 +72,8 @@ export default function SignUp() {
                   Name
                 </label>
                 <input
-                  style={{ border: "1px solid linear-gradient(to right, #f8ccfd, #cbfbff" }}
-                  className="appearance-none block w-full  text-gray-400 border rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                  style={{ borderImage: "linear-gradient(to right, #f8ccfd, #cbfbff) 1", }}
+                  className="appearance-none block w-full text-gray-400 border py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   id="grid-first-name"
                   type="text"
                   placeholder="Name"
@@ -91,7 +91,8 @@ export default function SignUp() {
                   Surname
                 </label>
                 <input
-                  style={{ border: "1px solid #c2deff" }}
+                  // style={{ borderIma: "1px solid #c2deff" }}
+                  style={{ borderImage: "linear-gradient(to right, #f8ccfd, #cbfbff) 1" }}
                   className="appearance-none block w-full text-gray-400 border border-gray-200 rounded-lg py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-last-name"
                   type="text"
@@ -112,7 +113,7 @@ export default function SignUp() {
                   Birthday
                 </label>
                 <input
-                  style={{ border: "1px solid linear-gradient(to right, #f8ccfd, #cbfbff" }}
+                  style={{ borderImage: "linear-gradient(to right, #f8ccfd, #cbfbff) 1" }}
                   className="appearance-none block w-full  text-gray-400 border rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   id="grid-first-name"
                   type="date"
@@ -132,6 +133,7 @@ export default function SignUp() {
                 <label htmlFor="male" id="male-label" className={styles["male-label"]}>
                   <input type="radio" id="male" name="gender" className={`${styles.male} ${styles['custom-radio']}`} />
                   Male
+                  {/* <Image src="/userMale.png" width={20} height={20} /> */}
                 </label>
                 <label htmlFor="female" className={styles["female-label"]}>
                   <input type="radio" id="female" name="gender" className={`${styles.female} ${styles['custom-radio']}`} />
@@ -150,7 +152,7 @@ export default function SignUp() {
                   Email
                 </label>
                 <input
-                  style={{ border: "1px solid #c2deff" }}
+                  style={{ borderImage: "linear-gradient(to right, #f8ccfd, #cbfbff) 1" }}
                   className="appearance-none block w-full  text-gray-400 border border-gray-200 rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   id="grid-first-name"
                   type="text"
@@ -169,8 +171,8 @@ export default function SignUp() {
                   Phone Number
                 </label>
                 <input
-                  style={{ border: "1px solid #c2deff" }}
-                  className="appearance-none block w-full text-gray-400 border border-gray-200 rounded-lg py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  style={{ borderImage: "linear-gradient(to right, #f8ccfd, #cbfbff) 1" }} 
+                  className={`block w-full text-gray-400 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ${styles.phoneNumber}`}
                   id="grid-last-name"
                   type="text"
                   placeholder="Phone number"
@@ -190,7 +192,7 @@ export default function SignUp() {
                   Create Password
                 </label>
                 <input
-                  style={{ color: "#9e97ecb", border: "1px solid #c2deff" }}
+                  style={{ borderImage: "linear-gradient(to right, #f8ccfd, #cbfbff) 1", color: "#9e97ecb" }}
                   className="appearance-none block w-full  text-gray-400 border border-gray-200 rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   id="grid-first-name"
                   type="password"
@@ -211,7 +213,7 @@ export default function SignUp() {
                 </label>
 
                 <input
-                  style={{ border: "1px solid #c2deff" }}
+                  style={{ borderImage: "linear-gradient(to right, #f8ccfd, #cbfbff) 1", color: "#9e97ecb" }}
                   className="appearance-none block w-full text-gray-400 border border-gray-200 rounded-lg py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-last-name"
                   type="password"
@@ -260,7 +262,7 @@ export default function SignUp() {
             </div>
             <div className="flex justify-center items-center mb-2">
               <FaPhoneAlt
-                style={{ background: "#746bd4" }}
+                style={{ background: "#746bd4"}}
                 className="text-white bg-violet-800 rounded-xl w-5 h-5 p-1 cursor-pointer"
               />
               <span

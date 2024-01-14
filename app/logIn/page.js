@@ -160,13 +160,10 @@ const clientId = "31047251623-lqjdgijc5q70avn2c7dj0tnf7cvk7bfm.apps.googleuserco
               </label>
             </div>
             <button
-              className={`w-full text-white font-bold py-2.5 px-4 mt-4 transition-colors `}
+              className={`bg-[#635bb2] w-full text-white font-bold py-2.5 px-4 mt-4 transition-colors `}
               type="button"
               onClick={signIn}
               // disabled={isButtonDisabled}
-              style={{
-                backgroundColor: "#635bb2",
-              }}
             >
               Log In
             </button>
