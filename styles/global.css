@@ -232,3 +232,10 @@ border-radius: 150px;
   display: none;
 }
 
+.distance {
+  display: none;
+}
+.distanceBox:hover .distance{
+  display: block;
+
+}

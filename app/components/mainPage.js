@@ -10,28 +10,63 @@ import Image from "next/image";
 
 import { currency, travelType } from "./constant";
 import { Tooltip } from "./tooltip";
+import SendPagination from "./sendPagination";
 
 function MainPage() {
   const [formData, setFormData] = useState({
-    tripCreateDate: '',
-    tripTitle: '',
+    tripCreateDate: "",
+    tripTitle: "",
 
-    tripPlaceDetailTravelType: '',
-    packagePrice: '',
-    tripPlaceDetailFromPlace: '',
-    tripPlaceDetailToPlace: '',
-    tripPlaceDetailFromTripDate: '',
-    tripPlaceDetailToTripDate: '',
-    packageCategoryId: '',
+    tripPlaceDetailTravelType: "",
+    minPackagePrice: "",
+    maxPackagePrice: "",
+    currency: "",
+
+    tripPlaceDetailFromPlace: "",
+    tripPlaceDetailToPlace: "",
+    tripPlaceDetailFromTripDate: "",
+    tripPlaceDetailToTripDate: "",
+    packageCategoryId: "",
   });
   const [tripCurrentPage, setTripCurrentPage] = useState(1);
+  const [sendCurrentPage, setSendCurrentPage] = useState(1);
+
   const [tripPerPage, setTripPerPage] = useState(6);
-  const [tripTotalPages, settripTotalPages] = useState(0);
-  const [tripTotalCount, settripTotalCount] = useState(0);
+  const [sendPerPage, setSendPerPage] = useState(6);
+
+  const [tripTotalPages, setTripTotalPages] = useState(0);
+  const [sendTotalPages, setSendTotalPages] = useState(0);
+
+  const [tripTotalCount, setTripTotalCount] = useState(0);
+  const [sendTotalCount, setSendTotalCount] = useState(0);
+
   const [tripData, setTripData] = useState([]);
   const [sendData, setSendData] = useState([]);
-const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [activeButton, setActiveButton] = useState("forCarry");
+  const [sendFormData, setSendFormData] = useState({
+    sendCreateDate: "",
+    sendTitle: "",
+
+    packageCategoryId: "",
+    minPackagePrice: "",
+    maxPackagePrice: "",
+    currency: "",
+
+    sendPlaceDetailFromPlace: "",
+    sendPlaceDetailToPlace: "",
+    catchDate: "",
+    packageSubCategoryId: "",
+  });
+
+  useEffect(() => {
+    getTrips(tripCurrentPage);
+  }, [tripCurrentPage]);
+
+  useEffect(() => {
+    getSends(sendCurrentPage);
+  }, [sendCurrentPage]);
+
 
   const handleButtonClick = (button) => {
     setActiveButton(button);
@@ -44,15 +79,18 @@ const [loading,setLoading] = useState(false)
     setFormData({ ...formData, [name]: value });
   };
 
-  useEffect(() => {
-    getTrips(tripCurrentPage);
-  }, [tripCurrentPage]);
+  const handleSendChange = (e) => {
+    const { name, value } = e.target;
+    setSendFormData({ ...sendFormData, [name]: value });
+  };
+
 
   const getTrips = async (currentPage) => {
     try {
-      setLoading(true)
+      setLoading(true);
       let tripsData = await fetch(
-        "http://carryuptest.somee.com/api/trip/gettrips ",
+        "http://carryforus-001-site1.htempurl.com/api/trip/gettrips ",
+        //"http://carryforus-001-site1.htempurl.com/api/Trip/GetTrips",
         {
           method: "POST",
           headers: {
@@ -64,7 +102,10 @@ const [loading,setLoading] = useState(false)
               tripTitle: formData.tripTitle,
 
               tripPlaceDetailTravelType: formData.tripPlaceDetailTravelType,
-              packagePrice: formData.packagePrice,
+              minPackagePrice: formData.minPackagePrice,
+              maxPackagePrice: formData.maxPackagePrice,
+              currency: formData.currency,
+
               tripPlaceDetailFromPlace: formData.tripPlaceDetailFromPlace,
               tripPlaceDetailToPlace: formData.tripPlaceDetailToPlace,
               tripPlaceDetailFromTripDate: formData.tripPlaceDetailFromTripDate,
@@ -81,26 +122,26 @@ const [loading,setLoading] = useState(false)
 
       if (responseData?.list.length > 0) {
         setTripData(responseData.list);
-        settripTotalPages(Math.ceil(responseData.totalCount / tripPerPage));
-        settripTotalCount(responseData.totalCount);
+        setTripTotalPages(Math.ceil(responseData.totalCount / tripPerPage));
+        setTripTotalCount(responseData.totalCount);
       } else {
         setTripData(responseData.list);
-        settripTotalPages(0);
-        settripTotalCount(0);
+        setTripTotalPages(0);
+        setTripTotalCount(0);
 
         toast.error("Trip not found!");
-      }setLoading(false)
-
+      }
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
       console.log("searchAds error: ", error);
     }
   };
 
-  const getSends = async () => {
+  const getSends = async (currentPage) => {
     try {
       let sendsData = await fetch(
-        "http://carryuptest.somee.com/api/send/getsends ",
+        "http://carryforus-001-site1.htempurl.com/api/send/getsends ",
         {
           method: "POST",
           headers: {
@@ -108,27 +149,35 @@ const [loading,setLoading] = useState(false)
           },
           body: JSON.stringify({
             value: {
-              tripCreateDate: formData.tripCreateDate,
-              tripTitle: formData.tripTitle,
-              packagePrice: formData.packagePrice,
-              tripPlaceDetailFromPlace: formData.tripPlaceDetailFromPlace,
-              tripPlaceDetailToPlace: formData.tripPlaceDetailToPlace,
-              tripPlaceDetailFromTripDate: formData.catchDate,
-              packageCategoryId: formData.packageCategoryId,
+              sendCreateDate: sendFormData.sendCreateDate,
+              sendTitle: sendFormData.sendTitle,
+              packageCategoryId: sendFormData.packageCategoryId,
+              minPackagePrice: sendFormData.minPackagePrice,
+              maxPackagePrice: sendFormData.maxPackagePrice,
+              currency: sendFormData.currency,
+              sendPlaceDetailFromPlace: sendFormData.sendPlaceDetailFromPlace,
+              sendPlaceDetailToPlace: sendFormData.sendPlaceDetailToPlace,
+              catchDate: sendFormData.catchDate,
+              packageSubCategoryId: sendFormData.packageSubCategoryId,
             },
-            pageSize: 0,
-            currentPage: 0,
+            pageSize: sendPerPage,
+            currentPage: currentPage,
           }),
           cache: "force-cache",
         }
       );
       const responseData = await sendsData.json();
-
+   
       if (responseData?.list.length > 0) {
         setSendData(responseData.list);
+        setSendTotalPages(Math.ceil(responseData.totalCount / sendPerPage));
+        setSendTotalCount(responseData.totalCount);
       } else {
         setSendData(responseData.list);
-        toast.error("Send not found!");
+        setSendTotalPages(0);
+        setSendTotalCount(0);
+
+        toast.error("Trip not found!");
       }
     } catch (error) {
       console.log("searchAds error: ", error);
@@ -141,18 +190,37 @@ const [loading,setLoading] = useState(false)
 
   const clearTripsData = () => {
     setFormData({
-      tripCreateDate: '',
-      tripTitle: '',
+      tripCreateDate: "",
+      tripTitle: "",
 
-      tripPlaceDetailTravelType: '',
-      packagePrice: '',
-      tripPlaceDetailFromPlace: '',
-      tripPlaceDetailToPlace: '',
-      tripPlaceDetailFromTripDate: '',
-      tripPlaceDetailToTripDate: '',
-      packageCategoryId: '',
+      tripPlaceDetailTravelType: "",
+      minPackagePrice: "",
+      maxPackagePrice: "",
+      currency: "",
+
+      tripPlaceDetailFromPlace: "",
+      tripPlaceDetailToPlace: "",
+      tripPlaceDetailFromTripDate: "",
+      tripPlaceDetailToTripDate: "",
+      packageCategoryId: "",
     });
   };
+  const clearSendsData = () => {
+    setSendFormData({
+      sendCreateDate: "",
+      sendTitle: "",
+
+      minPackagePrice: "",
+      maxPackagePrice: "",
+      currency: "",
+
+      sendPlaceDetailFromPlace: "",
+      sendPlaceDetailToPlace: "",
+
+      packageCategoryId: "",
+    });
+  };
+
 
   const nextPageTrip = () => {
     if (tripCurrentPage !== tripTotalPages) {
@@ -170,12 +238,28 @@ const [loading,setLoading] = useState(false)
     setTripCurrentPage(id);
   }
 
+  const nextPageSend = () => {
+    if (sendCurrentPage !== sendTotalPages) {
+      setSendCurrentPage(sendCurrentPage + 1);
+    }
+  };
+
+  const prePageSend = () => {
+    if (sendCurrentPage !== 1) {
+      setSendCurrentPage(sendCurrentPage - 1);
+    }
+  };
+
+
+
   return (
     <div className={style.profile}>
       <Navbar />
 
+
+
       <div className="flex justify-between mx-16">
-      <aside
+        <aside
           id="logo-sidebar"
           class=" aside  shadow-md section  mb-2  mt-4 mx-4 z-40 w-[17rem]  pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
           aria-label="Sidebar"
@@ -184,21 +268,19 @@ const [loading,setLoading] = useState(false)
             <form onSubmit={handleSubmit}>
               <div className="flex mb-5 justify-between px-3">
                 <button
-                  className={`ml-3 bg-white ${
-                    activeButton === "forCarry"
+                  className={`ml-3 bg-white ${activeButton === "forCarry"
                       ? "border-[#b532ff75] border-solid border shadow-md px-4 py-1.5 rounded-md text-[#AEA6FD] "
                       : "bg-transparent  font-semibold  py-1.5 px-4 border text-[#aea6fd7d]   rounded-md "
-                  }`}
+                    }`}
                   onClick={() => handleButtonClick("forCarry")}
                 >
                   For Carry
                 </button>
                 <button
-                  className={`bg-white ${
-                    activeButton === "forSend"
+                  className={`bg-white ${activeButton === "forSend"
                       ? "border-[#b532ff75] text-[#AEA6FD] border-solid border shadow-md px-4 py-1.5 rounded-md "
                       : "bg-transparent  font-semibold  py-1.5 px-4 border text-[#aea6fd7d]   rounded-md "
-                  }`}
+                    }`}
                   onClick={() => handleButtonClick("forSend")}
                 >
                   For Send
@@ -261,14 +343,14 @@ const [loading,setLoading] = useState(false)
                   </div>
                   <div className=" px-3">
                     <label className="text-[15px]">Package Price</label>
-                    <div className="mt-4">
+                    <div className="mt-4 flex">
                       <input
                         className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
                         id="grid-first-name"
                         type="number"
                         placeholder=""
-                        name="packagePrice"
-                        value={formData.packagePrice}
+                        name="minPackagePrice"
+                        value={formData.minPackagePrice}
                         onChange={handleChange}
                       />
                     </div>
@@ -316,7 +398,6 @@ const [loading,setLoading] = useState(false)
                         type="text"
                         placeholder=""
                         maxLength="15"
-
                         name="tripPlaceDetailToPlace"
                         value={formData.tripPlaceDetailToPlace}
                         onChange={handleChange}
@@ -367,9 +448,9 @@ const [loading,setLoading] = useState(false)
                           id="grid-first-name"
                           type="date"
                           placeholder="DD/MM/YYYY"
-                          name="tripCreateDate"
-                          value={formData.tripCreateDate}
-                          onChange={handleChange}
+                          name="sendCreateDate"
+                          value={sendFormData.sendCreateDate}
+                          onChange={handleSendChange}
                         />
                       </div>
                     </div>
@@ -383,9 +464,9 @@ const [loading,setLoading] = useState(false)
                         id="grid-first-name"
                         type="text"
                         placeholder=""
-                        name="tripTitle"
-                        value={formData.tripTitle}
-                        onChange={handleChange}
+                        name="sendTitle"
+                        value={sendFormData.sendTitle}
+                        onChange={handleSendChange}
                       />
                     </div>
                     <hr className="mb-5" />
@@ -398,9 +479,9 @@ const [loading,setLoading] = useState(false)
                         id="grid-first-name"
                         type="number"
                         placeholder=""
-                        name="packagePrice"
-                        value={formData.packagePrice}
-                        onChange={handleChange}
+                        name="minPackagePrice"
+                        value={sendFormData.minPackagePrice}
+                        onChange={handleSendChange}
                       />
                     </div>
                     <hr className="mb-5" />
@@ -411,8 +492,8 @@ const [loading,setLoading] = useState(false)
                       <select
                         className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
                         name="packageCategoryId"
-                        value={formData.packageCategoryId}
-                        onChange={handleChange}
+                        value={sendFormData.packageCategoryId}
+                        onChange={handleSendChange}
                       >
                         <option value={0} selected>
                           Select category
@@ -430,9 +511,9 @@ const [loading,setLoading] = useState(false)
                         id="grid-first-name"
                         type="text"
                         placeholder=""
-                        name="tripPlaceDetailFromPlace"
-                        value={formData.tripPlaceDetailFromPlace}
-                        onChange={handleChange}
+                        name="sendPlaceDetailFromPlace"
+                        value={sendFormData.sendPlaceDetailFromPlace}
+                        onChange={handleSendChange}
                       />
                     </div>
                     <hr className="mb-5" />
@@ -445,28 +526,14 @@ const [loading,setLoading] = useState(false)
                         id="grid-first-name"
                         type="text"
                         placeholder=""
-                        name="tripPlaceDetailToPlace"
-                        value={formData.tripPlaceDetailToPlace}
-                        onChange={handleChange}
+                        name="sendPlaceDetailToPlace"
+                        value={sendFormData.sendPlaceDetailToPlace}
+                        onChange={handleSendChange}
                       />
                     </div>
                     <hr className="mb-5" />
                   </div>
-                  <div className=" px-3">
-                    <label className="text-[15px]">Catch Date</label>
-                    <div className="mt-4">
-                      <input
-                        className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
-                        id="grid-first-name"
-                        type="date"
-                        placeholder=""
-                        name="tripPlaceDetailFromTripDate"
-                        value={formData.tripPlaceDetailFromTripDate}
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <hr className="mb-5" />
-                  </div>
+
                 </>
               )}
             </form>
@@ -478,9 +545,8 @@ const [loading,setLoading] = useState(false)
                 Clear all
               </button>
               <button
-                className="bg-transparent  font-semibold  px-6 py-1.5 border    rounded-md saveButton "
-                onClick={()=>getTrips(tripCurrentPage)}
-
+                className={` ${activeButton=="forCarry" ? "bg-[#75B4FF]" : "bg-[#BFABDF]"} bg-transparent text-white  font-semibold  px-6 py-1.5 border    rounded-md `}
+                onClick={() => getTrips(tripCurrentPage)}
               >
                 Search
               </button>
@@ -489,7 +555,7 @@ const [loading,setLoading] = useState(false)
         </aside>
 
         <div className="bg-white aside shadow-md     md:w-[77%] lg:w-[80%] xl:w-[80%%] col-span-2  mt-4 mr-4 relative">
-        {loading && (
+          {loading && (
             <div role="status " className="absolute left-[50%] top-[50%]">
               <svg
                 aria-hidden="true"
@@ -512,9 +578,11 @@ const [loading,setLoading] = useState(false)
           )}
           {activeButton === "forCarry" && (
             <>
-               <div className="grid grid-cols-3 gap-4 py-6 px-6 ">
-                {tripData.map((v) => (
+              <div className="grid grid-cols-3 gap-4 py-6 px-6 ">
+                {tripData.map((v, index) => (
                   <>
+                 
+
                     <div className="bg-white border box  relative pt-4 pb-8 border-[#A0CCFF] border-solid rounded-[1rem]  h-[12rem] max-h-[16rem] hover:bg-[#449aff29] hover:border-[#0E6FE1] hover:shadow-xl transition duration-700 ease-in-out">
                       <div className="flex px-4 ">
                         <div className="capitalize text-[#2F8EFF] font-semibold ">
@@ -529,160 +597,228 @@ const [loading,setLoading] = useState(false)
                             margin: "0 10px",
                           }}
                         >
-                          {
-                            v?.tripPlaceDetails[0]?.travelType == travelType.Plane ? (
-                              <>
-                                <Image
-                                  src="/icons/airplane1.png"
-                                  className="absolute top-[10px] car"
-                                  width={35}
-                                  height={30}
-                                  alt="Carry UP"
-                                  priority={true}
-                                />{" "}
-                              </>
-                            ) : v?.tripPlaceDetails[0]?.travelType == travelType.Bus ? (
-                              <>
-                                <Image
-                                  src="/icons/bus1.png"
-                                  className="absolute top-[10px] car"
-                                  width={35}
-                                  height={30}
-                                  alt="Carry UP"
-                                  priority={true}
-                                />{" "}
-                              </>
-                            ) : v?.tripPlaceDetails[0]?.travelType == travelType.Car ? (
-                              <>
-                                <Image
-                                  src="/icons/car.png"
-                                  className="absolute top-[9px] car "
-                                  width={40}
-                                  height={30}
-                                  alt="Carry UP"
-                                  priority={true}
-                                />{" "}
-                              </>
-                            ) : v?.tripPlaceDetails[0]?.travelType == travelType.Ship ? (
-                              <>
-                                <Image
-                                  src="/icons/ship (1).png"
-                                  className="absolute top-[10px] car"
-                                  width={35}
-                                  height={30}
-                                  alt="Carry UP"
-                                  priority={true}
-                                />{" "}
-                              </>
-                            ) : v?.tripPlaceDetails[0]?.travelType == travelType.Train ? (
-                              <>
-                                <Image
-                                  src="/icons/train1.png"
-                                  className="absolute top-[8px] car"
-                                  width={35}
-                                  height={30}
-                                  alt="Carry UP"
-                                  priority={true}
-                                />
-                              </> ) : null
-                          }
+                          {v?.tripPlaceDetails[0]?.travelType ==
+                            travelType.Plane ? (
+                            <>
+                              <Image
+                                src="/icons/airplane1.png"
+                                className="absolute top-[10px] car"
+                                width={35}
+                                height={30}
+                                alt="Carry UP"
+                                priority={true}
+                              />{" "}
+                            </>
+                          ) : v?.tripPlaceDetails[0]?.travelType ==
+                            travelType.Bus ? (
+                            <>
+                              <Image
+                                src="/icons/bus1.png"
+                                className="absolute top-[10px] car"
+                                width={35}
+                                height={30}
+                                alt="Carry UP"
+                                priority={true}
+                              />{" "}
+                            </>
+                          ) : v?.tripPlaceDetails[0]?.travelType ==
+                            travelType.Car ? (
+                            <>
+                              <Image
+                                src="/icons/car.png"
+                                className="absolute top-[9px] car "
+                                width={40}
+                                height={30}
+                                alt="Carry UP"
+                                priority={true}
+                              />{" "}
+                            </>
+                          ) : v?.tripPlaceDetails[0]?.travelType ==
+                            travelType.Ship ? (
+                            <>
+                              <Image
+                                src="/icons/ship (1).png"
+                                className="absolute top-[10px] car"
+                                width={35}
+                                height={30}
+                                alt="Carry UP"
+                                priority={true}
+                              />{" "}
+                            </>
+                          ) : v?.tripPlaceDetails[0]?.travelType ==
+                            travelType.Train ? (
+                            <>
+                              <Image
+                                src="/icons/train1.png"
+                                className="absolute top-[8px] car"
+                                width={35}
+                                height={30}
+                                alt="Carry UP"
+                                priority={true}
+                              />
+                            </>
+                          ) : null}
                         </div>
                         <div className="capitalize text-[#2F8EFF] font-semibold">
                           {v?.tripPlaceDetails[0]?.toPlace}
                         </div>
-                        <div>
-                          {v?.tripPlaceDetails.length > 1 && 
-                          <Image
-                          src="/icons/distance.png"
-                         className="bg-[#3C87E0] p-1 rounded ml-3"
-                          width={30}
-                          height={10}
-                          alt="distance"
-                          priority={true}
-                        />
-                        
-                          }
-                          {/* <div>
-                            {v.tripPlaceDetails[0] && v.tripPlaceDetails?.map((v) => (
-                                 <>
-                                   <div className="flex">
-                                   <div>{v.fromPlace}</div>
-                                   <div>
-                                   {
-                             v?.tripPlaceDetails?.travelType.map((v) => v) == travelType.Plane ? (
-                              <>
-                                <Image
-                                  src="/icons/airplane1.png"
-                                  className="absolute top-[10px] car"
-                                  width={35}
-                                  height={30}
-                                  alt="Carry UP"
-                                  priority={true}
-                                />{" "}
-                              </>
-                            ) : v?.tripPlaceDetails?.travelType.map((v) => v) == travelType.Bus ? (
-                              <>
-                                <Image
-                                  src="/icons/bus1.png"
-                                  className="absolute top-[10px] car"
-                                  width={35}
-                                  height={30}
-                                  alt="Carry UP"
-                                  priority={true}
-                                />{" "}
-                              </>
-                            ) : v?.tripPlaceDetails?.travelType.map((v) => v) == travelType.Car ? (
-                              <>
-                                <Image
-                                  src="/icons/car.png"
-                                  className="absolute top-[9px] car "
-                                  width={40}
-                                  height={30}
-                                  alt="Carry UP"
-                                  priority={true}
-                                />{" "}
-                              </>
-                            ) : v?.tripPlaceDetails?.travelType.map((v) => v) == travelType.Ship ? (
-                              <>
-                                <Image
-                                  src="/icons/ship (1).png"
-                                  className="absolute top-[10px] car"
-                                  width={35}
-                                  height={30}
-                                  alt="Carry UP"
-                                  priority={true}
-                                />{" "}
-                              </>
-                            ) :  v?.tripPlaceDetails?.travelType.map((v) => v) == travelType.Train ? (
-                              <>
-                                <Image
-                                  src="/icons/train1.png"
-                                  className="absolute top-[8px] car"
-                                  width={35}
-                                  height={30}
-                                  alt="Carry UP"
-                                  priority={true}
-                                />
-                              </> ) : null
-                          }
-                                   </div>
-                                   <div> {v.toPlace}</div>
-     
-     
-                                 </div>
-                                 </>
-                            ))}
-                           
 
-                          </div> */}
+                        <div className="distanceBox">
+                         <div>
+                         {v?.tripPlaceDetails.length > 1 && (
+                            <Image
+                              src="/icons/distance.png"
+                              className="bg-[#3C87E0] p-1 rounded ml-3 "
+                              width={30}
+                              height={10}
+                              alt="distance"
+                              priority={true}
+                            />
+                          )}
+                         </div>
+
+                          <div>
+                          {v?.tripPlaceDetails.length > 1 && (
+                      <div className="  py-2 px-6 max-w-[325px] border border-solid border-[#b532ff75] absolute left-[33%] w-[315px] top-[50px] z-10 rounded-xl bg-white distance">
+                        {v.tripPlaceDetails.length > 1 &&
+                          v.tripPlaceDetails?.map((v) => (
+                            <>
+                              <div className="flex justify-between">
+                                <div className="text-[#6B6890] font-semibold">
+
+                                  {v.fromPlace} <br />
+                                  <span className="text-[#A8A7FF] italic">
+                                    {moment(v.toTripDate).format("DD.MM.YYYY")}
+                                  </span>
+                                </div>
+                                <div className="flex justify-between m-1">
+                                  <div className="flex ">
+                                    <Image
+                                      src="/icons/lines.png"
+                                      width={5}
+                                      height={5}
+                                      alt="Carry UP"
+                                      priority={true}
+                                      style={{ height: "23px" }}
+                                    />
+                                    <Image
+                                      src="/icons/lines.png"
+                                      width={5}
+                                      height={5}
+                                      alt="Carry UP"
+                                      priority={true}
+                                      style={{ height: "23px" }}
+                                    />
+                                    <Image
+                                      src="/icons/lines.png"
+                                      width={5}
+                                      height={5}
+                                      alt="Carry UP"
+                                      priority={true}
+                                      style={{ height: "23px" }}
+                                    />
+
+                                  </div>
+                                  <div className="mx-2">
+                                    {v?.travelType == travelType.Plane ? (
+                                      <>
+                                        <Image
+                                          src="/icons/airplane2.png"
+                                          className="  "
+                                          width={30}
+                                          height={20}
+                                          alt="Carry UP"
+                                          priority={true}
+                                        />{" "}
+                                      </>
+                                    ) : v?.travelType == travelType.Bus ? (
+                                      <>
+                                        <Image
+                                          src="/icons/bus.png"
+                                          className=" "
+                                          width={30}
+                                          height={20}
+                                          alt="Carry UP"
+                                          priority={true}
+                                        />{" "}
+                                      </>
+                                    ) : v?.travelType == travelType.Car ? (
+                                      <>
+                                        <Image
+                                          src="/icons/car1.png"
+                                          className="  "
+                                          width={30}
+                                          height={20}
+                                          alt="Carry UP"
+                                          priority={true}
+                                        />{" "}
+                                      </>
+                                    ) : v?.travelType == travelType.Ship ? (
+                                      <>
+                                        <Image
+                                          src="/icons/ship.png"
+                                          width={30}
+                                          height={20}
+                                          alt="Carry UP"
+                                          priority={true}
+                                        />{" "}
+                                      </>
+                                    ) : v?.travelType == travelType.Train ? (
+                                      <>
+                                        <Image
+                                          src="/icons/train.png"
+                                          width={25}
+                                          height={20}
+                                          alt="Carry UP"
+                                          priority={true}
+                                        />
+                                      </>
+                                    ) : null}
+                                  </div>
+                                  <div className="flex">
+                                    <Image
+                                      src="/icons/lines.png"
+                                      width={5}
+                                      height={5}
+                                      alt="Carry UP"
+                                      priority={true}
+                                      style={{ height: "23px" }}
+                                    />
+
+                                    <Image
+                                      src="/icons/downarrow.png"
+                                      width={20}
+                                      height={5}
+                                      alt="Carry UP"
+                                      priority={true}
+                                      style={{ width: "30px", height: "23px" }}
+                                    />
+                                  </div>
+
+                                </div>
+                                <div className="text-[#6B6890] font-semibold">
+                                  {" "}
+                                  {v.toPlace} <br />
+                                  <span className="text-[#A8A7FF] italic">
+                                    {" "}
+                                    {moment(v.fromTripDate).format(
+                                      "DD.MM.YYYY"
+                                    )}
+                                  </span>
+                                </div>
+                              </div>
+                            </>
+                          ))}
+                      </div>
+                    )}
+                          </div>
                         </div>
                       </div>
-                      <div >
+                      <div>
                         <Tooltip text={v.title}>
                           <p className="px-4 mt-2 material-symbols-outlined ">
                             {v.title.slice(0, 10) + "..."}
                           </p>
-                          
                         </Tooltip>
                       </div>
 
@@ -694,8 +830,7 @@ const [loading,setLoading] = useState(false)
                               {v?.tripPlaceDetails
                                 ? moment(
                                   v?.tripPlaceDetails[0]?.fromTripDate
-                                    )
-                                  .format("DD.MM.YYYY")
+                                ).format("DD.MM.YYYY")
                                 : null}
                             </span>
                           </p>
@@ -705,62 +840,59 @@ const [loading,setLoading] = useState(false)
                             <span className="text-[#2F8EFF] font-medium">
                               {v?.tripPlaceDetails
                                 ? moment(
-                                  v?.tripPlaceDetails[0]?.toTripDate)
-                                  .format("DD.MM.YYYY")
+                                  v?.tripPlaceDetails[0]?.toTripDate
+                                ).format("DD.MM.YYYY")
                                 : null}
                             </span>
                           </p>
                         </div>
 
-                      
-                        <span className="mt-0 relative" >
+                        <span className="mt-0 relative">
                           <div>
-                          <Image
-                            src="/icons/tape2.png"
-                            className="hoverImg2"
-                            width={50}
-                            height={10}
-                            alt="tape"
-                            priority={true}
-                          />
+                            <Image
+                              src="/icons/tape2.png"
+                              className="hoverImg2"
+                              width={50}
+                              height={10}
+                              alt="tape"
+                              priority={true}
+                            />
                           </div>
                           <div>
-                          <Image
-                            src="/icons/tape.png"
-                            className="hoverImg"
-                            width={70}
-                            height={10}
-                            alt="tape"
-                            priority={true}
-                          />
+                            <Image
+                              src="/icons/tape.png"
+                              className="hoverImg"
+                              width={70}
+                              height={10}
+                              alt="tape"
+                              priority={true}
+                            />
                           </div>
-                       
+
                           <span className="flex absolute top-[10px] left-3  text-white font-semibold">
-                          <span className="text-lg ml-[2px]">
-                            {v?.package?.currency == currency.AZN ? (
-                              <Image
-                                src="/icons/manat.png"
-                               
-                                width={10}
-                                height={10}
-                                alt="manat"
-                                priority={true}
-                              />
-                            ) : v?.package?.currency == currency.USD ? (
-                              <Image
-                                src="/icons/dollar.png"
-                                width={10}
-                                height={10}
-                                alt="dollar"
-                                priority={true}
-                              />
-                            ) : v?.package?.currency == currency.TL ? (
-                              "TL"
-                            ) : null}
+                            <span className="text-lg ml-[2px]">
+                              {v?.package?.currency == currency.AZN ? (
+                                <Image
+                                  src="/icons/manat.png"
+                                  width={10}
+                                  height={10}
+                                  alt="manat"
+                                  priority={true}
+                                />
+                              ) : v?.package?.currency == currency.USD ? (
+                                <Image
+                                  src="/icons/dollar.png"
+                                  width={10}
+                                  height={10}
+                                  alt="dollar"
+                                  priority={true}
+                                />
+                              ) : v?.package?.currency == currency.TL ? (
+                                "TL"
+                              ) : null}
+                            </span>
+                            {v?.package?.price}
                           </span>
-                          {v?.package?.price}
-                          </span>
-                         
                         </span>
                       </div>
 
@@ -792,6 +924,148 @@ const [loading,setLoading] = useState(false)
                 tripPerPage={tripPerPage}
                 setCurrentPage={setTripCurrentPage}
                 currentPage={tripCurrentPage}
+              />
+            </>
+          )}
+
+          {activeButton === "forSend" && (
+            <>
+              <div className="grid grid-cols-3 gap-4 py-6 px-6 ">
+                {sendData.map((v) => (
+                  <>
+                    <div className="bg-white border box  relative pt-4 pb-8 border-[#8E65E7] border-solid rounded-[1rem]  h-[12rem] max-h-[16rem]  hover:border-[#7F4BED] hover:shadow-xl transition duration-700 ease-in-out">
+                      <div className="flex px-4 ">
+                        <div className="capitalize text-[#8E65E7] font-semibold ">
+                          {v?.sendPlaceDetails[0]?.fromPlace}
+                        </div>
+                        <div className="w-44 "
+                          style={{
+                            borderBottom: "2.5px solid #A883F9",
+                            height: "22px",
+                            width: "135px",
+                            margin: "0 10px",
+                          }}>
+
+                        </div>
+                        <div className="capitalize text-[#8E65E7] font-semibold">
+                          {v?.sendPlaceDetails[0]?.toPlace}
+                        </div>
+
+                        <div>
+                          {v?.sendPlaceDetails.length > 1 && (
+                            <Image
+                              src="/icons/distance.png"
+                              className="bg-[#3C87E0] p-1 rounded ml-3"
+                              width={30}
+                              height={10}
+                              alt="distance"
+                              priority={true}
+                            />
+                          )}
+                        </div>
+                      </div>
+                      <div>
+                        <Tooltip text={v.title}>
+                          <p className="px-4 mt-2 material-symbols-outlined ">
+                            {v.title.slice(0, 10) + "..."}
+                          </p>
+                        </Tooltip>
+                      </div>
+
+                      <div className="mt-1 mb-2 pl-4 flex justify-between ">
+                        <div>
+                          <p className="text-[#5C5C5C] font-medium mt-0">
+                            Count:{" "}
+                            <span className="text-[#8E65E7] font-medium">
+                             {v?.package?.count}
+                            </span>
+                          </p>
+
+                          <p className="text-[#5C5C5C] font-medium">
+                          Date of appointment:{" "}
+                            <span className="text-[#8E65E7] font-medium">
+                            15.01.2024
+                            </span>
+                          </p>
+                        </div>
+
+                        <span className="mt-0 relative">
+                          <div>
+                            <Image
+                              src="/icons/tape2.png"
+                              className="hoverImg2"
+                              width={50}
+                              height={10}
+                              alt="tape"
+                              priority={true}
+                            />
+                          </div>
+                          <div>
+                            <Image
+                              src="/icons/tape.png"
+                              className="hoverImg"
+                              width={70}
+                              height={10}
+                              alt="tape"
+                              priority={true}
+                            />
+                          </div>
+
+                          <span className="flex absolute top-[10px] left-3  text-white font-semibold">
+                            <span className="text-lg ml-[2px]">
+                              {v?.package?.currency == currency.AZN ? (
+                                <Image
+                                  src="/icons/manat.png"
+                                  width={10}
+                                  height={10}
+                                  alt="manat"
+                                  priority={true}
+                                />
+                              ) : v?.package?.currency == currency.USD ? (
+                                <Image
+                                  src="/icons/dollar.png"
+                                  width={10}
+                                  height={10}
+                                  alt="dollar"
+                                  priority={true}
+                                />
+                              ) : v?.package?.currency == currency.TL ? (
+                                "TL"
+                              ) : null}
+                            </span>
+                            {v?.package?.price}
+                          </span>
+                        </span>
+                      </div>
+
+                      <div className="w-full flex justify-between mt-7 bg-[#A883F9] hover:bg-[#895AEE] absolute bottom-0 px-4 rounded-b-[1rem] py-2.5">
+                        <p className="text-white  flex italic text-[14px] font-semibold">
+                          <Image
+                            src="/icons/info (3).png"
+                            className="infoImg"
+                            width={20}
+                            height={10}
+                            alt="Info"
+                            priority={true}
+                          />
+                          Last date to apply{" "}
+                          {v?.package?.createDate
+                            ? moment(v.package.createDate).format("DD.MM.YYYY")
+                            : null}
+                        </p>
+                      </div>
+                    </div>
+                  </>
+                ))}
+              </div>
+              <SendPagination
+                changeCPage={changeCPage}
+                nextPage={nextPageSend}
+                prePage={prePageSend}
+                totalSends={sendTotalCount}
+                sendPerPage={sendPerPage}
+                setCurrentPage={setSendCurrentPage}
+                currentPage={sendCurrentPage}
               />
             </>
           )}

@@ -32,7 +32,7 @@ export default function SignUp() {
     }
 
     try {
-      const response = await fetch('http://carryuptest.somee.com/api/Manage/Register', {
+      const response = await fetch('http://carryforus-001-site1.htempurl.com/api/Manage/Register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

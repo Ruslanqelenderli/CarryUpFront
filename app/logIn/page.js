@@ -39,7 +39,7 @@ const clientId = "31047251623-lqjdgijc5q70avn2c7dj0tnf7cvk7bfm.apps.googleuserco
   const signIn = async () => {
     try {
       // const router = useRouter();
-      const res = await fetch("http://carryuptest.somee.com/api/Manage/Login", {
+      const res = await fetch("http://carryforus-001-site1.htempurl.com/api/Manage/Login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
