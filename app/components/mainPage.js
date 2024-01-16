@@ -11,6 +11,7 @@ import Image from "next/image";
 import { currency, travelType } from "./constant";
 import { Tooltip } from "./tooltip";
 import SendPagination from "./sendPagination";
+import { SecondTooltip } from "./secondTooltip";
 
 function MainPage() {
   const [formData, setFormData] = useState({
@@ -67,7 +68,6 @@ function MainPage() {
     getSends(sendCurrentPage);
   }, [sendCurrentPage]);
 
-
   const handleButtonClick = (button) => {
     setActiveButton(button);
     if (button === "forSend") getSends();
@@ -83,7 +83,6 @@ function MainPage() {
     const { name, value } = e.target;
     setSendFormData({ ...sendFormData, [name]: value });
   };
-
 
   const getTrips = async (currentPage) => {
     try {
@@ -167,7 +166,7 @@ function MainPage() {
         }
       );
       const responseData = await sendsData.json();
-   
+
       if (responseData?.list.length > 0) {
         setSendData(responseData.list);
         setSendTotalPages(Math.ceil(responseData.totalCount / sendPerPage));
@@ -221,7 +220,6 @@ function MainPage() {
     });
   };
 
-
   const nextPageTrip = () => {
     if (tripCurrentPage !== tripTotalPages) {
       setTripCurrentPage(tripCurrentPage + 1);
@@ -250,13 +248,9 @@ function MainPage() {
     }
   };
 
-
-
   return (
     <div className={style.profile}>
       <Navbar />
-
-
 
       <div className="flex justify-between mx-16">
         <aside
@@ -268,19 +262,21 @@ function MainPage() {
             <form onSubmit={handleSubmit}>
               <div className="flex mb-5 justify-between px-3">
                 <button
-                  className={`ml-3 bg-white ${activeButton === "forCarry"
+                  className={`ml-3 bg-white ${
+                    activeButton === "forCarry"
                       ? "border-[#b532ff75] border-solid border shadow-md px-4 py-1.5 rounded-md text-[#AEA6FD] "
                       : "bg-transparent  font-semibold  py-1.5 px-4 border text-[#aea6fd7d]   rounded-md "
-                    }`}
+                  }`}
                   onClick={() => handleButtonClick("forCarry")}
                 >
                   For Carry
                 </button>
                 <button
-                  className={`bg-white ${activeButton === "forSend"
+                  className={`bg-white ${
+                    activeButton === "forSend"
                       ? "border-[#b532ff75] text-[#AEA6FD] border-solid border shadow-md px-4 py-1.5 rounded-md "
                       : "bg-transparent  font-semibold  py-1.5 px-4 border text-[#aea6fd7d]   rounded-md "
-                    }`}
+                  }`}
                   onClick={() => handleButtonClick("forSend")}
                 >
                   For Send
@@ -290,18 +286,16 @@ function MainPage() {
                 <>
                   <div className=" px-3 ">
                     <label className="text-[15px]">Create Date</label>
-                    <div className=" mt-4">
-                      <div className="w-full  md:mb-0">
-                        <input
-                          className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
-                          id="grid-first-name"
-                          type="date"
-                          placeholder="DD/MM/YYYY"
-                          name="tripCreateDate"
-                          value={formData.tripCreateDate}
-                          onChange={handleChange}
-                        />
-                      </div>
+                    <div className="w-full  md:mb-0  mt-4">
+                      <input
+                        className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
+                        id="grid-first-name"
+                        type="date"
+                        placeholder="DD/MM/YYYY"
+                        name="tripCreateDate"
+                        value={formData.tripCreateDate}
+                        onChange={handleChange}
+                      />
                     </div>
                     <hr className="mb-5" />
                   </div>
@@ -342,17 +336,69 @@ function MainPage() {
                     <hr className="mb-5" />
                   </div>
                   <div className=" px-3">
-                    <label className="text-[15px]">Package Price</label>
-                    <div className="mt-4 flex">
-                      <input
-                        className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
-                        id="grid-first-name"
-                        type="number"
-                        placeholder=""
-                        name="minPackagePrice"
-                        value={formData.minPackagePrice}
-                        onChange={handleChange}
-                      />
+                    <label className="text-[15px]">Price</label>
+                    <div className="mt-2 flex justify-between">
+                      <div>
+                        <label className="text-[13px] text-[#CFCAFF]">
+                          Min Price
+                        </label>
+                        <div className="flex  border border-solid border-[#b532ff75] rounded-lg py-2  mb-4 leading-tight text-[#CFCAFF]">
+                          <input
+                            type="number"
+                            style={{ width: "50px", border: "none" }}
+                            className="focus:outline-none pl-2 "
+                            name="minPackagePrice"
+                            value={formData.minPackagePrice}
+                            onChange={handleChange}
+                          />
+                          <select
+                            style={{ border: "none" }}
+                            className="focus:outline-none"
+                            name="currency"
+                            value={formData.currency}
+                            onChange={handleChange}
+                          >
+                            {Object.entries(currency).map((v) => (
+                              <>
+                                <option style={{ border: "none" }} value={v[1]}>
+                                  {v[0]}
+                                </option>
+                              </>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                      <div>
+                        <label className="text-[13px] text-[#CFCAFF] ml-2">
+                          Max Price
+                        </label>
+
+                        <div className="flex  border border-solid border-[#b532ff75] rounded-lg py-2 ml-2 mb-4 leading-tight text-[#CFCAFF]">
+                          <input
+                            type="number"
+                            style={{ width: "50px", border: "none" }}
+                            className="focus:outline-none pl-2 "
+                            name="maxPackagePrice"
+                            value={formData.maxPackagePrice}
+                            onChange={handleChange}
+                          />
+                          <select
+                            style={{ border: "none" }}
+                            className="focus:outline-none"
+                            name="currency"
+                            value={formData.currency}
+                            onChange={handleChange}
+                          >
+                            {Object.entries(currency).map((v) => (
+                              <>
+                                <option style={{ border: "none" }} value={v[1]}>
+                                  {v[0]}
+                                </option>
+                              </>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
                     </div>
                     <hr className="mb-5" />
                   </div>
@@ -472,17 +518,69 @@ function MainPage() {
                     <hr className="mb-5" />
                   </div>
                   <div className=" px-3">
-                    <label className="text-[15px]">Package Price</label>
-                    <div className="mt-4">
-                      <input
-                        className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
-                        id="grid-first-name"
-                        type="number"
-                        placeholder=""
-                        name="minPackagePrice"
-                        value={sendFormData.minPackagePrice}
-                        onChange={handleSendChange}
-                      />
+                    <label className="text-[15px]">Price</label>
+                    <div className="mt-2 flex justify-between">
+                      <div>
+                        <label className="text-[13px] text-[#CFCAFF]">
+                          Min Price
+                        </label>
+                        <div className="flex  border border-solid border-[#b532ff75] rounded-lg py-2  mb-4 leading-tight text-[#CFCAFF]">
+                          <input
+                            type="number"
+                            style={{ width: "50px", border: "none" }}
+                            className="focus:outline-none pl-2 "
+                            name="minPackagePrice"
+                            value={formData.minPackagePrice}
+                            onChange={handleChange}
+                          />
+                          <select
+                            style={{ border: "none" }}
+                            className="focus:outline-none"
+                            name="currency"
+                            value={formData.currency}
+                            onChange={handleChange}
+                          >
+                            {Object.entries(currency).map((v) => (
+                              <>
+                                <option style={{ border: "none" }} value={v[1]}>
+                                  {v[0]}
+                                </option>
+                              </>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                      <div>
+                        <label className="text-[13px] text-[#CFCAFF] ml-2">
+                          Max Price
+                        </label>
+
+                        <div className="flex  border border-solid border-[#b532ff75] rounded-lg py-2 ml-2 mb-4 leading-tight text-[#CFCAFF]">
+                          <input
+                            type="number"
+                            style={{ width: "50px", border: "none" }}
+                            className="focus:outline-none pl-2 "
+                            name="maxPackagePrice"
+                            value={formData.maxPackagePrice}
+                            onChange={handleChange}
+                          />
+                          <select
+                            style={{ border: "none" }}
+                            className="focus:outline-none"
+                            name="currency"
+                            value={formData.currency}
+                            onChange={handleChange}
+                          >
+                            {Object.entries(currency).map((v) => (
+                              <>
+                                <option style={{ border: "none" }} value={v[1]}>
+                                  {v[0]}
+                                </option>
+                              </>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
                     </div>
                     <hr className="mb-5" />
                   </div>
@@ -533,20 +631,28 @@ function MainPage() {
                     </div>
                     <hr className="mb-5" />
                   </div>
-
                 </>
               )}
             </form>
             <div className=" sticky bottom-0 flex ml-3 justify-between  bg-white px-3 py-4">
               <button
                 className="bg-transparent  font-semibold  px-4 py-1.5 border    rounded-md cancelButton "
-                onClick={clearTripsData}
+                onClick={
+                  activeButton === "forCarry" ? clearTripsData : clearSendsData
+                }
               >
                 Clear all
               </button>
               <button
-                className={` ${activeButton=="forCarry" ? "bg-[#75B4FF]" : "bg-[#BFABDF]"} bg-transparent text-white  font-semibold  px-6 py-1.5 border    rounded-md `}
-                onClick={() => getTrips(tripCurrentPage)}
+              disabled={activeButton === "forCarry" ? !formData.minPackagePrice && !formData.maxPackagePrice : !sendFormData.minPackagePrice && !sendFormData.maxPackagePrice}
+                className={` ${
+                  activeButton == "forCarry" ? "bg-[#75B4FF]" : "bg-[#BFABDF]"
+                }  text-white  font-semibold  px-6 py-1.5 border    rounded-md `}
+                onClick={() =>
+                  activeButton === "forCarry"
+                    ? getTrips(tripCurrentPage)
+                    : getSends(sendCurrentPage)
+                }
               >
                 Search
               </button>
@@ -554,7 +660,7 @@ function MainPage() {
           </div>
         </aside>
 
-        <div className="bg-white aside shadow-md     md:w-[77%] lg:w-[80%] xl:w-[80%%] col-span-2  mt-4 mr-4 relative">
+        <div className="bg-white aside shadow-md  mb-2   md:w-[77%] lg:w-[80%] xl:w-[80%%] col-span-2  mt-4 mr-4 relative">
           {loading && (
             <div role="status " className="absolute left-[50%] top-[50%]">
               <svg
@@ -578,13 +684,11 @@ function MainPage() {
           )}
           {activeButton === "forCarry" && (
             <>
-              <div className="grid grid-cols-3 gap-4 py-6 px-6 ">
+              <div className="grid grid-cols-3 gap-4 pt-6 px-6 mt-5">
                 {tripData.map((v, index) => (
                   <>
-                 
-
-                    <div className="bg-white border box  relative pt-4 pb-8 border-[#A0CCFF] border-solid rounded-[1rem]  h-[12rem] max-h-[16rem] hover:bg-[#449aff29] hover:border-[#0E6FE1] hover:shadow-xl transition duration-700 ease-in-out">
-                      <div className="flex px-4 ">
+                    <div className="bg-white border box 2xl:mb-6  xl:mb-0 lg:mb-0 relative pt-4 pb-8 border-[#A0CCFF] border-solid rounded-[1rem]  h-[12rem] max-h-[16rem] hover:bg-[#449aff29] hover:border-[#0E6FE1] hover:shadow-xl transition duration-700 ease-in-out">
+                      <div className="flex px-4 justify-between ">
                         <div className="capitalize text-[#2F8EFF] font-semibold ">
                           {v?.tripPlaceDetails[0]?.fromPlace}
                         </div>
@@ -598,7 +702,7 @@ function MainPage() {
                           }}
                         >
                           {v?.tripPlaceDetails[0]?.travelType ==
-                            travelType.Plane ? (
+                          travelType.Plane ? (
                             <>
                               <Image
                                 src="/icons/airplane1.png"
@@ -650,8 +754,8 @@ function MainPage() {
                             <>
                               <Image
                                 src="/icons/train1.png"
-                                className="absolute top-[8px] car"
-                                width={35}
+                                className="absolute top-[9px] car"
+                                width={30}
                                 height={30}
                                 alt="Carry UP"
                                 priority={true}
@@ -659,158 +763,168 @@ function MainPage() {
                             </>
                           ) : null}
                         </div>
-                        <div className="capitalize text-[#2F8EFF] font-semibold">
-                          {v?.tripPlaceDetails[0]?.toPlace}
-                        </div>
+                        <SecondTooltip text={v?.tripPlaceDetails[0]?.toPlace}>
+                          <div className="capitalize text-[#2F8EFF] font-semibold">
+                            {v?.tripPlaceDetails[0]?.toPlace.slice(0, 1) +
+                              "..."}
+                          </div>
+                        </SecondTooltip>
 
                         <div className="distanceBox">
-                         <div>
-                         {v?.tripPlaceDetails.length > 1 && (
-                            <Image
-                              src="/icons/distance.png"
-                              className="bg-[#3C87E0] p-1 rounded ml-3 "
-                              width={30}
-                              height={10}
-                              alt="distance"
-                              priority={true}
-                            />
-                          )}
-                         </div>
+                          <div>
+                            {v?.tripPlaceDetails.length > 1 && (
+                              <Image
+                                src="/icons/distance.png"
+                                className="bg-[#3C87E0] p-1 rounded ml-3 "
+                                width={30}
+                                height={10}
+                                alt="distance"
+                                priority={true}
+                              />
+                            )}
+                          </div>
 
                           <div>
-                          {v?.tripPlaceDetails.length > 1 && (
-                      <div className="  py-2 px-6 max-w-[325px] border border-solid border-[#b532ff75] absolute left-[33%] w-[315px] top-[50px] z-10 rounded-xl bg-white distance">
-                        {v.tripPlaceDetails.length > 1 &&
-                          v.tripPlaceDetails?.map((v) => (
-                            <>
-                              <div className="flex justify-between">
-                                <div className="text-[#6B6890] font-semibold">
+                            {v?.tripPlaceDetails.length > 1 && (
+                              <div className="  py-2 px-6 max-w-[325px] border border-solid border-[#b532ff75] absolute left-[33%] w-[315px] top-[50px] z-10 rounded-xl bg-white distance">
+                                {v.tripPlaceDetails.length > 1 &&
+                                  v.tripPlaceDetails?.map((v) => (
+                                    <>
+                                      <div className="flex justify-between">
+                                        <div className="text-[#6B6890] font-semibold">
+                                          {v.fromPlace} <br />
+                                          <span className="text-[#A8A7FF] italic">
+                                            {moment(v.toTripDate).format(
+                                              "DD.MM.YYYY"
+                                            )}
+                                          </span>
+                                        </div>
+                                        <div className="flex justify-between m-1">
+                                          <div className="flex ">
+                                            <Image
+                                              src="/icons/lines.png"
+                                              width={5}
+                                              height={5}
+                                              alt="Carry UP"
+                                              priority={true}
+                                              style={{ height: "23px" }}
+                                            />
+                                            <Image
+                                              src="/icons/lines.png"
+                                              width={5}
+                                              height={5}
+                                              alt="Carry UP"
+                                              priority={true}
+                                              style={{ height: "23px" }}
+                                            />
+                                            <Image
+                                              src="/icons/lines.png"
+                                              width={5}
+                                              height={5}
+                                              alt="Carry UP"
+                                              priority={true}
+                                              style={{ height: "23px" }}
+                                            />
+                                          </div>
+                                          <div className="mx-2">
+                                            {v?.travelType ==
+                                            travelType.Plane ? (
+                                              <>
+                                                <Image
+                                                  src="/icons/airplane2.png"
+                                                  className="  "
+                                                  width={30}
+                                                  height={20}
+                                                  alt="Carry UP"
+                                                  priority={true}
+                                                />{" "}
+                                              </>
+                                            ) : v?.travelType ==
+                                              travelType.Bus ? (
+                                              <>
+                                                <Image
+                                                  src="/icons/bus.png"
+                                                  className=" "
+                                                  width={30}
+                                                  height={20}
+                                                  alt="Carry UP"
+                                                  priority={true}
+                                                />{" "}
+                                              </>
+                                            ) : v?.travelType ==
+                                              travelType.Car ? (
+                                              <>
+                                                <Image
+                                                  src="/icons/car1.png"
+                                                  className="  "
+                                                  width={30}
+                                                  height={20}
+                                                  alt="Carry UP"
+                                                  priority={true}
+                                                />{" "}
+                                              </>
+                                            ) : v?.travelType ==
+                                              travelType.Ship ? (
+                                              <>
+                                                <Image
+                                                  src="/icons/ship.png"
+                                                  width={30}
+                                                  height={20}
+                                                  alt="Carry UP"
+                                                  priority={true}
+                                                />{" "}
+                                              </>
+                                            ) : v?.travelType ==
+                                              travelType.Train ? (
+                                              <>
+                                                <Image
+                                                  src="/icons/train.png"
+                                                  width={25}
+                                                  height={20}
+                                                  alt="Carry UP"
+                                                  priority={true}
+                                                />
+                                              </>
+                                            ) : null}
+                                          </div>
+                                          <div className="flex">
+                                            <Image
+                                              src="/icons/lines.png"
+                                              width={5}
+                                              height={5}
+                                              alt="Carry UP"
+                                              priority={true}
+                                              style={{ height: "23px" }}
+                                            />
 
-                                  {v.fromPlace} <br />
-                                  <span className="text-[#A8A7FF] italic">
-                                    {moment(v.toTripDate).format("DD.MM.YYYY")}
-                                  </span>
-                                </div>
-                                <div className="flex justify-between m-1">
-                                  <div className="flex ">
-                                    <Image
-                                      src="/icons/lines.png"
-                                      width={5}
-                                      height={5}
-                                      alt="Carry UP"
-                                      priority={true}
-                                      style={{ height: "23px" }}
-                                    />
-                                    <Image
-                                      src="/icons/lines.png"
-                                      width={5}
-                                      height={5}
-                                      alt="Carry UP"
-                                      priority={true}
-                                      style={{ height: "23px" }}
-                                    />
-                                    <Image
-                                      src="/icons/lines.png"
-                                      width={5}
-                                      height={5}
-                                      alt="Carry UP"
-                                      priority={true}
-                                      style={{ height: "23px" }}
-                                    />
-
-                                  </div>
-                                  <div className="mx-2">
-                                    {v?.travelType == travelType.Plane ? (
-                                      <>
-                                        <Image
-                                          src="/icons/airplane2.png"
-                                          className="  "
-                                          width={30}
-                                          height={20}
-                                          alt="Carry UP"
-                                          priority={true}
-                                        />{" "}
-                                      </>
-                                    ) : v?.travelType == travelType.Bus ? (
-                                      <>
-                                        <Image
-                                          src="/icons/bus.png"
-                                          className=" "
-                                          width={30}
-                                          height={20}
-                                          alt="Carry UP"
-                                          priority={true}
-                                        />{" "}
-                                      </>
-                                    ) : v?.travelType == travelType.Car ? (
-                                      <>
-                                        <Image
-                                          src="/icons/car1.png"
-                                          className="  "
-                                          width={30}
-                                          height={20}
-                                          alt="Carry UP"
-                                          priority={true}
-                                        />{" "}
-                                      </>
-                                    ) : v?.travelType == travelType.Ship ? (
-                                      <>
-                                        <Image
-                                          src="/icons/ship.png"
-                                          width={30}
-                                          height={20}
-                                          alt="Carry UP"
-                                          priority={true}
-                                        />{" "}
-                                      </>
-                                    ) : v?.travelType == travelType.Train ? (
-                                      <>
-                                        <Image
-                                          src="/icons/train.png"
-                                          width={25}
-                                          height={20}
-                                          alt="Carry UP"
-                                          priority={true}
-                                        />
-                                      </>
-                                    ) : null}
-                                  </div>
-                                  <div className="flex">
-                                    <Image
-                                      src="/icons/lines.png"
-                                      width={5}
-                                      height={5}
-                                      alt="Carry UP"
-                                      priority={true}
-                                      style={{ height: "23px" }}
-                                    />
-
-                                    <Image
-                                      src="/icons/downarrow.png"
-                                      width={20}
-                                      height={5}
-                                      alt="Carry UP"
-                                      priority={true}
-                                      style={{ width: "30px", height: "23px" }}
-                                    />
-                                  </div>
-
-                                </div>
-                                <div className="text-[#6B6890] font-semibold">
-                                  {" "}
-                                  {v.toPlace} <br />
-                                  <span className="text-[#A8A7FF] italic">
-                                    {" "}
-                                    {moment(v.fromTripDate).format(
-                                      "DD.MM.YYYY"
-                                    )}
-                                  </span>
-                                </div>
+                                            <Image
+                                              src="/icons/downarrow.png"
+                                              width={20}
+                                              height={5}
+                                              alt="Carry UP"
+                                              priority={true}
+                                              style={{
+                                                width: "30px",
+                                                height: "23px",
+                                              }}
+                                            />
+                                          </div>
+                                        </div>
+                                        <div className="text-[#6B6890] font-semibold">
+                                          {" "}
+                                          {v.toPlace} <br />
+                                          <span className="text-[#A8A7FF] italic">
+                                            {" "}
+                                            {moment(v.fromTripDate).format(
+                                              "DD.MM.YYYY"
+                                            )}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </>
+                                  ))}
                               </div>
-                            </>
-                          ))}
-                      </div>
-                    )}
+                            )}
                           </div>
                         </div>
                       </div>
@@ -829,8 +943,8 @@ function MainPage() {
                             <span className="text-[#2F8EFF] font-medium">
                               {v?.tripPlaceDetails
                                 ? moment(
-                                  v?.tripPlaceDetails[0]?.fromTripDate
-                                ).format("DD.MM.YYYY")
+                                    v?.tripPlaceDetails[0]?.fromTripDate
+                                  ).format("DD.MM.YYYY")
                                 : null}
                             </span>
                           </p>
@@ -840,8 +954,8 @@ function MainPage() {
                             <span className="text-[#2F8EFF] font-medium">
                               {v?.tripPlaceDetails
                                 ? moment(
-                                  v?.tripPlaceDetails[0]?.toTripDate
-                                ).format("DD.MM.YYYY")
+                                    v?.tripPlaceDetails[0]?.toTripDate
+                                  ).format("DD.MM.YYYY")
                                 : null}
                             </span>
                           </p>
@@ -930,26 +1044,38 @@ function MainPage() {
 
           {activeButton === "forSend" && (
             <>
-              <div className="grid grid-cols-3 gap-4 py-6 px-6 ">
+              <div className="grid grid-cols-3 gap-4 pt-6 px-6 mt-5">
                 {sendData.map((v) => (
                   <>
-                    <div className="bg-white border box  relative pt-4 pb-8 border-[#8E65E7] border-solid rounded-[1rem]  h-[12rem] max-h-[16rem]  hover:border-[#7F4BED] hover:shadow-xl transition duration-700 ease-in-out">
+                    <div className="bg-white border box 2xl:mb-6  xl:mb-0 lg:mb-0 relative pt-4 pb-8 border-[#8E65E7] border-solid rounded-[1rem]  h-[12rem] max-h-[16rem]  hover:border-[#7F4BED] hover:shadow-xl transition duration-700 ease-in-out">
                       <div className="flex px-4 ">
                         <div className="capitalize text-[#8E65E7] font-semibold ">
                           {v?.sendPlaceDetails[0]?.fromPlace}
                         </div>
-                        <div className="w-44 "
+                        <div
+                          className="w-44 "
                           style={{
                             borderBottom: "2.5px solid #A883F9",
                             height: "22px",
                             width: "135px",
                             margin: "0 10px",
-                          }}>
-
+                          }}
+                        >
+                          <Image
+                            src="/icons/shipping.png"
+                            className="car absolute top-[7px]"
+                            width={25}
+                            height={10}
+                            alt="distance"
+                            priority={true}
+                          />
                         </div>
-                        <div className="capitalize text-[#8E65E7] font-semibold">
-                          {v?.sendPlaceDetails[0]?.toPlace}
-                        </div>
+                        <SecondTooltip text={v?.sendPlaceDetails[0]?.toPlace}>
+                          <div className="capitalize text-[#8E65E7] font-semibold">
+                            {v?.sendPlaceDetails[0]?.toPlace.slice(0, 1) +
+                              "..."}
+                          </div>
+                        </SecondTooltip>
 
                         <div>
                           {v?.sendPlaceDetails.length > 1 && (
@@ -977,14 +1103,14 @@ function MainPage() {
                           <p className="text-[#5C5C5C] font-medium mt-0">
                             Count:{" "}
                             <span className="text-[#8E65E7] font-medium">
-                             {v?.package?.count}
+                              {v?.package?.count}
                             </span>
                           </p>
 
                           <p className="text-[#5C5C5C] font-medium">
-                          Date of appointment:{" "}
+                            Date of appointment:{" "}
                             <span className="text-[#8E65E7] font-medium">
-                            15.01.2024
+                              15.01.2024
                             </span>
                           </p>
                         </div>
