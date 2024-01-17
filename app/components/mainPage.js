@@ -1075,7 +1075,7 @@ function MainPage() {
           )}
           {activeButton === "forSend" && (
             <>
-              <div className="grid grid-cols-3 gap-4 pt-6 px-6 mt-5 2xl:grid-cols-4">
+              <div className="grid grid-cols-3 gap-4 pt-6 px-6 mt-5 ">
                 {sendData.map((v) => (
                   <>
                     <div className="bg-white border box 2xl:mb-6  xl:mb-0 lg:mb-0 relative pt-4 pb-8  hover:bg-[#a784f22e] border-[#8E65E7] border-solid rounded-[1rem]  h-[12rem] max-h-[16rem]  hover:border-[#7F4BED] hover:shadow-xl transition duration-700 ease-in-out">
