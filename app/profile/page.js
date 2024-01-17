@@ -44,7 +44,7 @@ export default function Profile() {
               <a
                 href="#"
                 onClick={() => toggleTab(1)}
-                className={`flex items-center p-1 pt-4 text-gray-900 rounded-md-lg dark:text-white  group `}
+                className={`flex items-center p-1 pt-4 text-gray-900 rounded-md-lg  group `}
               >
                 {
                   toggleState === 1 ? <Image
@@ -69,7 +69,7 @@ export default function Profile() {
                 href="#"
                 onClick={() => toggleTab(2)}
 
-                className={`flex items-center p-1  text-gray-900 rounded-md-lg dark:text-white  group `}
+                className={`flex items-center p-1  text-gray-900 rounded-md-lg  group `}
               >
                 {
                   toggleState === 2 ? <Image
@@ -93,7 +93,7 @@ export default function Profile() {
               <a
                 href="#"
                 onClick={() => toggleTab(3)}
-                className={`flex items-center p-1  text-gray-900 rounded-md-lg dark:text-white  group `}
+                className={`flex items-center p-1  text-gray-900 rounded-md-lg   group `}
 
               >
                 {
@@ -118,7 +118,7 @@ export default function Profile() {
               <a
                 href="#"
                 onClick={() => toggleTab(4)}
-                className={`flex items-center p-1  text-gray-900 rounded-md-lg dark:text-white  group `}
+                className={`flex items-center p-1  text-gray-900 rounded-md-lg   group `}
 
               >
                 {
@@ -146,7 +146,7 @@ export default function Profile() {
               <a
                 href="#"
 
-                className="flex items-center p-1 pt-6 text-gray-900 rounded-md-lg dark:text-white  group"
+                className="flex items-center p-1 pt-6 text-gray-900 rounded-md-lg  group"
 
               >
                 <Image

@@ -26,7 +26,7 @@ const SendPagination = ({
             <a
               href="#"
               onClick={prePage}
-              className=" flex items-center  justify-center px-3 h-8 ms-0 leading-tight text-[#C9B7E8]  rounded-s-lg  hover:text-gray-700  dark:hover:text-white"
+              className=" flex items-center  justify-center px-3 h-8 ms-0 leading-tight text-[#C9B7E8]  rounded-s-lg  hover:text-gray-700 "
             >
               <span className="sr-only">Previous</span>
               <svg
@@ -73,7 +73,7 @@ const SendPagination = ({
             <a
               href="#"
               onClick={nextPage}
-              className=" flex items-center  justify-center px-3 h-8 ms-0 leading-tight text-[#C9B7E8] bg-white rounded-s-lg  hover:text-gray-700  dark:hover:text-white"
+              className=" flex items-center  justify-center px-3 h-8 ms-0 leading-tight text-[#C9B7E8] bg-white rounded-s-lg  hover:text-gray-700  "
             >
               <span className="sr-only">Next</span>
               <svg
