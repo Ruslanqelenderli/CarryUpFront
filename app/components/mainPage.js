@@ -261,10 +261,10 @@ function MainPage() {
       <div className="flex justify-between mx-16">
         <aside
           id="logo-sidebar"
-          class=" aside  shadow-md section  mb-2  mt-4 mx-4 z-40 w-[17rem]  pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+          class=" aside  shadow-md section  mb-2  mt-4 mx-4 z-40 w-[17rem]  pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 "
           aria-label="Sidebar"
         >
-          <div class=" bg-white dark:bg-gray-800 leftSection">
+          <div class=" bg-white  leftSection">
             <form onSubmit={handleSubmit}>
               <div className="flex mb-5 justify-between px-3">
                 <button
@@ -397,7 +397,7 @@ function MainPage() {
                           >
                             {Object.entries(currency).map((v) => (
                               <>
-                                <option style={{ border: "none" }} value={v[1]}>
+                                <option  value={v[1]}>
                                   {v[0]}
                                 </option>
                               </>
@@ -548,7 +548,7 @@ function MainPage() {
                           >
                             {Object.entries(currency).map((v) => (
                               <>
-                                <option style={{ border: "none" }} value={v[1]}>
+                                <option  value={v[1]}>
                                   {v[0]}
                                 </option>
                               </>
@@ -579,7 +579,7 @@ function MainPage() {
                           >
                             {Object.entries(currency).map((v) => (
                               <>
-                                <option style={{ border: "none" }} value={v[1]}>
+                                <option  value={v[1]}>
                                   {v[0]}
                                 </option>
                               </>
@@ -671,7 +671,7 @@ function MainPage() {
             <div role="status " className="absolute left-[50%] top-[50%]">
               <svg
                 aria-hidden="true"
-                class="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-purple-600"
+                class="inline w-8 h-8 text-gray-200 animate-spin  fill-purple-600"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -1032,8 +1032,8 @@ function MainPage() {
                             priority={true}
                           />
                           Last date to apply{" "}
-                          {v?.package?.createDate
-                            ? moment(v.package.createDate).format("DD.MM.YYYY")
+                          {v?.package?.deadline
+                            ? moment(v.package.deadline).format("DD.MM.YYYY")
                             : null}
                         </p>
                       </div>
@@ -1056,7 +1056,7 @@ function MainPage() {
             <div role="status " className="absolute left-[50%] top-[50%]">
               <svg
                 aria-hidden="true"
-                class="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-purple-600"
+                class="inline w-8 h-8 text-gray-200 animate-spin  fill-purple-600"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -1075,7 +1075,7 @@ function MainPage() {
           )}
           {activeButton === "forSend" && (
             <>
-              <div className="grid grid-cols-3 gap-4 pt-6 px-6 mt-5">
+              <div className="grid grid-cols-3 gap-4 pt-6 px-6 mt-5 2xl:grid-cols-4">
                 {sendData.map((v) => (
                   <>
                     <div className="bg-white border box 2xl:mb-6  xl:mb-0 lg:mb-0 relative pt-4 pb-8  hover:bg-[#a784f22e] border-[#8E65E7] border-solid rounded-[1rem]  h-[12rem] max-h-[16rem]  hover:border-[#7F4BED] hover:shadow-xl transition duration-700 ease-in-out">
@@ -1145,7 +1145,7 @@ function MainPage() {
                           <p className="text-[#5C5C5C] font-medium">
                             Date of appointment:{" "}
                             <span className="text-[#8E65E7] font-medium">
-                              15.01.2024
+                             {moment(v?.sendPlaceDetails[0]?.catchDate).format("DD.MM.YYYY")}
                             </span>
                           </p>
                         </div>
@@ -1210,8 +1210,8 @@ function MainPage() {
                             priority={true}
                           />
                           Last date to apply{" "}
-                          {v?.package?.createDate
-                            ? moment(v.package.createDate).format("DD.MM.YYYY")
+                          {v?.package?.deadline
+                            ? moment(v.package.deadline).format("DD.MM.YYYY")
                             : null}
                         </p>
                       </div>

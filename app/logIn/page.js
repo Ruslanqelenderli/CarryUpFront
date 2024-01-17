@@ -171,10 +171,10 @@ const clientId = "31047251623-lqjdgijc5q70avn2c7dj0tnf7cvk7bfm.apps.googleuserco
               Log In
             </button>
             <div className="inline-flex items-center justify-center w-full mb-6 mt-12">
-              <hr className="w-full h-px border-0 dark:bg-gray-700" />
+              <hr className="w-full h-px border-0 " />
               <span
                 style={{ color: "#645ACF" }}
-                className="uppercase absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900"
+                className="uppercase absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2"
               >
                 or
               </span>
