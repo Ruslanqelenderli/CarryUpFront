@@ -29,9 +29,7 @@ button {
   /* background-color: #635bb2 !important; */
 
 }
-button:hover {
-  /* background-color: #ada7eb !important; */
-}
+
 .line {
   height: 2px;
   width: 50%;
@@ -96,12 +94,12 @@ ul span {
   border: 1px solid #3BB4FF;
 }
 .saveButton{
-  background-color: #AEA6FD !important;
+  background-color: #75B4FF !important;
   color: white;
 }
 .cancelButton{
-  border:1px solid #AEA6FD;
-  color: #AEA6FD;
+  border:1px solid #b532ff75;
+  color: #aea6fd7d;
   background-color: white !important;
   
 }
@@ -175,11 +173,17 @@ h3{
 }
 
 .tooltip{
- top: calc(-100% - 50px);
- transform: translateX(0);
- background-color: white;
- padding: 10px;
- border-radius: 10px;
+  top: 6px;
+  left: 74px;
+  width: 174px;
+  background-color: #ffffff47;
+  padding: 3px 9px;
+  border-radius: 10px;
+}
+
+.secondTooltip{
+  bottom: 30px;
+  left: 2px;
 }
 
 .section {
@@ -232,3 +236,193 @@ border-radius: 150px;
 .box:hover .hoverImg2 {
   display: none;
 }
+
+.distance {
+  display: none;
+}
+.distanceBox:hover .distance{
+  display: block;
+
+}
+
+.scroll-container:hover  .scroll-text {
+  /* animation properties */
+  -moz-transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+  
+  -moz-animation: my-animation 15s linear infinite;
+  -webkit-animation: my-animation 15s linear infinite;
+  animation: my-animation 15s linear infinite;
+}
+
+
+
+/* for Chrome */
+@-webkit-keyframes my-animation {
+  from { -webkit-transform: translateX(100%); }
+  to { -webkit-transform: translateX(-100%); }
+}
+
+@keyframes my-animation {
+  from {
+    -moz-transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+  to {
+    -moz-transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+  }
+}
+
+.distanceScroll {
+  max-height: 110px;
+  height: 110px;
+  overflow-y: auto;
+  direction: ltr;
+  scrollbar-color: #d4aa70 #BEBEBE;
+  scrollbar-width: thin;
+}
+.distanceScroll::-webkit-scrollbar {
+  width: 13px;
+}
+
+.distanceScroll::-webkit-scrollbar-track {
+  background-color: white;
+border-top-right-radius: 100px;
+border-bottom-right-radius: 100px;
+
+
+}
+
+.distanceScroll::-webkit-scrollbar-thumb {
+border-radius: 150px;
+ 
+  border: 5px solid transparent;
+  background-clip: content-box;
+  background-image:  linear-gradient(
+    270deg,
+    rgba(77, 180, 255, 0.4) 0%,
+    rgba(183, 48, 255, 0.4) 100%
+  );
+  box-shadow: inset 2px 2px 5px 0 rgba(255, 255, 255, 0.5);
+
+}
+
+.custom-select {
+  position: relative;
+  width: 400px;
+  max-width: 100%;
+  font-size: 1.15rem;
+  color: #000;
+  margin-top: 3rem;
+}
+
+.select-button {
+  width: 100%;
+  font-size: 1.15rem;
+  background-color: #fff;
+  padding: 0.675em 1em;
+  border: 1px solid #caced1;
+  border-radius: 0.25rem;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selected-value {
+  text-align: left;
+}
+
+.arrow {
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #000;
+  transition: transform ease-in-out 0.3s;
+}
+
+.select-dropdown {
+  position: absolute;
+  list-style: none;
+  width: 100%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  border: 1px solid #caced1;
+  border-radius: 4px;
+  padding: 10px;
+  margin-top: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  transition: 0.5s ease;
+
+  transform: scaleY(0);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.select-dropdown:focus-within {
+  box-shadow: 0 10px 25px rgba(94, 108, 233, 0.6);
+}
+
+.select-dropdown li {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.select-dropdown li label {
+  width: 100%;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.select-dropdown::-webkit-scrollbar {
+  width: 7px;
+}
+.select-dropdown::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 25px;
+}
+
+.select-dropdown::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 25px;
+}
+
+.select-dropdown li:hover,
+.select-dropdown input:checked ~ label {
+  background-color: #f2f2f2;
+}
+
+.select-dropdown input:focus ~ label {
+  background-color: #dfdfdf;
+}
+
+.select-dropdown input[type="radio"] {
+  position: absolute;
+  left: 0;
+  opacity: 0;
+}
+
+/* interactivity */
+
+.custom-select.active .arrow {
+  transform: rotate(180deg);
+}
+
+.custom-select.active .select-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: scaleY(1);
+}
+
+

@@ -1,8 +1,8 @@
 import React from "react";
 
-const CustomPagination = ({
-  totalTrips,
-  tripPerPage,
+const SendPagination = ({
+  totalSends,
+  sendPerPage,
   setCurrentPage,
   currentPage,
   changeCPage,
@@ -11,7 +11,7 @@ const CustomPagination = ({
 }) => {
   let pages = [];
 
-  for (let i = 1; i <= Math.ceil(totalTrips / tripPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(totalSends / sendPerPage); i++) {
     pages.push(i);
   }
 
@@ -26,7 +26,7 @@ const CustomPagination = ({
             <a
               href="#"
               onClick={prePage}
-              className=" flex items-center  justify-center px-3 h-8 ms-0 leading-tight text-[#7FBAFF]  rounded-s-lg  hover:text-gray-700  "
+              className=" flex items-center  justify-center px-3 h-8 ms-0 leading-tight text-[#C9B7E8]  rounded-s-lg  hover:text-gray-700 "
             >
               <span className="sr-only">Previous</span>
               <svg
@@ -57,8 +57,8 @@ const CustomPagination = ({
                       "flex items-center justify-center mr-5 px-3 h-8 leading-tight"
                     }
                     style={{
-                      background: page === currentPage ? "#2F8EFF" : "none",
-                      color: page === currentPage ? "white" : "#7FBAFF",
+                      background: page === currentPage ? "#BFABDF" : "none",
+                      color: page === currentPage ? "white" : "#C9B7E8",
                       borderRadius: page === currentPage ? "25px" : "none",
                     }}
                   >
@@ -73,7 +73,7 @@ const CustomPagination = ({
             <a
               href="#"
               onClick={nextPage}
-              className=" flex items-center  justify-center px-3 h-8 ms-0 leading-tight text-[#7FBAFF] bg-white rounded-s-lg  hover:text-gray-700 "
+              className=" flex items-center  justify-center px-3 h-8 ms-0 leading-tight text-[#C9B7E8] bg-white rounded-s-lg  hover:text-gray-700  "
             >
               <span className="sr-only">Next</span>
               <svg
@@ -99,4 +99,4 @@ const CustomPagination = ({
   );
 };
 
-export default CustomPagination;
+export default SendPagination;

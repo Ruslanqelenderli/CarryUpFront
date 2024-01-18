@@ -18,8 +18,7 @@ export default function LogIn() {
   const [data, setData] = useState([]);
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
-
-const clientId = "31047251623-lqjdgijc5q70avn2c7dj0tnf7cvk7bfm.apps.googleusercontent.com"
+  const [code, setCode] = useState("")
 
 
   const handleChange = (event) => {
@@ -39,7 +38,7 @@ const clientId = "31047251623-lqjdgijc5q70avn2c7dj0tnf7cvk7bfm.apps.googleuserco
   const signIn = async () => {
     try {
       // const router = useRouter();
-      const res = await fetch("http://carryuptest.somee.com/api/Manage/Login", {
+      const res = await fetch("http://carryforus-001-site1.htempurl.com/api/Manage/Login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -77,6 +76,27 @@ const clientId = "31047251623-lqjdgijc5q70avn2c7dj0tnf7cvk7bfm.apps.googleuserco
       console.error("signIn error: ", error);
     }
   };
+
+  const loginByGoogle = async (code) => {
+    try {
+      const res = await fetch("http://carryforus-001-site1.htempurl.com/api/Manage/LoginByGoogle", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+         code: code
+        }),
+        cache: "force-cache",
+      });
+
+      const responseData = await res.json();
+      console.log("responseData", responseData);
+    } catch (error) {
+      console.log("loginByGoogle",error);
+    }
+  }
+
   return (
     <>
       <Navbar />
@@ -168,10 +188,10 @@ const clientId = "31047251623-lqjdgijc5q70avn2c7dj0tnf7cvk7bfm.apps.googleuserco
               Log In
             </button>
             <div className="inline-flex items-center justify-center w-full mb-6 mt-12">
-              <hr className="w-full h-px border-0 dark:bg-gray-700" />
+              <hr className="w-full h-px border-0 " />
               <span
                 style={{ color: "#645ACF" }}
-                className="uppercase absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900"
+                className="uppercase absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2"
               >
                 or
               </span>
@@ -211,18 +231,19 @@ const clientId = "31047251623-lqjdgijc5q70avn2c7dj0tnf7cvk7bfm.apps.googleuserco
               />
 
               <LoginSocialGoogle
-                client_id={"1096172010992-28n6kbrvd7t8p4ctv1s9dvfacq9j0dpn.apps.googleusercontent.com"}
+                client_id={"650935634351-7mr5vjrtaarg7t4s9ogetopg0mfll6cu.apps.googleusercontent.com"}
                 scope="openid profile email"
                 discoveryDocs="claims_supported"
                 access_type="offline"
-                onResolve={(provider,data) => {
-                  console.log('res', provider,{...data});
+                onResolve={(provider, data) => {
+                
+                 loginByGoogle(provider?.data?.code)
                 }}
                 onReject={(error) => {
                   console.log('error', error);
                 }}
               >
-                <span className="px-2 font-bold" style={{ color: "#746bd4" }}>
+                <span className="px-2 font-bold" style={{ color: "#746bd4" }} >
                   Log in with Google
                 </span>
               </LoginSocialGoogle>
