@@ -1,33 +1,57 @@
 "use client";
 import React, { useRef, useState } from "react";
-import Navbar from "../components/navbar";
+// import Navbar from "../components/navbar";
 import Image from "next/image";
 import Navbar1 from "../components/navbar1";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Create = () => {
   const [text, setText] = useState("");
   const [text1, setText1] = useState("");
-  // const [date, setDate] = useState("")
   const [open, setOpen] = useState(false);
   const [forCarryClicked, setForCarryClicked] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [startDate, setStartDate] = useState(null);
+  const [startDate1, setStartDate1] = useState(null);
+
+  const initialData = {
+    title: "",
+    description: "",
+    package: {
+      currency: 0,
+      price: 0,
+      count: 0,
+      deadline: "2024-01-18T07:46:39.258Z",
+      packageCategoryId: 0,
+      packageSubCategoryId: 0,
+    },
+    case: {
+      userId: "123e4567-e89b-12d3-a456-426614174001",
+    },
+    tripPlaceDetailAddModels: [
+      {
+        fromPlace: "",
+        fromTripDate: "",
+        toPlace: "",
+        toTripDate: "",
+        travelType: 0,
+      },
+    ],
+  };
+  const [formData, setFormData] = useState(initialData);
+
   const limit = 200;
   const limit1 = 200;
 
-  const handleInput = () => {
+  const handleInput = (event) => {
     const textLength = event.target.value.length;
     setText(event.target.value);
-    // console.log(textLength);
   };
-  const handleInput1 = () => {
+  const handleInput1 = (event) => {
     const textLength1 = event.target.value.length;
     setText1(event.target.value);
-    // console.log(textLength1);
   };
-
-  // function myFunction(x) {
-  //   //x.type = "date";
-  //   alert("blurred!!");
-  // }
 
   const ref = useRef();
   const ref1 = useRef();
@@ -35,6 +59,72 @@ const Create = () => {
   const handleAnotherClick = () => {
     setOpen(!open);
     setForCarryClicked(!forCarryClicked);
+    // setTextColor(textColor ? "#85AEFF" : "black")
+  };
+
+  const handleChange = (event) => {
+    const value = event.target.value;
+
+    if (!isNaN(value)) {
+      const numeric = parseFloat(value);
+      if (numeric >= 0 && numeric <= 999) {
+        setInputValue(value);
+      }
+    }
+  };
+
+  const handleChange1 = (e) => {
+    const { name, value } = e.target;
+    if (name === "price") {
+      // Handle price input separately if needed
+      setFormData((prevData) => ({
+        ...prevData,
+        package: {
+          ...prevData.package,
+          [name]: value,
+        },
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+    // setFormData({ ...formData, [name]: value });
+  };
+
+  const handleStartDate = (date) => {
+    setStartDate(date);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(
+        "http://carryforus-001-site1.htempurl.com/api/Trip/Create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Data sents", data);
+      } else {
+        const errorData = await response.json();
+        console.error("Error sending datas:", errorData);
+        if (errorData.errors) {
+          console.log("Validation errorss:", errorData.errors);
+        }
+      }
+    } catch (error) {
+      console.error("Fetch errors:", error);
+    }
   };
 
   return (
@@ -76,14 +166,18 @@ const Create = () => {
             </div>
             <div className="text-center">
               <button
-                className={`text-[#C5D9FF] border border-[#C5D9FF] rounded-lg w-32 h-12 font-medium ${
+                className={`border border-[#C5D9FF] rounded-lg w-32 h-12 font-medium ${
                   forCarryClicked ? "bg-[#85AEFF]" : "bg-transparent"
-                }`}
+                } ${forCarryClicked ? "text-[#fff]" : "text-[#C5D9FF]"}`}
                 onClick={handleAnotherClick}
               >
                 For Carry
               </button>
-              <p className="text-[#C5D9FF] w-52 font-medium text-sm">
+              <p
+                className={`w-52 font-medium text-sm ${
+                  forCarryClicked ? "text-[#85AEFF]" : "text-[#C5D9FF]"
+                }`}
+              >
                 If you want to carry something, click on it
               </p>
             </div>
@@ -96,16 +190,17 @@ const Create = () => {
                   *
                 </span>
               </h2>
+              <form action=""></form>
               <textarea
-                className="border border-[#C5D9FF] rounded-lg p-2 resize-none w-64 placeholder:text-[#ACC9FF] focus:outline-none focus:border-[#C5D9FF]"
+                className="border border-[#C5D9FF] rounded-lg p-2 resize-none w-64 placeholder:text-[#ACC9FF] focus:outline-none focus:border-[#78A7FF]"
                 name="title"
                 id="title_textarea"
                 cols="25"
                 rows="2"
                 placeholder="Type here..."
                 style={{ letterSpacing: "0.4px" }}
-                onChange={handleInput}
-                value={text}
+                value={formData?.title}
+                onChange={handleChange1}
                 maxLength={200}
               ></textarea>
               <p
@@ -125,19 +220,18 @@ const Create = () => {
               <div className="">
                 <div>
                   <textarea
-                    className="border border-[#C5D9FF] rounded-lg p-2 resize-none placeholder:text-[#ACC9FF] focus:outline-none focus:border-[#C5D9FF]"
-                    name="title"
+                    className="border border-[#C5D9FF] rounded-lg p-2 resize-none placeholder:text-[#ACC9FF] focus:outline-none focus:border-[#78A7FF]"
+                    name="description"
                     id="title_textarea"
                     cols="30"
                     rows="3"
                     placeholder="Type here..."
                     style={{ letterSpacing: "0.4px" }}
-                    onChange={handleInput1}
-                    value={text1}
+                    onChange={handleChange1}
+                    value={formData?.description}
                     maxLength={200}
                   ></textarea>
                 </div>
-
                 <div className="">
                   <p
                     id="result"
@@ -152,7 +246,7 @@ const Create = () => {
 
           <div className="flex md:flex-row flex-col p-6 gap-20">
             <div className="">
-              <form action="" className="flex flex-col">
+              <form action="" className="flex flex-col" onSubmit={handleSubmit}>
                 <label htmlFor="" className="mb-1">
                   Category
                   <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
@@ -160,6 +254,7 @@ const Create = () => {
                   </span>
                 </label>
                 <input
+                  disabled
                   type="text"
                   className="border border-[#C5D9FF] rounded-md bg-[#F2F6FF] p-2 w-64 focus:outline-none focus:border-[#C5D9FF]"
                   placeholder="Document"
@@ -176,14 +271,20 @@ const Create = () => {
                   </span>
                 </label>
                 <input
+                  value={formData.package?.price}
+                  onChange={handleChange1}
+                  max="999"
+                  min="0"
                   type="text"
-                  className="border border-[#C5D9FF] rounded-lg p-2 w-28 focus:outline-none focus:border-[#C5D9FF]"
+                  className="border border-[#C5D9FF] rounded-lg p-2 w-28 focus:outline-none focus:border-[#78A7FF]
+                  "
                   placeholder="Amount"
+                  name="price"
                 />
               </form>
               <div className="">
                 <form action="" className="">
-                  <label htmlFor="" className="flex mb-1 mt-3">
+                  <label htmlFor="" className="flex mb-1 mt-2">
                     Currency
                     <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
                       *
@@ -191,6 +292,7 @@ const Create = () => {
                   </label>
                   <input
                     type="radio"
+                    checked={formData.package.currency === 0}
                     name="currency"
                     id="AznCurrency"
                     className="mr-1"
@@ -200,6 +302,7 @@ const Create = () => {
                   </label>
                   <input
                     type="radio"
+                    checked={formData.package.currency === 1}
                     name="currency"
                     id="UsdCurrency"
                     className="mr-1"
@@ -223,8 +326,11 @@ const Create = () => {
                     </label>
                     <input
                       type="text"
-                      className="border border-[#C5D9FF] rounded-md bg-[#F2F6FF] p-2 w-64 focus:outline-none focus:border-[#C5D9FF]"
-                      placeholder="Document"
+                      className="border border-[#C5D9FF] rounded-md p-2 w-64 focus:outline-none focus:border-[#78A7FF]
+                      "
+                      placeholder="City"
+                      value={formData.tripPlaceDetailAddModels.fromPlace}
+                      onChange={handleChange1}
                     />
                   </form>
                 </div>
@@ -237,14 +343,38 @@ const Create = () => {
                         *
                       </span>
                     </label>
-                    <input
-                      placeholder="DD/MM/YYYY"
-                      type="text"
-                      className="border border-[#C5D9FF] rounded-md bg-[#F2F6FF] p-2 w-64 focus:outline-none focus:border-[#C5D9FF]"
-                      ref={ref1}
-                      onFocus={() => (ref1.current.type = "date")}
-                      onBlur={() => (ref1.current.type = "text")}
-                    />
+                    <div className="relative">
+                      {/* <DatePicker
+                        selected={startDate}
+                        onChange={(date) => {
+                          handleChange1({
+                            target: { name: "fromTripDate", value: date },
+                          });
+                          handleStartDate(date);
+                        }}
+                        className="border border-[#C5D9FF] rounded-md p-2 w-64 focus:outline-none focus:border-[#C5D9FF]  placeholder:text-[#ACC9FF]"
+                        placeholderText="DD/MM/YYYY"
+                        value={
+                          formData.tripPlaceDetailAddModels[0]?.fromTripDate
+                        }
+                      /> */}
+                      <DatePicker
+  selected={startDate}
+  onChange={(date) => {
+    handleChange1({
+      target: { name: "toTripDate", value: date },
+    });
+    handleStartDate(date);
+  }}
+  showTimeSelect
+  timeFormat="HH:mm"
+  timeIntervals={15}
+  dateFormat="dd/MM/yyyy HH:mm"
+  className="border border-[#C5D9FF] rounded-md p-2 w-64 focus:outline-none focus:border-[#C5D9FF] placeholder:text-[#ACC9FF]"
+  placeholderText="DD/MM/YYYY HH:mm"
+  value={formData.tripPlaceDetailAddModels[0]?.toTripDate}
+/>
+                    </div>
                     <Image
                       src="/date.png"
                       width={20}
@@ -267,8 +397,10 @@ const Create = () => {
                     </label>
                     <input
                       type="text"
-                      className="border border-[#C5D9FF] rounded-md bg-[#F2F6FF] p-2 w-64 focus:outline-none focus:border-[#C5D9FF]"
-                      placeholder="Document"
+                      className="border border-[#C5D9FF] rounded-md p-2 w-64 focus:outline-none focus:border-[#78A7FF]"
+                      placeholder="City"
+                      value={formData.tripPlaceDetailAddModels.toPlace}
+                      onChange={handleChange1}
                     />
                   </form>
                 </div>
@@ -281,17 +413,20 @@ const Create = () => {
                         *
                       </span>
                     </label>
-
-                    <input
-                      placeholder="DD/MM/YYYY"
-                      type="text"
-                      //  onFocus={this.type = `date`}
-                      //  onBlur={this.type = `text`}
-                      ref={ref}
-                      onFocus={() => (ref.current.type = "date")}
-                      onBlur={() => (ref.current.type = "text")}
-                      className="border border-[#C5D9FF] rounded-md bg-[#F2F6FF] p-2 w-64 focus:outline-none focus:border-[#C5D9FF]"
-                    />
+                    <div className="relative">
+                      <DatePicker
+                        selected={startDate}
+                        onChange={(date) => {
+                          handleChange1({
+                            target: { name: "toTripDate", value: date },
+                          });
+                          handleStartDate(date);
+                        }}
+                        className="border border-[#C5D9FF] rounded-md p-2 w-64 focus:outline-none focus:border-[#C5D9FF]  placeholder:text-[#ACC9FF]"
+                        placeholderText="DD/MM/YYYY"
+                        value={formData.tripPlaceDetailAddModels[0]?.toTripDate}
+                      />
+                    </div>
                     <Image
                       src="/date.png"
                       width={20}
@@ -317,7 +452,7 @@ const Create = () => {
                       value="Bus"
                       id="bus"
                       name="transport"
-                      className="mr-1"
+                      className="mr-1 cursor-pointer"
                     />
                     <label htmlFor="bus" className="mr-5">
                       Bus
@@ -366,37 +501,23 @@ const Create = () => {
                 </div>
 
                 <div className="self-center">
-                  <button className="rounded-md bg-[#A8C6FF] h-10 w-36 text-white font-medium">
+                  <button className="rounded-sm bg-[#A8C6FF] h-10 w-36 text-white font-medium">
                     Add another
                   </button>
                 </div>
               </div>
             </div>
           )}
-
-          {/* <div className="">
-            <div>
-              <h2 htmlFor="">From</h2>
-              <input
-                type="text"
-                placeholder="City"
-                className="border border-[#C5D9FF] p-1"
-              />
+          <form action="" onSubmit={handleSubmit}>
+            <div className="text-right flex justify-end gap-6 mt-4">
+              <button className="rounded-lg border-2 border-[#85AEFF] h-11 w-32 text-[#85AEFF] font-medium">
+                Cancel
+              </button>
+              <button className="rounded-lg bg-[#A8C6FF] h-11 w-32 text-white font-medium">
+                Save
+              </button>
             </div>
-            <div>
-              <h2>Date</h2>
-              <input type="date" />
-            </div>
-          </div> */}
-
-          <div className="text-right flex justify-end gap-6 mt-4">
-            <button className="rounded-lg border-2 border-[#85AEFF] h-11 w-32 text-[#85AEFF] font-medium">
-              Cancel
-            </button>
-            <button className="rounded-lg bg-[#A8C6FF] h-11 w-32 text-white font-medium">
-              Save
-            </button>
-          </div>
+          </form>
         </div>
       </div>
     </>

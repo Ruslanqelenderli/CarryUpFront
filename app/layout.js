@@ -11,7 +11,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-
+{/* <link href="/person.png" rel="icon" type="image/png"></link> */}
 
       <body >
         <Toaster position="bottom-center" />

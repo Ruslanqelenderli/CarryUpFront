@@ -32,7 +32,7 @@ export default function SignUp() {
     }
 
     try {
-      const response = await fetch('http://carryuptest.somee.com/api/Manage/Register', {
+      const response = await fetch('http://carryforus-001-site1.htempurl.com/api/Manage/Register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -171,7 +171,7 @@ export default function SignUp() {
                   Phone Number
                 </label>
                 <input
-                  style={{ borderImage: "linear-gradient(to right, #f8ccfd, #cbfbff) 1" }} 
+                  style={{ borderImage: "linear-gradient(to right, #f8ccfd, #cbfbff) 1" }}
                   className={`block w-full text-gray-400 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ${styles.phoneNumber}`}
                   id="grid-last-name"
                   type="text"
@@ -262,7 +262,7 @@ export default function SignUp() {
             </div>
             <div className="flex justify-center items-center mb-2">
               <FaPhoneAlt
-                style={{ background: "#746bd4"}}
+                style={{ background: "#746bd4" }}
                 className="text-white bg-violet-800 rounded-xl w-5 h-5 p-1 cursor-pointer"
               />
               <span
