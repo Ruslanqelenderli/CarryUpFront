@@ -4,6 +4,7 @@ import Image from "next/image";
 import Navbar1 from "../components/navbar1";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import TableList from "../components/tableList";
 
 const Create = () => {
   const [text, setText] = useState("");
@@ -13,7 +14,10 @@ const Create = () => {
   const [forCarryClicked, setForCarryClicked] = useState(false);
   const [forSendClicked, setForSendClicked] = useState(false);
   const [sendButtonColor, setSendButtonColor] = useState("#C5D9FF");
+  const [tableData, setTableData] = useState([]);
   const [carryButtonColor, setCarryButtonColor] = useState("#C5D9FF");
+  const [showTableList, setShowTableList] = useState(false);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -31,37 +35,56 @@ const Create = () => {
     tripPlaceDetailAddModels: [
       {
         fromPlace: "",
-        fromTripDate: "2024-01-18",
+        fromTripDate: "",
         toPlace: "",
-        toTripDate: "2024-01-18",
+        toTripDate: "",
         travelType: 0,
-      },
-      {
-        tit: "wefewfwe",
       },
     ],
   });
 
+  const transportEnum = {
+    Bus: 0,
+    Plane: 1,
+    Car: 2,
+    Ship: 3,
+    Train: 4,
+  };
+
   const handleChange = (e, index) => {
-    // const newData = { ...formData };
-    // newData[e.target] = e.target.value;
-    // setFormData(newData);
     const { name, value } = e.target;
-    setFormData((formData) => ({
-      ...formData,
-      [name]: value,
-      package: {
-        ...formData.package,
-        [name]: value,
-      },
-      tripPlaceDetailAddModels: formData.tripPlaceDetailAddModels.map(
-        (item, i) => (i === index ? { ...item, [name]: value } : item)
-      ),
-      // package: {
-      //   ...formData.package,
-      //   [name]: value,
-      // },
-    }));
+    const values = e.target.value === "azn" ? 1 : 0;
+    const selectedTransport = e.target.value;
+    const travelType = transportEnum[selectedTransport];
+    setFormData((prevFormData) => {
+      if (name.startsWith("tripPlaceDetailAddModels")) {
+        // Handle changes in tripPlaceDetailAddModels array
+        const newTripPlaceDetailAddModels = [
+          ...prevFormData.tripPlaceDetailAddModels,
+          travelType,
+        ];
+        newTripPlaceDetailAddModels[index] = {
+          ...newTripPlaceDetailAddModels[index],
+          [name.split(".")[1]]: value,
+        };
+
+        return {
+          ...prevFormData,
+          tripPlaceDetailAddModels: newTripPlaceDetailAddModels,
+        };
+      } else {
+        // Handle changes in other fields
+        return {
+          ...prevFormData,
+          [name]: value,
+          package: {
+            ...prevFormData.package,
+            [name]: value,
+            currency: values,
+          },
+        };
+      }
+    });
   };
   useEffect(() => {
     console.log("formData", formData);
@@ -91,6 +114,31 @@ const Create = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setTableData((prevTableData) => [...prevTableData, formData]);
+    setFormData({
+      title: "",
+      description: "",
+      package: {
+        currency: 0,
+        price: "",
+        count: 0,
+        deadline: "2024-01-18T07:46:39.258Z",
+        packageCategoryId: 0,
+        packageSubCategoryId: 0,
+      },
+      case: {
+        userId: "123e4567-e89b-12d3-a456-426614174001",
+      },
+      tripPlaceDetailAddModels: [
+        {
+          fromPlace: "",
+          fromTripDate: "",
+          toPlace: "",
+          toTripDate: "",
+          travelType: 0,
+        },
+      ],
+    });
     try {
       const response = await fetch(
         "http://carryforus-001-site1.htempurl.com/api/Trip/Create",
@@ -116,6 +164,29 @@ const Create = () => {
     } catch (error) {
       console.error("Fetch errors:", error);
     }
+  };
+
+  function maxLengthCheck(num) {
+    if (num.value.length > num.maxLength) {
+      num.value = num.value.slice(0, num.maxLength);
+    }
+  }
+
+  const handleAddAnother = () => {
+    setTableData((prevTableData) => [...prevTableData, formData]);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      tripPlaceDetailAddModels: [
+        {
+          fromPlace: "",
+          fromTripDate: "",
+          toPlace: "",
+          toTripDate: "",
+          travelType: 0,
+        },
+      ],
+    }));
+    setShowTableList(true); // Show the TableList when adding another entry
   };
 
   return (
@@ -184,7 +255,7 @@ const Create = () => {
                 </p>
               </div>
             </div>
-            <div className="flex md:flex-row flex-col mt-4  p-6 gap-20">
+            <div className="flex md:flex-row flex-col mt-4 p-6 gap-20">
               <div className="font-semibold text-lg">
                 <h2 htmlFor="#" className="text-[#4A4A4A] font-semibold mb-1">
                   Title
@@ -272,6 +343,8 @@ const Create = () => {
                     type="number"
                     className="border border-[#C5D9FF] rounded-md bg-[#F2F6FF] p-2 w-20 focus:outline-none focus:border-[#C5D9FF]"
                     placeholder="1"
+                    // value={formData.package.count}
+                    // onChange={(e) => handleChange(e, 0)}
                   />
                 </div>
               </div>
@@ -287,13 +360,16 @@ const Create = () => {
                   <input
                     value={formData.package.price}
                     onChange={handleChange}
+                    onInput={(e) => maxLengthCheck(e.target)}
                     max="999"
                     min="0"
-                    type="text"
+                    maxLength={3}
+                    type="number"
                     className="border border-[#C5D9FF] rounded-lg p-2 w-28
                    focus:outline-none focus:border-[#78A7FF]"
                     placeholder="Amount"
                     name="price"
+                    pattern="[0-9]*"
                   />
                 </div>
 
@@ -312,6 +388,9 @@ const Create = () => {
                     name="currency"
                     id="AznCurrency"
                     className="mr-1"
+                    value="azn"
+                    checked={formData.package.currency === 1}
+                    onChange={handleChange}
                   />
                   <label htmlFor="AznCurrency" className="mr-2">
                     AZN
@@ -321,6 +400,9 @@ const Create = () => {
                     name="currency"
                     id="UsdCurrency"
                     className="mr-1"
+                    value="usd"
+                    checked={formData.package.currency === 0}
+                    onChange={handleChange}
                   />
                   <label htmlFor="UsdCurrency">USD</label>
                 </div>
@@ -329,7 +411,7 @@ const Create = () => {
 
             {openSend && (
               <>
-                <div className="flex flex-row p-6 gap-20">
+                <div className="flex flex-col p-6 gap-20 md:flex-row">
                   <div className="flex flex-col">
                     <label htmlFor="">
                       From
@@ -394,7 +476,8 @@ const Create = () => {
                       type="text"
                       className="border border-[#C5D9FF] rounded-md p-2 w-64 focus:outline-none focus:border-[#C5D9FF]"
                       placeholder="City"
-                      value={formData.tripPlaceDetailAddModels[0].fromPlace}
+                      // value={formData.tripPlaceDetailAddModels[0].fromPlace}
+                      name={`tripPlaceDetailAddModels[0].fromPlace`}
                       onChange={(e) => handleChange(e, 0)}
                     />
                   </div>
@@ -409,8 +492,9 @@ const Create = () => {
                       type="date"
                       className="border border-[#C5D9FF] rounded-md p-2 w-64 focus:outline-none focus:border-[#C5D9FF]"
                       placeholder="City"
-                      value={formData.tripPlaceDetailAddModels[0].fromTripDate}
-                      onChange={handleChange}
+                      name={`tripPlaceDetailAddModels[0].fromTripDate`}
+                      // value={formData.tripPlaceDetailAddModels[0].fromTripDate}
+                      onChange={(e) => handleChange(e, 0)}
                     />
                   </div>
                 </div>
@@ -427,7 +511,8 @@ const Create = () => {
                       type="text"
                       className="border border-[#C5D9FF] rounded-md p-2 w-64 focus:outline-none focus:border-[#C5D9FF]"
                       placeholder="City"
-                      value={formData.tripPlaceDetailAddModels[0].toPlace}
+                      // value={formData.tripPlaceDetailAddModels[0].toPlace}
+                      name={`tripPlaceDetailAddModels[0].toPlace`}
                       onChange={(e) => handleChange(e, 0)}
                     />
                   </div>
@@ -442,8 +527,9 @@ const Create = () => {
                       type="date"
                       className="border border-[#C5D9FF] rounded-m p-2 w-64 focus:outline-none focus:border-[#C5D9FF]"
                       placeholder="City"
-                      value={formData.tripPlaceDetailAddModels[0].toTripDate}
-                      onChange={handleChange}
+                      name={`tripPlaceDetailAddModels[0].toTripDate`}
+                      // value={formData.tripPlaceDetailAddModels[0].toTripDate}
+                      onChange={(e) => handleChange(e, 0)}
                     />
                   </div>
                 </div>
@@ -456,10 +542,13 @@ const Create = () => {
                       Transport
                     </label>
                     <select
+                      onChange={handleChange}
                       id="countries"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
-                      <option selected>Choose transport</option>
+                      <option selected disabled>
+                        Choose transport
+                      </option>
                       <option value="Bus">Bus</option>
                       <option value="Car">Car</option>
                       <option value="Plane">Plane</option>
@@ -469,34 +558,37 @@ const Create = () => {
                   </div>
 
                   <div className="self-center mt-6">
-                    <button className="rounded-sm bg-[#A8C6FF] h-10 w-36 text-white font-medium">
+                    <button
+                      className="rounded-sm bg-[#A8C6FF] h-10 w-36 text-white font-medium"
+                      onClick={handleAddAnother}
+                    >
                       Add another
                     </button>
                   </div>
                 </div>
-                <table>
-  <thead>
-    <tr>
-      <th>From Place</th>
-      <th>From Trip Date</th>
-      <th>To Place</th>
-      <th>To Trip Date</th>
-    </tr>
-  </thead>
-  <tbody>
-    {formData.tripPlaceDetailAddModels.map((item, index) => (
-      <tr key={index}>
-        <td>{item.fromPlace}</td>
-        <td>{item.fromTripDate}</td>
-        <td>{item.toPlace}</td>
-        <td>{item.toTripDate}</td>
-      </tr>
-    ))}
-  </tbody>
-</table>
+                {/* <table>
+                  <thead>
+                    <tr>
+                      <th>From Place</th>
+                      <th>From Trip Date</th>
+                      <th>To Place</th>
+                      <th>To Trip Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {formData.tripPlaceDetailAddModels.map((item, index) => (
+                      <tr key={index}>
+                        <td>{item.fromPlace}</td>
+                        <td>{item.fromTripDate}</td>
+                        <td>{item.toPlace}</td>
+                        <td>{item.toTripDate}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table> */}
+                {showTableList && <TableList data={tableData} />}
               </div>
             )}
-
             <div className="text-right flex justify-end gap-6 mt-4">
               <button className="rounded-lg border-2 border-[#85AEFF] h-11 w-32 text-[#85AEFF] font-medium">
                 Cancel
