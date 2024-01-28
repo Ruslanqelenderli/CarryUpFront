@@ -15,7 +15,6 @@ const Navbar = () => {
           src="/images/carry.png"
           className="h-6"
           width={110}
-          
           height={70}
           alt="Carry UP"
           priority={true}

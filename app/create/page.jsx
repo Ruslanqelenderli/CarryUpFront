@@ -5,6 +5,7 @@ import Navbar1 from "../components/navbar1";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import TableList from "../components/tableList";
+import { travelType } from "../components/constant";
 
 const Create = () => {
   const [text, setText] = useState("");
@@ -17,13 +18,14 @@ const Create = () => {
   const [tableData, setTableData] = useState([]);
   const [carryButtonColor, setCarryButtonColor] = useState("#C5D9FF");
   const [showTableList, setShowTableList] = useState(false);
-
+  const [buttonBackgroundColor, setButtonBackgroundColor] = useState("#B0CBFF");
+  const [saveBackground, setSaveButtonBackground] = useState("#A8C6FF");
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     package: {
       currency: 0,
-      price: "",
+      price: 0,
       count: 0,
       deadline: "2024-01-18T07:46:39.258Z",
       packageCategoryId: 0,
@@ -38,27 +40,34 @@ const Create = () => {
         fromTripDate: "",
         toPlace: "",
         toTripDate: "",
-        travelType: 0,
+        travelType: "",
+      },
+    ],
+    sendPlaceDetailAddModels: [
+      {
+        fromPlace: "",
+        catchDate: "2024-01-28T22:34:08.460Z",
+        toPlace: "",
       },
     ],
   });
 
   const transportEnum = {
-    Bus: 0,
-    Plane: 1,
-    Car: 2,
-    Ship: 3,
-    Train: 4,
+    BUS: "Bus",
+    PLANE: "Plane",
+    CAR: "Car",
+    SHIP: "Ship",
+    TRAIN: "Train",
   };
+  // debugger;
 
+  // console.log("enum", transportEnum);
   const handleChange = (e, index) => {
     const { name, value } = e.target;
-    const values = e.target.value === "azn" ? 1 : 0;
-    const selectedTransport = e.target.value;
-    const travelType = transportEnum[selectedTransport];
+    const values = value === "azn" ? 1 : 0;
+    const travelType = transportEnum[value]; // Use 'value' to get the selected transport type
     setFormData((prevFormData) => {
       if (name.startsWith("tripPlaceDetailAddModels")) {
-        // Handle changes in tripPlaceDetailAddModels array
         const newTripPlaceDetailAddModels = [
           ...prevFormData.tripPlaceDetailAddModels,
           travelType,
@@ -73,22 +82,47 @@ const Create = () => {
           tripPlaceDetailAddModels: newTripPlaceDetailAddModels,
         };
       } else {
-        // Handle changes in other fields
         return {
           ...prevFormData,
           [name]: value,
           package: {
             ...prevFormData.package,
             [name]: value,
+            count: name === "count" ? value : prevFormData.package.count,
             currency: values,
           },
         };
       }
     });
+    console.log("target", e.target.value);
   };
+
+  // console.log("form", travelType);
   useEffect(() => {
-    console.log("formData", formData);
+    console.log(formData);
+    setButtonBackgroundColor(areAllFieldsFilled() ? "#85AEFF" : "#B0CBFF");
+    setSaveButtonBackground(areAllFieldsFilled() ? "#669AFF" : "#A8C6FF");
   }, [formData]);
+
+  const areAllFieldsFilled = () => {
+    const requiredFields = [
+      formData.title,
+      formData.description,
+      formData.package.price,
+      formData.package.currency,
+      formData.tripPlaceDetailAddModels[0].fromTripDate,
+      formData.tripPlaceDetailAddModels[0].fromPlace,
+      formData.tripPlaceDetailAddModels[0].toTripDate,
+      formData.tripPlaceDetailAddModels[0].toPlace,
+      formData.tripPlaceDetailAddModels[0].travelType,
+    ];
+
+    // return requiredFields.every((field) => field.trim() !== '');
+    return requiredFields.every(
+      (field) =>
+        field !== undefined && field !== null && field.toString().trim() !== ""
+    );
+  };
 
   const limit = 200;
   const limit1 = 200;
@@ -121,7 +155,7 @@ const Create = () => {
       package: {
         currency: 0,
         price: "",
-        count: 0,
+        count: "",
         deadline: "2024-01-18T07:46:39.258Z",
         packageCategoryId: 0,
         packageSubCategoryId: 0,
@@ -135,7 +169,7 @@ const Create = () => {
           fromTripDate: "",
           toPlace: "",
           toTripDate: "",
-          travelType: 0,
+          travelType: "",
         },
       ],
     });
@@ -182,11 +216,32 @@ const Create = () => {
           fromTripDate: "",
           toPlace: "",
           toTripDate: "",
-          travelType: 0,
+          travelType: "",
         },
       ],
     }));
     setShowTableList(true); // Show the TableList when adding another entry
+  };
+
+  const handleButtonClick2 = () => {
+    // Make POST request to API 2 with formData
+    fetch("http://carryforus-001-site1.htempurl.com/api/Send/Create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // Add any other headers if needed
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle API 2 response
+        console.log("API 2 response:", data);
+      })
+      .catch((error) => {
+        // Handle error for API 2
+        console.error("Error making API 2 request:", error);
+      });
   };
 
   return (
@@ -226,6 +281,7 @@ const Create = () => {
                     forSendClicked ? "text-[#fff]" : "text-[#C5D9FF]"
                   }`}
                   onClick={handleClickSend}
+                  type="button"
                 >
                   For Send
                 </button>
@@ -243,6 +299,7 @@ const Create = () => {
                     forCarryClicked ? "bg-[#85AEFF]" : "bg-transparent"
                   } ${forCarryClicked ? "text-[#fff]" : "text-[#C5D9FF]"}`}
                   onClick={handleAnotherClick}
+                  type="button"
                 >
                   For Carry
                 </button>
@@ -328,11 +385,11 @@ const Create = () => {
                   <input
                     disabled
                     type="text"
-                    className="border border-[#C5D9FF] rounded-md bg-[#F2F6FF] p-2 w-40 focus:outline-none focus:border-[#C5D9FF]"
+                    className="border border-[#C5D9FF] placeholder:text-[#717171] rounded-md bg-[#F2F6FF] p-2 w-40 focus:outline-none focus:border-[#C5D9FF] cursor-not-allowed"
                     placeholder="Document"
                   />
                 </div>
-                <div className="flex flex-col">
+                {/* <div className="flex flex-col">
                   <label htmlFor="" className="mb-1">
                     Count
                     <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
@@ -343,10 +400,10 @@ const Create = () => {
                     type="number"
                     className="border border-[#C5D9FF] rounded-md bg-[#F2F6FF] p-2 w-20 focus:outline-none focus:border-[#C5D9FF]"
                     placeholder="1"
-                    // value={formData.package.count}
-                    // onChange={(e) => handleChange(e, 0)}
+                    value={formData.package.count}
+                    onChange={handleChange}
                   />
-                </div>
+                </div> */}
               </div>
 
               <div className="flex gap-20">
@@ -366,7 +423,7 @@ const Create = () => {
                     maxLength={3}
                     type="number"
                     className="border border-[#C5D9FF] rounded-lg p-2 w-28
-                   focus:outline-none focus:border-[#78A7FF]"
+                   focus:outline-none focus:border-[#78A7FF] placeholder:text-[#ACC9FF]"
                     placeholder="Amount"
                     name="price"
                     pattern="[0-9]*"
@@ -374,7 +431,7 @@ const Create = () => {
                 </div>
 
                 <div className="">
-                  <label htmlFor="" className="flex mb-1 mt-2">
+                  <label htmlFor="" className="flex mt-1">
                     Currency
                     <span
                       className="text-[#FF5C00] font-semibold text-2xl transform
@@ -383,28 +440,33 @@ const Create = () => {
                       *
                     </span>
                   </label>
-                  <input
-                    type="radio"
-                    name="currency"
-                    id="AznCurrency"
-                    className="mr-1"
-                    value="azn"
-                    checked={formData.package.currency === 1}
+                  <select
                     onChange={handleChange}
-                  />
-                  <label htmlFor="AznCurrency" className="mr-2">
-                    AZN
-                  </label>
-                  <input
-                    type="radio"
-                    name="currency"
-                    id="UsdCurrency"
-                    className="mr-1"
-                    value="usd"
-                    checked={formData.package.currency === 0}
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="UsdCurrency">USD</label>
+                    id="countries"
+                    className="border border-[#C5D9FF] text-[#ACC9FF] text-sm rounded-lg block w-28 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                  >
+                    <option selected disabled>
+                      Choose
+                    </option>
+                    <option
+                      value="azn"
+                      name="azn"
+                      id="azn"
+                      checked={formData.package.currency === 1}
+                      onChange={handleChange}
+                    >
+                      Azn
+                    </option>
+                    <option
+                      value="usd"
+                      name="usd"
+                      id="usd"
+                      checked={formData.package.currency === 0}
+                      onChange={handleChange}
+                    >
+                      Usd
+                    </option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -455,8 +517,10 @@ const Create = () => {
                     type="date"
                     className="border border-[#C5D9FF] rounded-md p-2 w-64 focus:outline-none focus:border-[#C5D9FF]"
                     placeholder="DD/MM/YYYY"
+                    name={`sendPlaceDetailAddModels[0].catchDate`}
                     // value={formData.tripPlaceDetailAddModels[0].toPlace}
                     // onChange={handleChange}
+                    // onChange={}
                   />
                 </div>
               </>
@@ -536,64 +600,51 @@ const Create = () => {
                 <div className="flex flex-row p-6 gap-48">
                   <div>
                     <label
-                      for="countries"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      htmlFor="countries"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Transport
                     </label>
                     <select
-                      onChange={handleChange}
+                      onChange={(e) => handleChange(e)}
                       id="countries"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
                       <option selected disabled>
                         Choose transport
                       </option>
-                      <option value="Bus">Bus</option>
-                      <option value="Car">Car</option>
-                      <option value="Plane">Plane</option>
-                      <option value="Ship">Ship</option>
-                      <option value="Train">Train</option>
+                      <option value={transportEnum.BUS}>Bus</option>
+                      <option value={transportEnum.CAR}>Car</option>
+                      <option value={transportEnum.PLANE}>Plane</option>
+                      <option value={transportEnum.SHIP}>Ship</option>
+                      <option value={transportEnum.TRAIN}>Train</option>
                     </select>
                   </div>
 
                   <div className="self-center mt-6">
                     <button
-                      className="rounded-sm bg-[#A8C6FF] h-10 w-36 text-white font-medium"
+                      className="rounded-sm bg-[#A8C6FF] h-10 w-36 text-white font-medium cursor-pointer"
+                      style={{ backgroundColor: buttonBackgroundColor }}
                       onClick={handleAddAnother}
+                      disabled={!areAllFieldsFilled()}
                     >
                       Add another
                     </button>
                   </div>
                 </div>
-                {/* <table>
-                  <thead>
-                    <tr>
-                      <th>From Place</th>
-                      <th>From Trip Date</th>
-                      <th>To Place</th>
-                      <th>To Trip Date</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {formData.tripPlaceDetailAddModels.map((item, index) => (
-                      <tr key={index}>
-                        <td>{item.fromPlace}</td>
-                        <td>{item.fromTripDate}</td>
-                        <td>{item.toPlace}</td>
-                        <td>{item.toTripDate}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table> */}
                 {showTableList && <TableList data={tableData} />}
               </div>
             )}
             <div className="text-right flex justify-end gap-6 mt-4">
-              <button className="rounded-lg border-2 border-[#85AEFF] h-11 w-32 text-[#85AEFF] font-medium">
+              <button className="rounded-lg border-2 border-[#85AEFF] h-11 w-32 text-[#85AEFF] font-medium cursor-pointer">
                 Cancel
               </button>
-              <button className="rounded-lg bg-[#A8C6FF] h-11 w-32 text-white font-medium">
+              <button
+                className="rounded-lg bg-[#A8C6FF] h-11 w-32 text-white font-medium cursor-pointer"
+                style={{ backgroundColor: saveBackground }}
+                // onClick={handleAddAnother}
+                disabled={!areAllFieldsFilled()}
+              >
                 Save
               </button>
             </div>
