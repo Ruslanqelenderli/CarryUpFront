@@ -13,13 +13,12 @@ label {
   font-weight: 500;
 }
 input ,select {
-  /* border-radius: 8px; */
+  border-radius: 8px;
   /* border: 1px solid #b632ff6b; */
 }
 
 input::placeholder {
   font-weight: 500;
-
   color: #cfcaff;
 }
 
