@@ -268,21 +268,19 @@ function MainPage() {
             <form onSubmit={handleSubmit}>
               <div className="flex mb-5 justify-between px-3">
                 <button
-                  className={`ml-3 bg-white ${
-                    activeButton === "forCarry"
-                      ? "border-[#b532ff75] border-solid border shadow-md px-4 py-1.5 rounded-md text-[#AEA6FD] "
-                      : "bg-transparent  font-semibold  py-1.5 px-4 border text-[#aea6fd7d]   rounded-md "
-                  }`}
+                  className={`ml-3 bg-white ${activeButton === "forCarry"
+                    ? "border-[#b532ff75] border-solid border shadow-md px-4 py-1.5 rounded-md text-[#AEA6FD] "
+                    : "bg-transparent  font-semibold  py-1.5 px-4 border text-[#aea6fd7d]   rounded-md "
+                    }`}
                   onClick={() => handleButtonClick("forCarry")}
                 >
                   For Carry
                 </button>
                 <button
-                  className={`bg-white ${
-                    activeButton === "forSend"
-                      ? "border-[#b532ff75] text-[#AEA6FD] border-solid border shadow-md px-4 py-1.5 rounded-md "
-                      : "bg-transparent  font-semibold  py-1.5 px-4 border text-[#aea6fd7d]   rounded-md "
-                  }`}
+                  className={`bg-white ${activeButton === "forSend"
+                    ? "border-[#b532ff75] text-[#AEA6FD] border-solid border shadow-md px-4 py-1.5 rounded-md "
+                    : "bg-transparent  font-semibold  py-1.5 px-4 border text-[#aea6fd7d]   rounded-md "
+                    }`}
                   onClick={() => handleButtonClick("forSend")}
                 >
                   For Send
@@ -366,7 +364,7 @@ function MainPage() {
                           >
                             {Object.entries(currency).map((v) => (
                               <>
-                                <option  value={v[1]} >
+                                <option value={v[1]} >
                                   {v[0]}
                                 </option>
                               </>
@@ -397,7 +395,7 @@ function MainPage() {
                           >
                             {Object.entries(currency).map((v) => (
                               <>
-                                <option  value={v[1]}>
+                                <option value={v[1]}>
                                   {v[0]}
                                 </option>
                               </>
@@ -548,7 +546,7 @@ function MainPage() {
                           >
                             {Object.entries(currency).map((v) => (
                               <>
-                                <option  value={v[1]}>
+                                <option value={v[1]}>
                                   {v[0]}
                                 </option>
                               </>
@@ -579,7 +577,7 @@ function MainPage() {
                           >
                             {Object.entries(currency).map((v) => (
                               <>
-                                <option  value={v[1]}>
+                                <option value={v[1]}>
                                   {v[0]}
                                 </option>
                               </>
@@ -650,10 +648,9 @@ function MainPage() {
                 Clear all
               </button>
               <button
-              disabled={activeButton === "forCarry" ? !formData.minPackagePrice && !formData.maxPackagePrice : !sendFormData.minPackagePrice && !sendFormData.maxPackagePrice}
-                className={` ${
-                  activeButton == "forCarry" ? "bg-[#75B4FF]" : "bg-[#BFABDF]"
-                }  text-white  font-semibold  px-6 py-1.5 border    rounded-md `}
+                disabled={activeButton === "forCarry" ? !formData.minPackagePrice && !formData.maxPackagePrice : !sendFormData.minPackagePrice && !sendFormData.maxPackagePrice}
+                className={` ${activeButton == "forCarry" ? "bg-[#75B4FF]" : "bg-[#BFABDF]"
+                  }  text-white  font-semibold  px-6 py-1.5 border    rounded-md `}
                 onClick={() =>
                   activeButton === "forCarry"
                     ? getTrips(tripCurrentPage)
@@ -695,11 +692,11 @@ function MainPage() {
                   <>
                     <div className="bg-white border box 2xl:mb-6  xl:mb-0 lg:mb-0 relative pt-4 pb-8 border-[#A0CCFF] border-solid rounded-[1rem]  h-[12rem] max-h-[16rem] hover:bg-[#449aff29] hover:border-[#0E6FE1] hover:shadow-xl transition duration-700 ease-in-out">
                       <div className="flex px-4 justify-between ">
-                      <div className="capitalize text-[#2F8EFF] font-semibold">
-                        {v?.tripPlaceDetails[0]?.fromPlace.length > 4 ?   
-                        <SecondTooltip text={v?.tripPlaceDetails[0]?.fromPlace}>
-                          { v?.tripPlaceDetails[0]?.fromPlace.slice(0,4) + "..." }
-                        </SecondTooltip> : v?.tripPlaceDetails[0]?.fromPlace }
+                        <div className="capitalize text-[#2F8EFF] font-semibold">
+                          {v?.tripPlaceDetails[0]?.fromPlace.length > 4 ?
+                            <SecondTooltip text={v?.tripPlaceDetails[0]?.fromPlace}>
+                              {v?.tripPlaceDetails[0]?.fromPlace.slice(0, 4) + "..."}
+                            </SecondTooltip> : v?.tripPlaceDetails[0]?.fromPlace}
                         </div>
                         <div
                           className="w-44 "
@@ -711,7 +708,7 @@ function MainPage() {
                           }}
                         >
                           {v?.tripPlaceDetails[0]?.travelType ==
-                          travelType.Plane ? (
+                            travelType.Plane ? (
                             <>
                               <Image
                                 src="/icons/airplane1.png"
@@ -773,13 +770,13 @@ function MainPage() {
                           ) : null}
                         </div>
                         <div className="capitalize text-[#2F8EFF] font-semibold">
-                        {v?.tripPlaceDetails[0]?.toPlace.length > 4 ?   
-                        <SecondTooltip text={v?.tripPlaceDetails[0]?.toPlace}>
-                          { v?.tripPlaceDetails[0]?.toPlace.slice(0,4) + "..." }
-                        </SecondTooltip> : v?.tripPlaceDetails[0]?.toPlace }
+                          {v?.tripPlaceDetails[0]?.toPlace.length > 4 ?
+                            <SecondTooltip text={v?.tripPlaceDetails[0]?.toPlace}>
+                              {v?.tripPlaceDetails[0]?.toPlace.slice(0, 4) + "..."}
+                            </SecondTooltip> : v?.tripPlaceDetails[0]?.toPlace}
                         </div>
-                        
-                      
+
+
 
                         <div className="distanceBox ">
                           <div>
@@ -839,7 +836,7 @@ function MainPage() {
                                           </div>
                                           <div className="mx-2">
                                             {v?.travelType ==
-                                            travelType.Plane ? (
+                                              travelType.Plane ? (
                                               <>
                                                 <Image
                                                   src="/icons/airplane2.png"
@@ -954,8 +951,8 @@ function MainPage() {
                             <span className="text-[#2F8EFF] font-medium">
                               {v?.tripPlaceDetails
                                 ? moment(
-                                    v?.tripPlaceDetails[0]?.fromTripDate
-                                  ).format("DD.MM.YYYY")
+                                  v?.tripPlaceDetails[0]?.fromTripDate
+                                ).format("DD.MM.YYYY")
                                 : null}
                             </span>
                           </p>
@@ -965,8 +962,8 @@ function MainPage() {
                             <span className="text-[#2F8EFF] font-medium">
                               {v?.tripPlaceDetails
                                 ? moment(
-                                    v?.tripPlaceDetails[0]?.toTripDate
-                                  ).format("DD.MM.YYYY")
+                                  v?.tripPlaceDetails[0]?.toTripDate
+                                ).format("DD.MM.YYYY")
                                 : null}
                             </span>
                           </p>
@@ -1052,7 +1049,7 @@ function MainPage() {
               />
             </>
           )}
-{sendLoading && (
+          {sendLoading && (
             <div role="status " className="absolute left-[50%] top-[50%]">
               <svg
                 aria-hidden="true"
@@ -1080,13 +1077,13 @@ function MainPage() {
                   <>
                     <div className="bg-white border box 2xl:mb-6  xl:mb-0 lg:mb-0 relative pt-4 pb-8  hover:bg-[#a784f22e] border-[#8E65E7] border-solid rounded-[1rem]  h-[12rem] max-h-[16rem]  hover:border-[#7F4BED] hover:shadow-xl transition duration-700 ease-in-out">
                       <div className="flex px-4 ">
-                      <div className="capitalize text-[#8E65E7] font-semibold">
-                        {v?.sendPlaceDetails[0]?.fromPlace.length > 4 ?   
-                        <SecondTooltip text={v?.sendPlaceDetails[0]?.fromPlace}>
-                          { v?.sendPlaceDetails[0]?.fromPlace.slice(0,4) + "..." }
-                        </SecondTooltip> : v?.sendPlaceDetails[0]?.fromPlace }
+                        <div className="capitalize text-[#8E65E7] font-semibold">
+                          {v?.sendPlaceDetails[0]?.fromPlace.length > 4 ?
+                            <SecondTooltip text={v?.sendPlaceDetails[0]?.fromPlace}>
+                              {v?.sendPlaceDetails[0]?.fromPlace.slice(0, 4) + "..."}
+                            </SecondTooltip> : v?.sendPlaceDetails[0]?.fromPlace}
                         </div>
-                      
+
                         <div
                           className="w-44 "
                           style={{
@@ -1106,10 +1103,10 @@ function MainPage() {
                           />
                         </div>
                         <div className="capitalize text-[#8E65E7] font-semibold">
-                        {v?.sendPlaceDetails[0]?.toPlace.length > 4 ?   
-                        <SecondTooltip text={v?.sendPlaceDetails[0]?.toPlace}>
-                          { v?.sendPlaceDetails[0]?.toPlace.slice(0,4) + "..." }
-                        </SecondTooltip> : v?.sendPlaceDetails[0]?.toPlace }
+                          {v?.sendPlaceDetails[0]?.toPlace.length > 4 ?
+                            <SecondTooltip text={v?.sendPlaceDetails[0]?.toPlace}>
+                              {v?.sendPlaceDetails[0]?.toPlace.slice(0, 4) + "..."}
+                            </SecondTooltip> : v?.sendPlaceDetails[0]?.toPlace}
                         </div>
 
                         <div>
@@ -1145,7 +1142,7 @@ function MainPage() {
                           <p className="text-[#5C5C5C] font-medium">
                             Date of appointment:{" "}
                             <span className="text-[#8E65E7] font-medium">
-                             {moment(v?.sendPlaceDetails[0]?.catchDate).format("DD.MM.YYYY")}
+                              {moment(v?.sendPlaceDetails[0]?.catchDate).format("DD.MM.YYYY")}
                             </span>
                           </p>
                         </div>

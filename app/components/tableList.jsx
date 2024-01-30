@@ -1,7 +1,7 @@
 import React from "react";
 
 const TableList = ({ data }) => {
-  console.log("datas", data);
+  // console.log("datas", data);
   return (
     <div className="p-6">
       <table>
@@ -15,12 +15,13 @@ const TableList = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
-            <tr key={index} className="text-center">
-              <td>{item.tripPlaceDetailAddModels[0].fromPlace}</td>
-              <td>{item.tripPlaceDetailAddModels[0].fromTripDate}</td>
-              <td>{item.tripPlaceDetailAddModels[0].toPlace}</td>
-              <td>{item.tripPlaceDetailAddModels[0].toTripDate}</td>
+          {data.map((item) => (
+            <tr key={item.id} className="text-center border-b">
+              <td>{item.fromPlace}</td>
+              <td>{item.fromTripDate}</td>
+              <td>{item.toPlace}</td>
+              <td>{item.toTripDate}</td>
+              <td>{item.travelType}</td>
             </tr>
           ))}
         </tbody>
