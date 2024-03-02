@@ -60,7 +60,7 @@ export default function SignUp() {
       <Navbar />
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center md:flex-row min-h-screen">
         <div className="flex flex-col bg-white rounded-2xl shadow-2xl justify-center text-center items-center px-7">
-          <Image src="/carry.png" width={150} height={150} className="my-5" />
+          <Image src="/carry.png" width={150} height={150} className="my-5" alt="carry"/>
           <form className="w-full max-w-lg" onSubmit={handleSubmit}>
             <div className="flex flex-wrap -mx-3">
               <div className="w-full md:w-1/2 px-3 md:mb-0">
@@ -213,7 +213,7 @@ export default function SignUp() {
                 </label>
 
                 <input
-                  style={{ borderImage: "linear-gradient(to right, #f8ccfd, #cbfbff) 1", color: "#9e97ecb" }}
+                  style={{ borderImage: "linear-gradient(to right, #f8ccfd, #cbfbff) 1", color: "#9e97ecb", }}
                   className="appearance-none block w-full text-gray-400 border border-gray-200 rounded-lg py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-last-name"
                   type="password"
