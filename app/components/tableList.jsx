@@ -5,7 +5,7 @@ const TableList = ({ data }) => {
   return (
     <div className="p-6">
       <table>
-        <thead className="border-b font-medium dark:border-neutral-500">
+        <thead className="border-b font-medium ">
           <tr className="text-[#6096FF] text-center">
             <th className="p-4">From (City)</th>
             <th className="p-4">From (Date)</th>

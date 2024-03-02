@@ -266,7 +266,7 @@ function MainPage() {
         >
           <div className=" bg-white  leftSection">
             <form onSubmit={handleSubmit}>
-              <div className="flex mb-5 justify-between px-3">
+              <div className="flex mb-5 justify-between pr-3">
                 <button
                   className={`ml-3 bg-white ${activeButton === "forCarry"
                     ? "border-[#b532ff75] border-solid border shadow-md px-4 py-1.5 rounded-md text-[#AEA6FD] "
@@ -638,7 +638,7 @@ function MainPage() {
                 </>
               )}
             </form>
-            <div className=" sticky bottom-0 flex ml-3 justify-between  bg-white px-3 py-4">
+            <div className=" sticky bottom-0 flex ml-3 justify-between  bg-white pr-3 py-4">
               <button
                 className="bg-transparent  font-semibold  px-4 py-1.5 border    rounded-md cancelButton "
                 onClick={
