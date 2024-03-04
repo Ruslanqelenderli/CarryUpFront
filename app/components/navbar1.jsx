@@ -4,7 +4,7 @@ import React from "react";
 const Navbar1 = () => {
   return (
     <div>
-      <nav className="border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+      <nav className="border-gray-200 bg-gray-50 ">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-6">
           <a
             href="#"
@@ -23,7 +23,7 @@ const Navbar1 = () => {
           <button
             data-collapse-toggle="navbar-solid-bg"
             type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
             aria-controls="navbar-solid-bg"
             aria-expanded="false"
           >
@@ -48,12 +48,12 @@ const Navbar1 = () => {
             className="hidden w-full md:block md:w-auto"
             id="navbar-solid-bg"
           >
-            <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
+            <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent ">
               <li className="flex gap-1">
                 <Image src="/wallet.png" width={20} height={20} />
                 <a
                   href="#"
-                  className="block py-2 px-3 md:p-0 text-[#9C9C9C] md:dark:bg-transparent"
+                  className="block py-2 px-3 md:p-0 text-[#9C9C9C] "
                   aria-current="page"
                 >
                   7.40
@@ -63,7 +63,7 @@ const Navbar1 = () => {
                 <Image src="/notification.png" width={20} height={20} />
                 <a
                   href="#"
-                  className="block py-2 px-3 md:p-0 text-gray-900 rounded  dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  className="block py-2 px-3 md:p-0 text-gray-900 rounded  "
                 ></a>
               </li>
               <li className="flex gap-1">
@@ -83,7 +83,11 @@ const Navbar1 = () => {
               <li>
                 <a
                   href="#"
-                  className="rounded-md bg-[#A493FF] h-10 w-36 text-white font-medium p-4"
+                  className="rounded-md  h-10 w-36 text-white font-medium px-[24px] py-[10px]"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient( 270deg, #61C2FF  , #C966FF)",
+                  }}
                 >
                   Post an Ad
                 </a>
