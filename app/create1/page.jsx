@@ -2,8 +2,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Navbar1 from "../components/navbar1";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
 import TableList from "../components/tableList";
 import { currency, travelType } from "../components/constant";
 

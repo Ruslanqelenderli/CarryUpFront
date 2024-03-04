@@ -8,6 +8,12 @@
   height: 100vh;
   min-height: 580px;
 }
+
+.create {
+  background-color: #F1F1F1;
+  height: 100vh;
+  min-height: 700px;
+}
 .mainPage{
   background-color: #F1F1F1;
   height: 100vh;

@@ -83,7 +83,11 @@ const Navbar1 = () => {
               <li>
                 <a
                   href="#"
-                  className="rounded-md bg-[#A493FF] h-10 w-36 text-white font-medium p-4"
+                  className="rounded-md  h-10 w-36 text-white font-medium px-[24px] py-[10px]"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient( 270deg, #61C2FF  , #C966FF)",
+                  }}
                 >
                   Post an Ad
                 </a>
