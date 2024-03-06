@@ -17,6 +17,7 @@ const Create = () => {
   const [sendLoading, setSendLoading] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [showTableList, setShowTableList] = useState(false);
+  const [selectedCurrency, setSelectedCurrency] = useState("");
 
   const [formData, setFormData] = useState({
     title: "",
@@ -51,12 +52,22 @@ const Create = () => {
     toPlace: "",
   });
 
+// console.log('curr',currency);
+
+
+const handleCurrencyChange = (event) => {
+  setSelectedCurrency(event.target.value);
+};
+
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
   const handleSendChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value ,checked} = e.target;
+    console.log('eee',e.target.checked);
     setSendFormData({ ...sendFormData, [name]: value });
   };
 
@@ -69,6 +80,7 @@ const Create = () => {
     try {
 
       setSendLoading(true);
+      const selectedCurrencyValue = currency[selectedCurrency];
       const response = await fetch(
         "http://carryforus-001-site1.htempurl.com/api/Send/Create",
         {
@@ -84,7 +96,7 @@ const Create = () => {
                 userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
               },
               package: {
-                currency: Number(sendFormData.currency),
+                currency: selectedCurrencyValue,
                 price: Number(sendFormData.price),
                 count: Number(sendFormData.count),
                 deadline: "2024-01-30T22:51:52.792Z",
@@ -426,11 +438,11 @@ const Create = () => {
                           </span>
                         </label>
                         <label className="text-[#5C5C5C]">
-                          <input type="radio" name="radio" className="mr-1" value={sendFormData.currency} onChange={handleSendChange}/>
+                          <input type="radio" name="radio" className="mr-1" value="AZN" checked={selectedCurrency === "AZN"} onChange={handleCurrencyChange}/>
                           Azn
                         </label>
                         <label className="ml-3 text-[#5C5C5C]">
-                          <input type="radio" name="radio" className="mr-1"  value={sendFormData.currency} onChange={handleChange}/>
+                          <input type="radio" name="radio" className="mr-1" value="USD" checked={selectedCurrency === "USD"} onChange={handleCurrencyChange}/>
                           Usd
                         </label>
                       </div>
@@ -656,11 +668,11 @@ const Create = () => {
                           </span>
                         </label>
                         <label className="text-[#5C5C5C]">
-                          <input type="radio" name="radio" className="mr-1" onChange={handleChange}/>
+                          <input type="radio" name="radio" className="mr-1" value="AZN" checked={selectedCurrency === "AZN"} onChange={handleCurrencyChange}/>
                           Azn
                         </label>
                         <label className="ml-3 text-[#5C5C5C]">
-                          <input type="radio" name="radio" className="mr-1" onChange={handleChange} />
+                          <input type="radio" name="radio" className="mr-1" value="USD" checked={selectedCurrency === "USD"} onChange={handleCurrencyChange}/>
                           Usd
                         </label>
                       </div>
