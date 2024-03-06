@@ -9,6 +9,9 @@ import style from "../app.module.css";
 const Create = () => {
   const [text, setText] = useState("");
   const [text1, setText1] = useState("");
+  const [textCarry, setTextCarry] = useState("");
+  const [textCarry1, setTextCarry1] = useState("");
+
   const [forCarryClicked, setForCarryClicked] = useState(false);
   const [forSendClicked, setForSendClicked] = useState(false);
   const [activeButton, setActiveButton] = useState("forSend");
@@ -16,11 +19,14 @@ const Create = () => {
   const [sendLoading, setSendLoading] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [showTableList, setShowTableList] = useState(false);
+  const [selectedCurrency, setSelectedCurrency] = useState("");
+  const [selectedCurrencyCarry, setSelectedCurrencyCarry] = useState("");
+  const [selectedTravelType, setSelectedTravelType] = useState("");
 
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    currency: 0,
+    currency: null,
     price: 0,
     count: 0,
     deadline: "2024-01-18T07:46:39.258Z",
@@ -31,13 +37,15 @@ const Create = () => {
     fromTripDate: "",
     toPlace: "",
     toTripDate: "",
-    travelType: 0,
+    travelType: null,
   });
   const [sendFormData, setSendFormData] = useState({
     title: "",
     description: "",
     userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+
     currency: null,
+
     price: 0,
     count: 0,
     deadline: "2024-01-18T07:46:39.258Z",
@@ -48,12 +56,33 @@ const Create = () => {
     toPlace: "",
   });
 
+  // console.log('curr',currency);
+
+  const handleCurrencyChange = (event) => {
+    setSelectedCurrency(event.target.value);
+  };
+
+  const handleCurrencyChangeCarry = (event) => {
+    setSelectedCurrencyCarry(event.target.value);
+  };
+
+  const handleTravelType = (event) => {
+    setSelectedTravelType(event.target.value);
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    setTextCarry1(value);
+    setTextCarry(value);
+
     setFormData({ ...formData, [name]: value });
   };
   const handleSendChange = (e) => {
     const { name, value } = e.target;
+    setText(value);
+    setText1(value);
+
     setSendFormData({ ...sendFormData, [name]: value });
   };
 
@@ -65,6 +94,7 @@ const Create = () => {
     setTableData((prevTableData) => [...prevTableData, sendFormData]);
     try {
       setSendLoading(true);
+      const selectedCurrencyValue = currency[selectedCurrency];
       const response = await fetch(
         "http://carryforus-001-site1.htempurl.com/api/Send/Create",
         {
@@ -80,7 +110,7 @@ const Create = () => {
                 userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
               },
               package: {
-                currency: Number(sendFormData.currency),
+                currency: selectedCurrencyValue,
                 price: Number(sendFormData.price),
                 count: Number(sendFormData.count),
                 deadline: "2024-01-30T22:51:52.792Z",
@@ -100,6 +130,7 @@ const Create = () => {
           //   cache: "force-cache",
         }
       );
+
       if (response.ok) {
         const data = await response.json();
         console.log("Send Data sents", data);
@@ -111,7 +142,6 @@ const Create = () => {
         }
       }
       setSendLoading(false);
-
       setShowTableList(true);
     } catch (error) {
       console.log("error", error);
@@ -121,6 +151,9 @@ const Create = () => {
   const carryCreate = async () => {
     try {
       setLoading(true);
+      const selectedCurrencyValue = currency[selectedCurrencyCarry];
+      const selectedtravelTypeValue = travelType[selectedTravelType];
+
       const response = await fetch(
         "http://carryforus-001-site1.htempurl.com/api/Trip/Create",
         {
@@ -132,7 +165,7 @@ const Create = () => {
             title: formData.title,
             description: formData.description,
             package: {
-              currency: Number(formData?.currency),
+              currency: selectedCurrencyValue,
               price: Number(formData?.price),
               count: Number(formData?.count),
               packageCategoryId: Number(formData?.packageCategoryId),
@@ -147,7 +180,7 @@ const Create = () => {
                 fromTripDate: formData?.fromTripDate,
                 toPlace: formData.toPlace,
                 toTripDate: formData?.toTripDate,
-                travelType: Number(formData.travelType),
+                travelType: selectedtravelTypeValue,
               },
             ],
           }),
@@ -166,7 +199,6 @@ const Create = () => {
         }
       }
       setLoading(false);
-
     } catch (error) {
       console.error("Fetch errors:", error);
     }
@@ -174,6 +206,7 @@ const Create = () => {
 
   const handleButtonClick = (button) => {
     setActiveButton(button);
+
     // setLoading(true);
 
     // try {
@@ -203,6 +236,8 @@ const Create = () => {
 
   const limit = 200;
   const limit1 = 200;
+  const limitCarry = 200;
+  const limitCarry1 = 200;
 
   return (
     <div className={style.create}>
@@ -418,11 +453,25 @@ const Create = () => {
                           </span>
                         </label>
                         <label className="text-[#5C5C5C]">
-                          <input type="radio" name="radio" className="mr-1" value={sendFormData.currency} onChange={handleSendChange}/>
+                          <input
+                            type="radio"
+                            name="radio"
+                            className="mr-1"
+                            value="AZN"
+                            checked={selectedCurrency === "AZN"}
+                            onChange={handleCurrencyChange}
+                          />
                           Azn
                         </label>
                         <label className="ml-3 text-[#5C5C5C]">
-                          <input type="radio" name="radio" className="mr-1"  value={sendFormData.currency} onChange={handleChange}/>
+                          <input
+                            type="radio"
+                            name="radio"
+                            className="mr-1"
+                            value="USD"
+                            checked={selectedCurrency === "USD"}
+                            onChange={handleCurrencyChange}
+                          />
                           Usd
                         </label>
                       </div>
@@ -440,7 +489,6 @@ const Create = () => {
                         type="text"
                         className="border border-[#C5D9FF] rounded-md p-2 w-80 focus:outline-none focus:border-[#C5D9FF]"
                         placeholder="City"
-                        
                         value={sendFormData.fromPlace}
                         onChange={handleSendChange}
                         name="fromPlace"
@@ -457,7 +505,6 @@ const Create = () => {
                         type="text"
                         className="border border-[#C5D9FF] rounded-md p-2 w-80 focus:outline-none focus:border-[#C5D9FF]"
                         placeholder="City"
-                        
                         value={sendFormData?.toPlace}
                         onChange={handleSendChange}
                         name="toPlace"
@@ -476,7 +523,6 @@ const Create = () => {
                       type="date"
                       className="border border-[#C5D9FF] rounded-md p-2 w-80 focus:outline-none focus:border-[#C5D9FF]"
                       placeholder="DD/MM/YYYY"
-                      
                       // onocus="(this.type='date')"
                       // onblur="(this.type='text') "
                       value={sendFormData?.catchDate}
@@ -494,12 +540,9 @@ const Create = () => {
                     </button>
                     <button
                       className="rounded-lg bg-[#A8C6FF] h-11 w-32 text-white font-medium cursor-pointer"
-                      
                       type="submit"
                       disabled={sendLoading}
-                      onClick={() =>
-                        sendCreate()
-                      }
+                      onClick={() => sendCreate()}
                     >
                       {sendLoading ? "Saving..." : "Save"}
                     </button>
@@ -543,7 +586,7 @@ const Create = () => {
                         id="result"
                         className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
                       >
-                        {text.length} / {limit}
+                        {textCarry.length} / {limitCarry}
                       </p>
                     </div>
                     <div className="font-semibold text-lg">
@@ -573,7 +616,7 @@ const Create = () => {
                             id="result"
                             className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
                           >
-                            {text1.length} / {limit1}
+                            {textCarry1.length} / {limitCarry1}
                           </p>
                         </div>
                       </div>
@@ -648,11 +691,25 @@ const Create = () => {
                           </span>
                         </label>
                         <label className="text-[#5C5C5C]">
-                          <input type="radio" name="radio" className="mr-1" onChange={handleChange}/>
+                          <input
+                            type="radio"
+                            name="radio"
+                            className="mr-1"
+                            value="AZN"
+                            checked={selectedCurrencyCarry === "AZN"}
+                            onChange={handleCurrencyChangeCarry}
+                          />
                           Azn
                         </label>
                         <label className="ml-3 text-[#5C5C5C]">
-                          <input type="radio" name="radio" className="mr-1" onChange={handleChange} />
+                          <input
+                            type="radio"
+                            name="radio"
+                            className="mr-1"
+                            value="USD"
+                            checked={selectedCurrencyCarry === "USD"}
+                            onChange={handleCurrencyChangeCarry}
+                          />
                           Usd
                         </label>
                       </div>
@@ -736,25 +793,15 @@ const Create = () => {
                         >
                           Transport
                         </label>
-                        {/* <select
-                        className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
-                        name="travelType"
-                        value={formData.travelType}
-                        onChange={handleChange}
-                      >
-                        <option value="">Select Travel Type</option>
-                        {travelType &&
-                          Object.entries(travelType).map(([key, value]) => (
-                            <option key={key} value={value}>
-                              {key}
-                            </option>
-                          ))}
-                      </select> */}
+
                         <label className="text-[#5C5C5C] mr-3">
                           <input
                             type="radio"
                             name="radioTravel"
                             className="mr-1"
+                            value="Bus"
+                            checked={selectedTravelType === "Bus"}
+                            onChange={handleTravelType}
                           />
                           Bus
                         </label>
@@ -763,6 +810,9 @@ const Create = () => {
                             type="radio"
                             name="radioTravel"
                             className="mr-1"
+                            value="Car"
+                            checked={selectedTravelType === "Car"}
+                            onChange={handleTravelType}
                           />
                           Car
                         </label>
@@ -771,6 +821,9 @@ const Create = () => {
                             type="radio"
                             name="radioTravel"
                             className="mr-1"
+                            value="Plane"
+                            checked={selectedTravelType === "Plane"}
+                            onChange={handleTravelType}
                           />
                           Plane
                         </label>
@@ -779,6 +832,9 @@ const Create = () => {
                             type="radio"
                             name="radioTravel"
                             className="mr-1"
+                            value="Ship"
+                            checked={selectedTravelType === "Ship"}
+                            onChange={handleTravelType}
                           />
                           Ship
                         </label>
@@ -787,6 +843,9 @@ const Create = () => {
                             type="radio"
                             name="radioTravel"
                             className="mr-1"
+                            value="Train"
+                            checked={selectedTravelType === "Train"}
+                            onChange={handleTravelType}
                           />
                           Train
                         </label>

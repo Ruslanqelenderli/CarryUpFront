@@ -5,13 +5,16 @@ import Image from "next/image";
 import style from "../app.module.css";
 import { useState } from "react";
 import Navbar from "../components/navbar";
+import MyAds from "../myAds/page";
+import MyPackages from "../myPackages/page";
 
 export default function Profile() {
   const [toggleState, setToggleState] = useState(1)
+  // const [activeTab,setActiveTab] = useState("Profile")
 
   const toggleTab = (index) => {
     setToggleState(index)
-    console.log(index);
+   
 
   }
 
@@ -164,7 +167,7 @@ export default function Profile() {
           </ul>
         </div>
 
-        <div className={`active-content secondBox bg-white aside shadow-md w-3/4 ml-14 px-7 py-5  ${toggleState === 1 ? "active-content" : "tabs"}`}>
+   {toggleState == 1 ? <div className={`active-content secondBox bg-white aside shadow-md w-3/4 ml-14 px-7 py-5  ${toggleState === 1 ? "active-content" : "tabs"}`}>
           <h3>Personal Information</h3>
 
           <div className="flex">
@@ -306,7 +309,8 @@ export default function Profile() {
             </div>
 
           </div>
-        </div>
+        </div> : toggleState == 2 ? null : toggleState == 3 ? <MyAds /> : toggleState == 4 ? <MyPackages />  : null}
+        
       </section>
 
 

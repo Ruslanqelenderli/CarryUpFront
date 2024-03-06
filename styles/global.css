@@ -82,6 +82,14 @@ ul span {
    color: #4A4A4A;
 }
 
+.secondBox2{
+  min-height: 400px;
+   height: 72vh;
+   font-size: 18px;
+   font-weight: 500;
+   color: #4A4A4A;
+}
+
 .firstBox{
   min-height: 370px;
    height: 40vh;
@@ -245,6 +253,23 @@ border-radius: 150px;
   display: block;
 
 }
+
+.activeButton{
+  border: 1px solid #b532ff75;
+  color: #706AB5;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2)
+}
+
+.deactiveButton{
+  border: 1px solid #D2D2D2;
+  color: #D2D2D2;
+}
+.adsTable th{
+  color: #4A4A4A;
+  font-size: 16px;
+}
+
+
 
 .scroll-container:hover  .scroll-text {
   /* animation properties */
