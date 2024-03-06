@@ -38,7 +38,9 @@ const Create = () => {
     title: "",
     description: "",
     userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    currency: 0,
+
+    currency: null,
+
     price: 0,
     count: 0,
     deadline: "2024-01-18T07:46:39.258Z",
@@ -65,8 +67,9 @@ const Create = () => {
   const sendCreate = async () => {
     setTableData((prevTableData) => [...prevTableData, sendFormData]);
     try {
-      setLoading(true);
-      const responsee = await fetch(
+
+      setSendLoading(true);
+      const response = await fetch(
         "http://carryforus-001-site1.htempurl.com/api/Send/Create",
         {
           method: "POST",
@@ -101,16 +104,18 @@ const Create = () => {
           //   cache: "force-cache",
         }
       );
-      if (responsee.ok) {
-        const data = await responsee.json();
+
+      if (response.ok) {
+        const data = await response.json();
         console.log("Send Data sents", data);
       } else {
-        const errorData = await responsee.json();
-        console.error("Error sending datas:", errorData);
+        const errorData = await response.json();
+        console.error("Error sending data:", errorData);
         if (errorData.errors) {
-          console.log("Validation errorss:", errorData.errors);
+          console.log("Validation errors:", errorData.errors);
         }
       }
+      setSendLoading(false);
       setShowTableList(true);
     } catch (error) {
       console.log("error", error);
@@ -119,7 +124,8 @@ const Create = () => {
 
   const carryCreate = async () => {
     try {
-      setSendLoading(true);
+
+      setLoading(true);
       const response = await fetch(
         "http://carryforus-001-site1.htempurl.com/api/Trip/Create",
         {
@@ -164,6 +170,8 @@ const Create = () => {
           console.log("Validation errorss:", errorData.errors);
         }
       }
+      setLoading(false);
+
     } catch (error) {
       console.error("Fetch errors:", error);
     }
@@ -171,14 +179,15 @@ const Create = () => {
 
   const handleButtonClick = (button) => {
     setActiveButton(button);
-    setLoading(true);
 
-    try {
-      if (button === "forSend") sendCreate();
-      if (button === "forCarry") carryCreate();
-    } finally {
-      setLoading(false);
-    }
+    // setLoading(true);
+
+    // try {
+    //   if (button === "forSend") sendCreate();
+    //   if (button === "forCarry") carryCreate();
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   const handleAddAnother = () => {
@@ -202,9 +211,9 @@ const Create = () => {
   const limit1 = 200;
 
   return (
-  
-    <div  className={style.create}>
-    <Navbar1 />
+
+    <div className={style.create}>
+      <Navbar1 />
       <div className="flex justify-center mt-6">
         <div
           className="bg-white rounded-2xl shadow-lg max-w-[49rem] p-8 w-full border border-[#B632FF] border-solid"
@@ -276,396 +285,158 @@ const Create = () => {
             </div>
             {activeButton === "forSend" && (
               <>
-              <div className="section" style={{
-            height: "calc(100vh - 388px)",
-            overflowY: "auto",
-          }}>
-              <div className="flex md:flex-row flex-col mt-4 p-4 gap-10 justify-between">
-                  <div className="font-semibold text-lg">
-                    <h2
-                      htmlFor="#"
-                      className="text-[#4A4A4A] font-semibold mb-1"
-                    >
-                      Title
-                      <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
-                        *
-                      </span>
-                    </h2>
-                    <textarea
-                      className="border border-[#C5D9FF] rounded-lg p-2 resize-none w-80 placeholder:text-[#ACC9FF] focus:outline-none focus:border-[#78A7FF]"
-                      name="title"
-                      id="title_textarea"
-                      cols="25"
-                      rows="2"
-                      placeholder="Type here..."
-                      style={{ letterSpacing: "0.4px" }}
-                      value={sendFormData.title}
-                      onChange={handleSendChange}
-                      maxLength={200}
-                    ></textarea>
-                    <p
-                      id="result"
-                      className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
-                    >
-                      {text.length} / {limit}
-                    </p>
-                  </div>
-                  <div className="font-semibold text-lg">
-                    <h2 htmlFor="#" className="text-[#4A4A4A] mb-1">
-                      Description
-                      <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
-                        *
-                      </span>
-                    </h2>
-                    <div className="">
-                      <div>
-                        <textarea
-                          className="border border-[#C5D9FF] rounded-lg p-2 resize-none placeholder:text-[#ACC9FF] w-80 focus:outline-none focus:border-[#78A7FF]"
-                          name="description"
-                          id="title_textarea"
-                          cols="30"
-                          rows="3"
-                          placeholder="Type here..."
-                          style={{ letterSpacing: "0.4px" }}
-                          value={sendFormData?.description}
-                          onChange={handleSendChange}
-                          maxLength={200}
-                        ></textarea>
-                      </div>
-                      <div className="">
-                        <p
-                          id="result"
-                          className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
-                        >
-                          {text1.length} / {limit1}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
-      
-                  <div className="flex md:flex-row flex-col gap-2 p-4  justify-between">
-              <div className="flex flex-row gap-1">
-                <div className="flex flex-col">
-                  <label htmlFor="" className="mb-1">
-                    Category
-                    <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
-                      *
-                    </span>
-                  </label>
-                  <input
-                    disabled
-                    type="text"
-                    className="border border-[#C5D9FF] placeholder:text-[#717171] rounded-md bg-[#F2F6FF] p-2 w-[214px] focus:outline-none focus:border-[#C5D9FF] cursor-not-allowed"
-                    placeholder="Document"
-                  />
-                </div>
-                <div className="flex flex-col ml-2">
-                  <label htmlFor="" className="mb-1">
-                    Count
-                    <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
-                      *
-                    </span>
-                  </label>
-                  <input
-                    type="number"
-                    className="border border-[#C5D9FF] rounded-md bg-[#F2F6FF] p-2 w-24 focus:outline-none focus:border-[#C5D9FF]"
-                    placeholder="1"
-                    value={sendFormData.price}
-                    onChange={handleSendChange}
-                    name="count"
-                  />
-                </div>
-              </div>
-
-              <div className="flex gap-10">
-                <div className="flex flex-col">
-                  <label htmlFor="" className="mb-1">
-                    Price
-                    <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
-                      *
-                    </span>
-                  </label>
-                  <input
-                        value={sendFormData.price}
+                <div
+                  className="section"
+                  style={{
+                    height: "calc(100vh - 388px)",
+                    overflowY: "auto",
+                  }}
+                >
+                  <div className="flex md:flex-row flex-col mt-4 p-4 gap-10 justify-between">
+                    <div className="font-semibold text-lg">
+                      <h2
+                        htmlFor="#"
+                        className="text-[#4A4A4A] font-semibold mb-1"
+                      >
+                        Title
+                        <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
+                          *
+                        </span>
+                      </h2>
+                      <textarea
+                        className="border border-[#C5D9FF] rounded-lg p-2 resize-none w-80 placeholder:text-[#ACC9FF] focus:outline-none focus:border-[#78A7FF]"
+                        name="title"
+                        id="title_textarea"
+                        cols="25"
+                        rows="2"
+                        placeholder="Type here..."
+                        style={{ letterSpacing: "0.4px" }}
+                        value={sendFormData.title}
                         onChange={handleSendChange}
-                        // onInput={(e) => maxLengthCheck(e.target)}
-                        max="999"
-                        min="0"
-                        maxLength={3}
-                        type="number"
-                        className="border border-[#C5D9FF] rounded-lg p-2 w-[169px]
-                         focus:outline-none focus:border-[#78A7FF] placeholder:text-[#ACC9FF]"
-                        placeholder="Amount"
-                        name="price"
-                        pattern="[0-9]*"
-                      />
-                </div>
-
-                <div className="mt-[6px]">
-                  <label htmlFor="" className="flex ">
-                    Currency
-                    <span
-                      className="text-[#FF5C00] font-semibold text-2xl transform
-                     translate-x-0 -translate-y-1"
-                    >
-                      *
-                    </span>
-                  </label>
-                <label className='text-[#5C5C5C]'>
-                  <input type='radio' name="radio" className='mr-1'/>
-                  Azn
-                </label>
-                <label className='ml-3 text-[#5C5C5C]'>
-                  <input type='radio' name="radio" className='mr-1'/>
-                  Usd
-                </label>
-                </div>
-
-                
-              </div>
-            </div>
-                <div className="flex flex-col p-4 gap-10 md:flex-row justify-between">
-                  <div className="flex flex-col">
-                    <label htmlFor="">
-                      From
-                      <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
-                        *
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      className="border border-[#C5D9FF] rounded-md p-2 w-80 focus:outline-none focus:border-[#C5D9FF]"
-                      placeholder="City"
-                      // value={formData.tripPlaceDetailAddModels[0].fromPlace}
-                      // onChange={handleChange}
-                      value={sendFormData.fromPlace}
-                      onChange={handleSendChange}
-                      name="fromPlace"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label htmlFor="">
-                      To
-                      <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
-                        *
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      className="border border-[#C5D9FF] rounded-md p-2 w-80 focus:outline-none focus:border-[#C5D9FF]"
-                      placeholder="City"
-                      // value={formData.tripPlaceDetailAddModels[0].toPlace}
-                      // onChange={handleChange}
-                      value={sendFormData?.toPlace}
-                      onChange={handleSendChange}
-                      name="toPlace"
-                    />
-                  </div>
-                </div>
-
-                <div className="p-4 flex flex-col">
-                  <label htmlFor="">
-                    Date of appointment
-                    <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
-                      *
-                    </span>
-                  </label>
-                  <input
-                    type="date"
-                    className="border border-[#C5D9FF] rounded-md p-2 w-80 focus:outline-none focus:border-[#C5D9FF]"
-                    placeholder="DD/MM/YYYY"
-                    // name={`sendPlaceDetailAddModels[0].catchDate`}
-                    // value={formData.tripPlaceDetailAddModels[0].toPlace}
-                    // onChange={handleChange}
-                    // onChange={}
-                    // onocus="(this.type='date')"
-                    // onblur="(this.type='text') "
-                    value={sendFormData?.catchDate}
-                    onChange={handleSendChange}
-                    name="catchDate"
-                  
-
-                    
-                  />
-                </div>
-                <div className="text-right flex justify-end gap-6 mt-4">
-                  <button
-                    className="rounded-lg border-2 border-[#85AEFF] h-11 w-32 text-[#85AEFF] font-medium cursor-pointer"
-                    onClick={() => setLoading(false)}
-                  >
-                    {" "}
-                    Cancel
-                  </button>
-                  <button
-                    className="rounded-lg bg-[#A8C6FF] h-11 w-32 text-white font-medium cursor-pointer"
-                    // style={{ backgroundColor: saveBackground }}
-                    type="submit"
-                    disabled={sendLoading}
-                    onClick={() =>
-                      activeButton === "forSend" ? sendCreate() : carryCreate()
-                    }
-                  >
-                    {sendLoading ? "Saving..." : "Save"}
-                  </button>
-                </div>
-              </div>
-              
-              </>
-            )}
-            {activeButton === "forCarry" && (
-              <>
-              <div className="section" style={{
-            height: "calc(100vh - 388px)",
-            overflowY: "auto",
-          }}>
-   <div className="flex md:flex-row flex-col mt-4 p-4 gap-10">
-                  <div className="font-semibold text-lg">
-                    <h2
-                      htmlFor="#"
-                      className="text-[#4A4A4A] font-semibold mb-1"
-                    >
-                      Title
-                      <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
-                        *
-                      </span>
-                    </h2>
-                    <textarea
-                      className="border border-[#C5D9FF] rounded-lg p-2 resize-none w-80 placeholder:text-[#ACC9FF] focus:outline-none focus:border-[#78A7FF]"
-                      name="title"
-                      id="title_textarea"
-                      cols="25"
-                      rows="2"
-                      placeholder="Type here..."
-                      style={{ letterSpacing: "0.4px" }}
-                      value={formData.title}
-                      onChange={handleChange}
-                      maxLength={200}
-                    ></textarea>
-                    <p
-                      id="result"
-                      className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
-                    >
-                      {/* {text.length} / {limit} */}
-                    </p>
-                  </div>
-                  <div className="font-semibold text-lg">
-                    <h2 htmlFor="#" className="text-[#4A4A4A] mb-1">
-                      Description
-                      <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
-                        *
-                      </span>
-                    </h2>
-                    <div className="">
-                      <div>
-                        <textarea
-                          className="border border-[#C5D9FF] rounded-lg p-2 resize-none placeholder:text-[#ACC9FF] focus:outline-none focus:border-[#78A7FF]"
-                          name="description"
-                          id="title_textarea"
-                          cols="30"
-                          rows="3"
-                          placeholder="Type here..."
-                          style={{ letterSpacing: "0.4px" }}
-                          value={formData?.description}
-                          onChange={handleChange}
-                          maxLength={200}
-                        ></textarea>
-                      </div>
+                        maxLength={200}
+                      ></textarea>
+                      <p
+                        id="result"
+                        className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
+                      >
+                        {text.length} / {limit}
+                      </p>
+                    </div>
+                    <div className="font-semibold text-lg">
+                      <h2 htmlFor="#" className="text-[#4A4A4A] mb-1">
+                        Description
+                        <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
+                          *
+                        </span>
+                      </h2>
                       <div className="">
-                        <p
-                          id="result"
-                          className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
-                        >
-                          {/* {text1.length} / {limit1} */}
-                        </p>
+                        <div>
+                          <textarea
+                            className="border border-[#C5D9FF] rounded-lg p-2 resize-none placeholder:text-[#ACC9FF] w-80 focus:outline-none focus:border-[#78A7FF]"
+                            name="description"
+                            id="title_textarea"
+                            cols="30"
+                            rows="3"
+                            placeholder="Type here..."
+                            style={{ letterSpacing: "0.4px" }}
+                            value={sendFormData?.description}
+                            onChange={handleSendChange}
+                            maxLength={200}
+                          ></textarea>
+                        </div>
+                        <div className="">
+                          <p
+                            id="result"
+                            className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
+                          >
+                            {text1.length} / {limit1}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="flex md:flex-row flex-col p-4 gap-24">
-              <div className="flex flex-row gap-1">
-                <div className="flex flex-col">
-                  <label htmlFor="" className="mb-1">
-                    Category
-                    <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
-                      *
-                    </span>
-                  </label>
-                  <input
-                    disabled
-                    type="text"
-                    className="border border-[#C5D9FF] placeholder:text-[#717171] rounded-md bg-[#F2F6FF] p-2 w-[214px] focus:outline-none focus:border-[#C5D9FF] cursor-not-allowed"
-                    placeholder="Document"
-                  />
-                </div>
-                <div className="flex flex-col ml-2">
-                  <label htmlFor="" className="mb-1">
-                    Count
-                    <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
-                      *
-                    </span>
-                  </label>
-                  <input
-                    type="number"
-                    className="border border-[#C5D9FF] rounded-md bg-[#F2F6FF] p-2 w-24 focus:outline-none focus:border-[#C5D9FF]"
-                    placeholder="1"
-                    value={formData.count}
-                    onChange={handleChange}
-                    name="count"
-                  />
-                </div>
-              </div>
 
-              <div className="flex gap-2">
-                <div className="flex flex-col">
-                  <label htmlFor="" className="mb-1">
-                    Price
-                    <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
-                      *
-                    </span>
-                  </label>
-                  <input
-                    value={formData.price}
-                    onChange={handleChange}
-                    onInput={(e) => maxLengthCheck(e.target)}
-                    max="999"
-                    min="0"
-                    maxLength={3}
-                    type="number"
-                    className="border border-[#C5D9FF] rounded-lg p-2 w-[169px]
-                   focus:outline-none focus:border-[#78A7FF] placeholder:text-[#ACC9FF]"
-                    placeholder="Amount"
-                    name="price"
-                    pattern="[0-9]*"
-                  />
-                </div>
+                  <div className="flex md:flex-row flex-col gap-2 p-4  justify-between">
+                    <div className="flex flex-row gap-1">
+                      <div className="flex flex-col">
+                        <label htmlFor="" className="mb-1">
+                          Category
+                          <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
+                            *
+                          </span>
+                        </label>
+                        <input
+                          disabled
+                          type="text"
+                          className="border border-[#C5D9FF] placeholder:text-[#717171] rounded-md bg-[#F2F6FF] p-2 w-[214px] focus:outline-none focus:border-[#C5D9FF] cursor-not-allowed"
+                          placeholder="Document"
+                        />
+                      </div>
+                      <div className="flex flex-col ml-2">
+                        <label htmlFor="" className="mb-1">
+                          Count
+                          <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
+                            *
+                          </span>
+                        </label>
+                        <input
+                          type="number"
+                          className="border border-[#C5D9FF] rounded-md bg-[#F2F6FF] p-2 w-24 focus:outline-none focus:border-[#C5D9FF]"
+                          placeholder="1"
+                          value={sendFormData.count}
+                          onChange={handleSendChange}
+                          name="count"
+                        />
+                      </div>
+                    </div>
 
-                <div className="mt-[6px]">
-                  <label htmlFor="" className="flex ">
-                    Currency
-                    <span
-                      className="text-[#FF5C00] font-semibold text-2xl transform
+                    <div className="flex gap-10">
+                      <div className="flex flex-col">
+                        <label htmlFor="" className="mb-1">
+                          Price
+                          <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
+                            *
+                          </span>
+                        </label>
+                        <input
+                          value={sendFormData.price}
+                          onChange={handleSendChange}
+                          // onInput={(e) => maxLengthCheck(e.target)}
+                          max="999"
+                          min="0"
+                          maxLength={3}
+                          type="number"
+                          className="border border-[#C5D9FF] rounded-lg p-2 w-[169px]
+                         focus:outline-none focus:border-[#78A7FF] placeholder:text-[#ACC9FF]"
+                          placeholder="Amount"
+                          name="price"
+                          pattern="[0-9]*"
+                        />
+                      </div>
+
+                      <div className="mt-[6px]">
+                        <label htmlFor="" className="flex ">
+                          Currency
+                          <span
+                            className="text-[#FF5C00] font-semibold text-2xl transform
                      translate-x-0 -translate-y-1"
-                    >
-                      *
-                    </span>
-                  </label>
-                <label className='text-[#5C5C5C]'>
-                  <input type='radio' name="radio" className='mr-1'/>
-                  Azn
-                </label>
-                <label className='ml-3 text-[#5C5C5C]'>
-                  <input type='radio' name="radio" className='mr-1'/>
-                  Usd
-                </label>
-                </div>
-
-                
-              </div>
-            </div>
-                <div>
-                  <div className="flex flex-col p-4 gap-20 md:flex-row">
+                          >
+                            *
+                          </span>
+                        </label>
+                        <label className="text-[#5C5C5C]">
+                          <input type="radio" name="radio" className="mr-1" value={sendFormData.currency} onChange={handleSendChange}/>
+                          Azn
+                        </label>
+                        <label className="ml-3 text-[#5C5C5C]">
+                          <input type="radio" name="radio" className="mr-1"  value={sendFormData.currency} onChange={handleChange}/>
+                          Usd
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col p-4 gap-10 md:flex-row justify-between">
                     <div className="flex flex-col">
                       <label htmlFor="">
                         From
@@ -675,32 +446,14 @@ const Create = () => {
                       </label>
                       <input
                         type="text"
-                        className="border border-[#C5D9FF] rounded-md p-2 w-64 focus:outline-none focus:border-[#C5D9FF]"
+                        className="border border-[#C5D9FF] rounded-md p-2 w-80 focus:outline-none focus:border-[#C5D9FF]"
                         placeholder="City"
-                        value={formData.fromPlace}
-                        name={"fromPlace"}
-                        onChange={handleChange}
+                        
+                        value={sendFormData.fromPlace}
+                        onChange={handleSendChange}
+                        name="fromPlace"
                       />
                     </div>
-                    <div className="flex flex-col">
-                      <label htmlFor="">
-                        Date
-                        <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
-                          *
-                        </span>
-                      </label>
-                      <input
-                        type="date"
-                        className="border border-[#C5D9FF] rounded-md p-2 w-64 focus:outline-none focus:border-[#C5D9FF]"
-                        placeholder="City"
-                        name={"fromTripDate"}
-                        value={formData.fromTripDate}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col p-4 gap-20 md:flex-row">
                     <div className="flex flex-col">
                       <label htmlFor="">
                         To
@@ -710,39 +463,289 @@ const Create = () => {
                       </label>
                       <input
                         type="text"
-                        className="border border-[#C5D9FF] rounded-md p-2 w-64 focus:outline-none focus:border-[#C5D9FF]"
+                        className="border border-[#C5D9FF] rounded-md p-2 w-80 focus:outline-none focus:border-[#C5D9FF]"
                         placeholder="City"
-                        value={formData.toPlace}
-                        name={`toPlace`}
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="flex flex-col">
-                      <label htmlFor="">
-                        Date
-                        <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
-                          *
-                        </span>
-                      </label>
-                      <input
-                        type="date"
-                        className="border border-[#C5D9FF] rounded-md p-2 w-64 focus:outline-none focus:border-[#C5D9FF]"
-                        placeholder="City"
-                        name={`toTripDate`}
-                        value={formData.toTripDate}
-                        onChange={handleChange}
+                        
+                        value={sendFormData?.toPlace}
+                        onChange={handleSendChange}
+                        name="toPlace"
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 gap-4 p-4 ">
-                    <div className="col-span-2"> 
-                      <label
-                        htmlFor="countries"
-                        className="block mb-2 text-sm font-medium text-gray-900 col-span-2 " 
+
+                  <div className="p-4 flex flex-col">
+                    <label htmlFor="">
+                      Date of appointment
+                      <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
+                        *
+                      </span>
+                    </label>
+                    <input
+                      type="date"
+                      className="border border-[#C5D9FF] rounded-md p-2 w-80 focus:outline-none focus:border-[#C5D9FF]"
+                      placeholder="DD/MM/YYYY"
+                      
+                      // onocus="(this.type='date')"
+                      // onblur="(this.type='text') "
+                      value={sendFormData?.catchDate}
+                      onChange={handleSendChange}
+                      name="catchDate"
+                    />
+                  </div>
+                  <div className="text-right flex justify-end gap-6 mt-4">
+                    <button
+                      className="rounded-lg border-2 border-[#85AEFF] h-11 w-32 text-[#85AEFF] font-medium cursor-pointer"
+                      onClick={() => setSendLoading(false)}
+                    >
+                      {" "}
+                      Cancel
+                    </button>
+                    <button
+                      className="rounded-lg bg-[#A8C6FF] h-11 w-32 text-white font-medium cursor-pointer"
+                      
+                      type="submit"
+                      disabled={sendLoading}
+                      onClick={() =>
+                        sendCreate()
+                      }
+                    >
+                      {sendLoading ? "Saving..." : "Save"}
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+            {activeButton === "forCarry" && (
+              <>
+                <div
+                  className="section"
+                  style={{
+                    height: "calc(100vh - 388px)",
+                    overflowY: "auto",
+                  }}
+                >
+                  <div className="flex md:flex-row flex-col mt-4 p-4 gap-10">
+                    <div className="font-semibold text-lg">
+                      <h2
+                        htmlFor="#"
+                        className="text-[#4A4A4A] font-semibold mb-1"
                       >
-                        Transport
-                      </label>
-                      {/* <select
+                        Title
+                        <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
+                          *
+                        </span>
+                      </h2>
+                      <textarea
+                        className="border border-[#C5D9FF] rounded-lg p-2 resize-none w-80 placeholder:text-[#ACC9FF] focus:outline-none focus:border-[#78A7FF]"
+                        name="title"
+                        id="title_textarea"
+                        cols="25"
+                        rows="2"
+                        placeholder="Type here..."
+                        style={{ letterSpacing: "0.4px" }}
+                        value={formData.title}
+                        onChange={handleChange}
+                        maxLength={200}
+                      ></textarea>
+                      <p
+                        id="result"
+                        className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
+                      >
+                        {text.length} / {limit}
+                      </p>
+                    </div>
+                    <div className="font-semibold text-lg">
+                      <h2 htmlFor="#" className="text-[#4A4A4A] mb-1">
+                        Description
+                        <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
+                          *
+                        </span>
+                      </h2>
+                      <div className="">
+                        <div>
+                          <textarea
+                            className="border border-[#C5D9FF] rounded-lg p-2 resize-none placeholder:text-[#ACC9FF] focus:outline-none focus:border-[#78A7FF]"
+                            name="description"
+                            id="title_textarea"
+                            cols="30"
+                            rows="3"
+                            placeholder="Type here..."
+                            style={{ letterSpacing: "0.4px" }}
+                            value={formData?.description}
+                            onChange={handleChange}
+                            maxLength={200}
+                          ></textarea>
+                        </div>
+                        <div className="">
+                          <p
+                            id="result"
+                            className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
+                          >
+                            {text1.length} / {limit1}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex md:flex-row flex-col p-4 gap-2 justify-between">
+                    <div className="flex flex-row gap-1">
+                      <div className="flex flex-col">
+                        <label htmlFor="" className="mb-1">
+                          Category
+                          <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
+                            *
+                          </span>
+                        </label>
+                        <input
+                          disabled
+                          type="text"
+                          className="border border-[#C5D9FF] placeholder:text-[#717171] rounded-md bg-[#F2F6FF] p-2 w-[214px] focus:outline-none focus:border-[#C5D9FF] cursor-not-allowed"
+                          placeholder="Document"
+                        />
+                      </div>
+                      <div className="flex flex-col ml-2">
+                        <label htmlFor="" className="mb-1">
+                          Count
+                          <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
+                            *
+                          </span>
+                        </label>
+                        <input
+                          type="number"
+                          className="border border-[#C5D9FF] rounded-md bg-[#F2F6FF] p-2 w-24 focus:outline-none focus:border-[#C5D9FF]"
+                          placeholder="1"
+                          value={formData.count}
+                          onChange={handleChange}
+                          name="count"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex gap-10">
+                      <div className="flex flex-col">
+                        <label htmlFor="" className="mb-1">
+                          Price
+                          <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
+                            *
+                          </span>
+                        </label>
+                        <input
+                          value={formData.price}
+                          onChange={handleChange}
+                          // onInput={(e) => maxLengthCheck(e.target)}
+                          max="999"
+                          min="0"
+                          maxLength={3}
+                          type="number"
+                          className="border border-[#C5D9FF] rounded-lg p-2 w-[169px]
+                    focus:outline-none focus:border-[#78A7FF] placeholder:text-[#ACC9FF]"
+                          placeholder="Amount"
+                          name="price"
+                          pattern="[0-9]*"
+                        />
+                      </div>
+
+                      <div className="mt-[6px]">
+                        <label htmlFor="" className="flex ">
+                          Currency
+                          <span
+                            className="text-[#FF5C00] font-semibold text-2xl transform
+                          translate-x-0 -translate-y-1"
+                          >
+                            *
+                          </span>
+                        </label>
+                        <label className="text-[#5C5C5C]">
+                          <input type="radio" name="radio" className="mr-1" onChange={handleChange}/>
+                          Azn
+                        </label>
+                        <label className="ml-3 text-[#5C5C5C]">
+                          <input type="radio" name="radio" className="mr-1" onChange={handleChange} />
+                          Usd
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex flex-col p-4 gap-10 md:flex-row justify-between">
+                      <div className="flex flex-col">
+                        <label htmlFor="">
+                          From
+                          <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
+                            *
+                          </span>
+                        </label>
+                        <input
+                          type="text"
+                          className="border border-[#C5D9FF] rounded-md p-2 w-80 focus:outline-none focus:border-[#C5D9FF]"
+                          placeholder="City"
+                          value={formData.fromPlace}
+                          name={"fromPlace"}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <label htmlFor="">
+                          Date
+                          <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
+                            *
+                          </span>
+                        </label>
+                        <input
+                          type="date"
+                          className="border border-[#C5D9FF] rounded-md p-2 w-80 focus:outline-none focus:border-[#C5D9FF]"
+                          placeholder="City"
+                          name={"fromTripDate"}
+                          value={formData.fromTripDate}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col p-4 gap-10 md:flex-row justify-between">
+                      <div className="flex flex-col">
+                        <label htmlFor="">
+                          To
+                          <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
+                            *
+                          </span>
+                        </label>
+                        <input
+                          type="text"
+                          className="border border-[#C5D9FF] rounded-md p-2 w-80 focus:outline-none focus:border-[#C5D9FF]"
+                          placeholder="City"
+                          value={formData.toPlace}
+                          name="toPlace"
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <label htmlFor="">
+                          Date
+                          <span className="text-[#FF5C00] font-semibold text-2xl transform translate-x-0 -translate-y-1">
+                            *
+                          </span>
+                        </label>
+                        <input
+                          type="date"
+                          className="border border-[#C5D9FF] rounded-md p-2 w-80 focus:outline-none focus:border-[#C5D9FF]"
+                          placeholder="City"
+                          name="toTripDate"
+                          value={formData.toTripDate}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-3 gap-4 p-4 ">
+                      <div className="col-span-2">
+                        <label
+                          htmlFor="countries"
+                          className="block mb-2 text-sm font-medium text-gray-900 col-span-2 "
+                        >
+                          Transport
+                        </label>
+                        {/* <select
+>>>>>>> d2c2de42cb9445f25f2d45554cc78fee43a891fe
                         className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
                         name="travelType"
                         value={formData.travelType}
@@ -756,69 +759,86 @@ const Create = () => {
                             </option>
                           ))}
                       </select> */}
-                      <label className='text-[#5C5C5C] mr-3'>
-                  <input type='radio' name="radioTravel" className='mr-1'/>
-                  Bus
-                </label>
-                <label className='text-[#5C5C5C] mr-3'>
-                  <input type='radio' name="radioTravel" className='mr-1'/>
-                  Car
-                </label>
-                <label className='text-[#5C5C5C] mr-3'>
-                  <input type='radio' name="radioTravel" className='mr-1'/>
-                  Plane
-                </label>
-                <label className='text-[#5C5C5C] mr-3'>
-                  <input type='radio' name="radioTravel" className='mr-1'/>
-                  Ship
-                </label>
-                <label className='text-[#5C5C5C]'>
-                  <input type='radio' name="radioTravel" className='mr-1'/>
-                  Train
-                </label>
+                        <label className="text-[#5C5C5C] mr-3">
+                          <input
+                            type="radio"
+                            name="radioTravel"
+                            className="mr-1"
+                          />
+                          Bus
+                        </label>
+                        <label className="text-[#5C5C5C] mr-3">
+                          <input
+                            type="radio"
+                            name="radioTravel"
+                            className="mr-1"
+                          />
+                          Car
+                        </label>
+                        <label className="text-[#5C5C5C] mr-3">
+                          <input
+                            type="radio"
+                            name="radioTravel"
+                            className="mr-1"
+                          />
+                          Plane
+                        </label>
+                        <label className="text-[#5C5C5C] mr-3">
+                          <input
+                            type="radio"
+                            name="radioTravel"
+                            className="mr-1"
+                          />
+                          Ship
+                        </label>
+                        <label className="text-[#5C5C5C]">
+                          <input
+                            type="radio"
+                            name="radioTravel"
+                            className="mr-1"
+                          />
+                          Train
+                        </label>
+                      </div>
 
-                      
+                      <div className="self-center mt-6 flex justify-end ">
+                        <button
+                          className="rounded-md bg-[#A8C6FF] h-10 w-36 text-white font-medium cursor-pointer"
+                          //   style={{ backgroundColor: buttonBackgroundColor }}
+                          onClick={handleAddAnother}
+                          // disabled={!areAllFieldsFilled()}
+                        >
+                          Add another
+                        </button>
+                      </div>
                     </div>
-
-                    <div className="self-center mt-6 flex justify-end " >
-                      <button
-                        className="rounded-md bg-[#A8C6FF] h-10 w-36 text-white font-medium cursor-pointer"
-                        //   style={{ backgroundColor: buttonBackgroundColor }}
-                        onClick={handleAddAnother}
-                        // disabled={!areAllFieldsFilled()}
-                      >
-                        Add another
-                      </button>
-                    </div>
+                    {showTableList && <TableList data={tableData} />}
+                    {/* {showTableList && <TableList data={tableData} />} */}
                   </div>
-                  {showTableList && <TableList data={tableData} />}
-                  {/* {showTableList && <TableList data={tableData} />} */}
+                  <div className="text-right flex justify-end gap-6 mt-4">
+                    <button
+                      className="rounded-lg border-2 border-[#85AEFF] h-11 w-32 text-[#85AEFF] font-medium cursor-pointer"
+                      onClick={() => setLoading(false)}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="rounded-lg bg-[#A8C6FF] h-11 w-32 text-white font-medium cursor-pointer"
+                      type="submit"
+                      disabled={loading}
+                      onClick={() => carryCreate()}
+                    >
+                      {loading ? "Saving..." : "Save"}
+                    </button>
+                  </div>
                 </div>
-                <div className="text-right flex justify-end gap-6 mt-4">
-                  <button
-                    className="rounded-lg border-2 border-[#85AEFF] h-11 w-32 text-[#85AEFF] font-medium cursor-pointer"
-                    onClick={() => setLoading(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className="rounded-lg bg-[#A8C6FF] h-11 w-32 text-white font-medium cursor-pointer"
-                    type="submit"
-                    disabled={loading}
-                    onClick={() => handleButtonClick(activeButton)}
-                  >
-                    {loading ? "Saving..." : "Save"}
-                  </button>
-                </div>
-              </div>
-             
               </>
             )}
           </form>
         </div>
       </div>
     </div>
-   
+
   );
 };
 
