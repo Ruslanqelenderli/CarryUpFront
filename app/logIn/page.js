@@ -1,6 +1,6 @@
 "use client";
 
-import { getData } from "@/app/components/postApi";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -38,7 +38,7 @@ export default function LogIn() {
   const signIn = async () => {
     try {
       // const router = useRouter();
-      const res = await fetch("http://carryforus-001-site1.htempurl.com/api/Manage/Login", {
+      const res = await fetch("http://carryforus123-001-site1.jtempurl.com/api/Manage/Login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -79,7 +79,7 @@ export default function LogIn() {
 
   const loginByGoogle = async (code) => {
     try {
-      const res = await fetch("http://carryforus-001-site1.htempurl.com/api/Manage/LoginByGoogle", {
+      const res = await fetch("http://carryforus123-001-site1.jtempurl.com/api/Manage/LoginByGoogle", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -5,11 +5,9 @@ import Navbar1 from "../components/navbar1";
 import { currency, travelType } from "../components/constant";
 import TableList from "../components/tableList";
 import style from "../app.module.css";
-
+import toast from "react-hot-toast";
 
 const Create = () => {
-  const [text, setText] = useState("");
-  const [text1, setText1] = useState("");
   const [forCarryClicked, setForCarryClicked] = useState(false);
   const [forSendClicked, setForSendClicked] = useState(false);
   const [activeButton, setActiveButton] = useState("forSend");
@@ -18,11 +16,13 @@ const Create = () => {
   const [tableData, setTableData] = useState([]);
   const [showTableList, setShowTableList] = useState(false);
   const [selectedCurrency, setSelectedCurrency] = useState("");
+  const [selectedCurrencyCarry, setSelectedCurrencyCarry] = useState("");
+  const [selectedTravelType, setSelectedTravelType] = useState("");
 
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    currency: 0,
+    currency: null,
     price: 0,
     count: 0,
     deadline: "2024-01-18T07:46:39.258Z",
@@ -33,7 +33,7 @@ const Create = () => {
     fromTripDate: "",
     toPlace: "",
     toTripDate: "",
-    travelType: 0,
+    travelType: null,
   });
   const [sendFormData, setSendFormData] = useState({
     title: "",
@@ -52,22 +52,28 @@ const Create = () => {
     toPlace: "",
   });
 
-// console.log('curr',currency);
+  // console.log('curr',currency);
 
+  const handleCurrencyChange = (event) => {
+    setSelectedCurrency(event.target.value);
+  };
 
-const handleCurrencyChange = (event) => {
-  setSelectedCurrency(event.target.value);
-};
+  const handleCurrencyChangeCarry = (event) => {
+    setSelectedCurrencyCarry(event.target.value);
+  };
 
-
+  const handleTravelType = (event) => {
+    setSelectedTravelType(event.target.value);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormData({ ...formData, [name]: value });
   };
   const handleSendChange = (e) => {
-    const { name, value ,checked} = e.target;
-    console.log('eee',e.target.checked);
+    const { name, value } = e.target;
+
     setSendFormData({ ...sendFormData, [name]: value });
   };
 
@@ -76,13 +82,11 @@ const handleCurrencyChange = (event) => {
   };
 
   const sendCreate = async () => {
-    setTableData((prevTableData) => [...prevTableData, sendFormData]);
     try {
-
       setSendLoading(true);
       const selectedCurrencyValue = currency[selectedCurrency];
       const response = await fetch(
-        "http://carryforus-001-site1.htempurl.com/api/Send/Create",
+        "http://carryforus123-001-site1.jtempurl.com/api/Send/Create",
         {
           method: "POST",
           headers: {
@@ -136,10 +140,13 @@ const handleCurrencyChange = (event) => {
 
   const carryCreate = async () => {
     try {
-
       setLoading(true);
+      // setTableData((prevTableData) => [...prevTableData, formData]);
+      const selectedCurrencyValue = currency[selectedCurrencyCarry];
+      const selectedtravelTypeValue = travelType[selectedTravelType];
+
       const response = await fetch(
-        "http://carryforus-001-site1.htempurl.com/api/Trip/Create",
+        "http://carryforus123-001-site1.jtempurl.com/api/Trip/Create",
         {
           method: "POST",
           headers: {
@@ -149,7 +156,7 @@ const handleCurrencyChange = (event) => {
             title: formData.title,
             description: formData.description,
             package: {
-              currency: Number(formData?.currency),
+              currency: selectedCurrencyValue,
               price: Number(formData?.price),
               count: Number(formData?.count),
               packageCategoryId: Number(formData?.packageCategoryId),
@@ -158,15 +165,15 @@ const handleCurrencyChange = (event) => {
             case: {
               userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
             },
-            tripPlaceDetailAddModels: [
+            tripPlaceDetailAddModels: tableData.length > 0 ? tableData : [
               {
                 fromPlace: formData.fromPlace,
                 fromTripDate: formData?.fromTripDate,
                 toPlace: formData.toPlace,
                 toTripDate: formData?.toTripDate,
-                travelType: Number(formData.travelType),
-              },
-            ],
+                travelType: selectedtravelTypeValue,
+              }
+            ]
           }),
         }
       );
@@ -183,7 +190,6 @@ const handleCurrencyChange = (event) => {
         }
       }
       setLoading(false);
-
     } catch (error) {
       console.error("Fetch errors:", error);
     }
@@ -191,39 +197,116 @@ const handleCurrencyChange = (event) => {
 
   const handleButtonClick = (button) => {
     setActiveButton(button);
-
-    // setLoading(true);
-
-    // try {
-    //   if (button === "forSend") sendCreate();
-    //   if (button === "forCarry") carryCreate();
-    // } finally {
-    //   setLoading(false);
-    // }
   };
 
+  // const handleAddAnother2 = () => {
+  //   if (
+  //     !formData.toPlace ||
+  //     !formData.fromPlace ||
+  //     !formData.fromTripDate ||
+  //     !formData.toTripDate ||
+  //     !selectedTravelType
+  //   ) {
+  //     toast.error("Xanaları doldurun");
+  //     return;
+  //   }
+  //   // setTableData((prevTableData) => [...prevTableData, formData]);
+  //   console.log("table,", tableData);
+
+  //   setSelectedTravelType((prevtravelType) => [
+  //     ...prevtravelType,
+  //     selectedTravelType,
+  //   ]);
+
+  //   // const selectTravelType = []
+  //   // selectTravelType.push(selectedTravelType)
+  //   console.log("first,", selectedTravelType);
+
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     tripPlaceDetailAddModels: [
+  //       {
+  //         fromPlace: "",
+  //         fromTripDate: "",
+  //         toPlace: "",
+  //         toTripDate: "",
+  //         travelType: selectedTravelType,
+  //       },
+  //     ],
+  //   }));
+
+  //   setShowTableList(true);
+  // };
+
   const handleAddAnother = () => {
-    setTableData((prevTableData) => [...prevTableData, formData]);
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      tripPlaceDetailAddModels: [
-        {
-          fromPlace: "",
-          fromTripDate: "",
-          toPlace: "",
-          toTripDate: "",
-          travelType: "",
-        },
-      ],
-    }));
+    if (
+      !formData.toPlace ||
+      !formData.fromPlace ||
+      !formData.fromTripDate ||
+      !formData.toTripDate ||
+      !selectedTravelType
+    ) {
+      toast.error("Xanaları doldurun");
+      return;
+    }
+    const anotherData = {
+      fromPlace: formData.fromPlace,
+      fromTripDate: formData.fromTripDate,
+      toPlace: formData.toPlace,
+      toTripDate: formData.toTripDate,
+      travelType: selectedTravelType,
+    };
+
+    setTableData((prevTableData) => [...prevTableData, anotherData]);
+
     setShowTableList(true);
   };
 
-  const limit = 200;
-  const limit1 = 200;
+  const clearCarryData = () => {
+    setFormData({
+      title: "",
+      description: "",
+      currency: null,
+      price: 0,
+      count: 0,
+      deadline: "2024-01-18T07:46:39.258Z",
+      packageCategoryId: 0,
+      packageSubCategoryId: 0,
+      userId: "123e4567-e89b-12d3-a456-426614174001",
+      fromPlace: "",
+      fromTripDate: "",
+      toPlace: "",
+      toTripDate: "",
+      travelType: null,
+    });
+    setTableData([])
+    setSelectedTravelType("")
+    setSelectedCurrencyCarry("")
+
+  };
+
+  const clearSendData = () => {
+    setSendFormData({
+      title: "",
+      description: "",
+      userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+
+      currency: null,
+
+      price: 0,
+      count: 0,
+      deadline: "2024-01-18T07:46:39.258Z",
+      packageCategoryId: 0,
+      packageSubCategoryId: 0,
+      fromPlace: "",
+      catchDate: "",
+      toPlace: "",
+    });
+    setSelectedCurrency("")
+
+  };
 
   return (
-
     <div className={style.create}>
       <Navbar1 />
       <div className="flex justify-center mt-6">
@@ -297,7 +380,6 @@ const handleCurrencyChange = (event) => {
             </div>
             {activeButton === "forSend" && (
               <>
-
                 <div
                   className="section"
                   style={{
@@ -332,7 +414,7 @@ const handleCurrencyChange = (event) => {
                         id="result"
                         className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
                       >
-                        {text.length} / {limit}
+                        {sendFormData.title?.length} / 200
                       </p>
                     </div>
                     <div className="font-semibold text-lg">
@@ -362,7 +444,7 @@ const handleCurrencyChange = (event) => {
                             id="result"
                             className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
                           >
-                            {text1.length} / {limit1}
+                            {sendFormData?.description?.length} / 200
                           </p>
                         </div>
                       </div>
@@ -438,11 +520,25 @@ const handleCurrencyChange = (event) => {
                           </span>
                         </label>
                         <label className="text-[#5C5C5C]">
-                          <input type="radio" name="radio" className="mr-1" value="AZN" checked={selectedCurrency === "AZN"} onChange={handleCurrencyChange}/>
+                          <input
+                            type="radio"
+                            name="radio"
+                            className="mr-1"
+                            value="AZN"
+                            checked={selectedCurrency === "AZN"}
+                            onChange={handleCurrencyChange}
+                          />
                           Azn
                         </label>
                         <label className="ml-3 text-[#5C5C5C]">
-                          <input type="radio" name="radio" className="mr-1" value="USD" checked={selectedCurrency === "USD"} onChange={handleCurrencyChange}/>
+                          <input
+                            type="radio"
+                            name="radio"
+                            className="mr-1"
+                            value="USD"
+                            checked={selectedCurrency === "USD"}
+                            onChange={handleCurrencyChange}
+                          />
                           Usd
                         </label>
                       </div>
@@ -460,7 +556,6 @@ const handleCurrencyChange = (event) => {
                         type="text"
                         className="border border-[#C5D9FF] rounded-md p-2 w-80 focus:outline-none focus:border-[#C5D9FF]"
                         placeholder="City"
-                        
                         value={sendFormData.fromPlace}
                         onChange={handleSendChange}
                         name="fromPlace"
@@ -477,7 +572,6 @@ const handleCurrencyChange = (event) => {
                         type="text"
                         className="border border-[#C5D9FF] rounded-md p-2 w-80 focus:outline-none focus:border-[#C5D9FF]"
                         placeholder="City"
-                        
                         value={sendFormData?.toPlace}
                         onChange={handleSendChange}
                         name="toPlace"
@@ -496,7 +590,6 @@ const handleCurrencyChange = (event) => {
                       type="date"
                       className="border border-[#C5D9FF] rounded-md p-2 w-80 focus:outline-none focus:border-[#C5D9FF]"
                       placeholder="DD/MM/YYYY"
-                      
                       // onocus="(this.type='date')"
                       // onblur="(this.type='text') "
                       value={sendFormData?.catchDate}
@@ -507,19 +600,18 @@ const handleCurrencyChange = (event) => {
                   <div className="text-right flex justify-end gap-6 mt-4">
                     <button
                       className="rounded-lg border-2 border-[#85AEFF] h-11 w-32 text-[#85AEFF] font-medium cursor-pointer"
-                      onClick={() => setSendLoading(false)}
+                      onClick={() => {
+                        setSendLoading(false), clearSendData();
+                      }}
                     >
                       {" "}
                       Cancel
                     </button>
                     <button
                       className="rounded-lg bg-[#A8C6FF] h-11 w-32 text-white font-medium cursor-pointer"
-                      
                       type="submit"
                       disabled={sendLoading}
-                      onClick={() =>
-                        sendCreate()
-                      }
+                      onClick={() => sendCreate()}
                     >
                       {sendLoading ? "Saving..." : "Save"}
                     </button>
@@ -563,7 +655,7 @@ const handleCurrencyChange = (event) => {
                         id="result"
                         className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
                       >
-                        {text.length} / {limit}
+                        {formData.title?.length} / 200
                       </p>
                     </div>
                     <div className="font-semibold text-lg">
@@ -593,7 +685,7 @@ const handleCurrencyChange = (event) => {
                             id="result"
                             className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
                           >
-                            {text1.length} / {limit1}
+                            {formData.description?.length} / 200
                           </p>
                         </div>
                       </div>
@@ -668,11 +760,25 @@ const handleCurrencyChange = (event) => {
                           </span>
                         </label>
                         <label className="text-[#5C5C5C]">
-                          <input type="radio" name="radio" className="mr-1" value="AZN" checked={selectedCurrency === "AZN"} onChange={handleCurrencyChange}/>
+                          <input
+                            type="radio"
+                            name="radio"
+                            className="mr-1"
+                            value="AZN"
+                            checked={selectedCurrencyCarry === "AZN"}
+                            onChange={handleCurrencyChangeCarry}
+                          />
                           Azn
                         </label>
                         <label className="ml-3 text-[#5C5C5C]">
-                          <input type="radio" name="radio" className="mr-1" value="USD" checked={selectedCurrency === "USD"} onChange={handleCurrencyChange}/>
+                          <input
+                            type="radio"
+                            name="radio"
+                            className="mr-1"
+                            value="USD"
+                            checked={selectedCurrencyCarry === "USD"}
+                            onChange={handleCurrencyChangeCarry}
+                          />
                           Usd
                         </label>
                       </div>
@@ -756,61 +862,64 @@ const handleCurrencyChange = (event) => {
                         >
                           Transport
                         </label>
-                        {/* <select
->>>>>>> d2c2de42cb9445f25f2d45554cc78fee43a891fe
-                        className="appearance-none block w-full  text-gray-400 border rounded-lg py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-white"
-                        name="travelType"
-                        value={formData.travelType}
-                        onChange={handleChange}
-                      >
-                        <option value="">Select Travel Type</option>
-                        {travelType &&
-                          Object.entries(travelType).map(([key, value]) => (
-                            <option key={key} value={value}>
-                              {key}
-                            </option>
-                          ))}
-                      </select> */}
-                        <label className="text-[#5C5C5C] mr-3">
-                          <input
-                            type="radio"
-                            name="radioTravel"
-                            className="mr-1"
-                          />
-                          Bus
-                        </label>
-                        <label className="text-[#5C5C5C] mr-3">
-                          <input
-                            type="radio"
-                            name="radioTravel"
-                            className="mr-1"
-                          />
-                          Car
-                        </label>
-                        <label className="text-[#5C5C5C] mr-3">
-                          <input
-                            type="radio"
-                            name="radioTravel"
-                            className="mr-1"
-                          />
-                          Plane
-                        </label>
-                        <label className="text-[#5C5C5C] mr-3">
-                          <input
-                            type="radio"
-                            name="radioTravel"
-                            className="mr-1"
-                          />
-                          Ship
-                        </label>
-                        <label className="text-[#5C5C5C]">
-                          <input
-                            type="radio"
-                            name="radioTravel"
-                            className="mr-1"
-                          />
-                          Train
-                        </label>
+
+                        <div className="mt-1.5">
+                          <label className="text-[#5C5C5C] mr-3">
+                            <input
+                              type="radio"
+                              name="radioTravel"
+                              className="mr-1"
+                              value="Bus"
+                              checked={selectedTravelType === "Bus"}
+                              onChange={handleTravelType}
+                            />
+                            Bus
+                          </label>
+                          <label className="text-[#5C5C5C] mr-3">
+                            <input
+                              type="radio"
+                              name="radioTravel"
+                              className="mr-1"
+                              value="Car"
+                              checked={selectedTravelType === "Car"}
+                              onChange={handleTravelType}
+                            />
+                            Car
+                          </label>
+                          <label className="text-[#5C5C5C] mr-3">
+                            <input
+                              type="radio"
+                              name="radioTravel"
+                              className="mr-1"
+                              value="Plane"
+                              checked={selectedTravelType === "Plane"}
+                              onChange={handleTravelType}
+                            />
+                            Plane
+                          </label>
+                          <label className="text-[#5C5C5C] mr-3">
+                            <input
+                              type="radio"
+                              name="radioTravel"
+                              className="mr-1"
+                              value="Ship"
+                              checked={selectedTravelType === "Ship"}
+                              onChange={handleTravelType}
+                            />
+                            Ship
+                          </label>
+                          <label className="text-[#5C5C5C]">
+                            <input
+                              type="radio"
+                              name="radioTravel"
+                              className="mr-1"
+                              value="Train"
+                              checked={selectedTravelType === "Train"}
+                              onChange={handleTravelType}
+                            />
+                            Train
+                          </label>
+                        </div>
                       </div>
 
                       <div className="self-center mt-6 flex justify-end ">
@@ -830,7 +939,9 @@ const handleCurrencyChange = (event) => {
                   <div className="text-right flex justify-end gap-6 mt-4">
                     <button
                       className="rounded-lg border-2 border-[#85AEFF] h-11 w-32 text-[#85AEFF] font-medium cursor-pointer"
-                      onClick={() => setLoading(false)}
+                      onClick={() => {
+                        setLoading(false), clearCarryData();
+                      }}
                     >
                       Cancel
                     </button>
@@ -850,7 +961,6 @@ const handleCurrencyChange = (event) => {
         </div>
       </div>
     </div>
-
   );
 };
 

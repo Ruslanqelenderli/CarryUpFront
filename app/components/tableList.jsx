@@ -15,6 +15,8 @@ const     TableList = ({ data }) => {
           </tr>
         </thead>
         <tbody>
+          
+          {console.log(data)}
           {data.map((item) => (
             <tr key={item.id} className="text-center border-b border-solid border-[#d3e3ffd1]">
               <td><p>{item.fromPlace}</p></td>

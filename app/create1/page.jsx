@@ -107,7 +107,7 @@ const Create1 = () => {
     console.log("form", formData);
     try {
       const response = await fetch(
-        "http://carryforus-001-site1.htempurl.com/api/Trip/Create",
+        "http://carryforus123-001-site1.jtempurl.com/api/Trip/Create",
         {
           method: "POST",
           headers: {
@@ -158,7 +158,7 @@ const Create1 = () => {
   const sendCreate = async (current) => {
     try {
       let sendsData = await fetch(
-        "http://carryforus-001-site1.htempurl.com/api/Send/Create",
+        "http://carryforus123-001-site1.jtempurl.com/api/Send/Create",
         {
           method: "POST",
           headers: {

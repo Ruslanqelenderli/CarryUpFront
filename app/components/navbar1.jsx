@@ -5,7 +5,7 @@ const Navbar1 = () => {
   return (
     <div>
       <nav className="border-gray-200 bg-gray-50 ">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-6">
+        <div className="flex flex-wrap items-center justify-between p-6 shadow-xl">
           <a
             href="#"
             className="flex items-center space-x-3 rtl:space-x-reverse"
