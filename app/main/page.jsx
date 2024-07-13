@@ -15,8 +15,12 @@ import { SecondTooltip } from "../components/secondTooltip";
 import Navbar from "../components/navbar";
 import { Tooltip } from "../components/tooltip";
 
+
+import Footer from "../components/footer";
+
 import Image from "next/image";
 import Link from "next/link";
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
 function MainPage() {
   const [formData, setFormData] = useState({
@@ -50,6 +54,10 @@ function MainPage() {
   const [sendData, setSendData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [sendLoading, setSendLoading] = useState(false);
+  const [toggleCarryModal, setToggleCarryModal] = useState(false);
+  const [toggleSendModal, setToggleSendModal] = useState(false);
+
+
 
   const [activeButton, setActiveButton] = useState("forCarry");
   const [sendFormData, setSendFormData] = useState({
@@ -85,6 +93,15 @@ function MainPage() {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  const toggleCarry = () => {
+    setToggleCarryModal(!toggleCarryModal)
+  }
+
+  const toggleSend = () => {
+    setToggleSendModal(!toggleSendModal)
+  }
+
 
   const handleSendChange = (e) => {
     const { name, value } = e.target;
@@ -266,7 +283,7 @@ function MainPage() {
       <div className="flex justify-between mx-16">
         <aside
           id="logo-sidebar"
-          className=" aside  shadow-md section  mb-2  mt-4 mx-4 z-40 w-[17rem]  pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 "
+          className=" aside  shadow-md section  mb-2  mt-4 mx-4  w-[17rem]  pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 "
           aria-label="Sidebar"
         >
           <div className=" bg-white  leftSection">
@@ -694,10 +711,10 @@ function MainPage() {
           {activeButton === "forCarry" && (
             <>
               <div className="grid grid-cols-3 gap-4 pt-6 px-6 mt-5">
+               
                 {tripData.map((v, index) => (
                   <> 
-                  <Link href={{pathname:"/trip",query:{_id:v?.id}}} key={v.id}>
-                  <div className="bg-white border box 2xl:mb-6  xl:mb-0 lg:mb-0 relative pt-4 pb-8 border-[#A0CCFF] border-solid rounded-[1rem]  h-[12rem] max-h-[16rem] hover:bg-[#449aff29] hover:border-[#0E6FE1] hover:shadow-xl transition duration-700 ease-in-out">
+                 <div onClick={() => toggleCarry()} className="bg-white border box 2xl:mb-6  xl:mb-0 lg:mb-0 relative pt-4 pb-8 border-[#A0CCFF] border-solid rounded-[1rem]  h-[12rem] max-h-[16rem] hover:bg-[#449aff29] hover:border-[#0E6FE1] hover:shadow-xl transition duration-700 ease-in-out">
                       <div className="flex px-4 justify-between ">
                         <div className="capitalize text-[#2F8EFF] font-semibold">
                           {v?.tripPlaceDetails[0]?.fromPlace.length > 4 ?
@@ -1042,7 +1059,6 @@ function MainPage() {
                         </p>
                       </div>
                     </div>
-                  </Link>
                
                   </>
                 ))}
@@ -1058,7 +1074,7 @@ function MainPage() {
               />
             </>
           )}
-          {sendLoading && (
+          {/* {sendLoading && (
             <div role="status " className="absolute left-[50%] top-[50%]">
               <svg
                 aria-hidden="true"
@@ -1078,14 +1094,13 @@ function MainPage() {
               </svg>
               <span className="sr-only">Loading...</span>
             </div>
-          )}
+          )} */}
           {activeButton === "forSend" && (
             <>
               <div className="grid grid-cols-3 gap-4 pt-6 px-6 mt-5 ">
                 {sendData.map((v) => (
                   <>
-                   <Link href={{pathname:"/carryTrip",query:{_id:v?.id}}} key={v.id} >
-                   <div className="bg-white border box 2xl:mb-6  xl:mb-0 lg:mb-0 relative pt-4 pb-8  hover:bg-[#a784f22e] border-[#8E65E7] border-solid rounded-[1rem]  h-[12rem] max-h-[16rem]  hover:border-[#7F4BED] hover:shadow-xl transition duration-700 ease-in-out">
+                 <div onClick={() => toggleSend()} className="bg-white border box 2xl:mb-6  xl:mb-0 lg:mb-0 relative pt-4 pb-8  hover:bg-[#a784f22e] border-[#8E65E7] border-solid rounded-[1rem]  h-[12rem] max-h-[16rem]  hover:border-[#7F4BED] hover:shadow-xl transition duration-700 ease-in-out">
                       <div className="flex px-4 ">
                         <div className="capitalize text-[#8E65E7] font-semibold">
                           {v?.sendPlaceDetails[0]?.fromPlace.length > 4 ?
@@ -1223,7 +1238,6 @@ function MainPage() {
                         </p>
                       </div>
                     </div>
-                   </Link>
                   </>
                 ))}
               </div>
@@ -1240,6 +1254,521 @@ function MainPage() {
           )}
         </div>
       </div>
+
+
+      {/* // for carry modal*/}
+<div
+  id="default-modal"
+  className={`fixed top-0 right-0 left-0 bottom-0 flex items-center justify-center overflow-y-auto ${toggleCarryModal ? '' : 'hidden'}`}
+>
+  <div className="relative rounded-lg shadow-lg max-w-[65vw] max-h-[90vh]">
+    {/* Modal content */}
+    <div className="relative bg-white rounded-lg shadow">
+      {/* Modal header */}
+      <div className="flex items-center justify-between p-2 md:p-3 border-b rounded-t">
+        <h3 className="text-xl font-semibold text-gray-900">For Carry Details</h3>
+        <button
+          type="button"
+          className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+          onClick={toggleCarry}
+        >
+          <svg
+            className="w-3 h-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 14"
+          >
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+            />
+          </svg>
+          <span className="sr-only">Close modal</span>
+        </button>
+      </div>
+      {/* Modal body */}
+      <div className=" space-y-4 overflow-y-auto">
+        <div className="bg-white">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-4 md:px-8 py-6">
+            {/* Left column */}
+            <div className="md:col-span-2">
+            <div className="flex gap-4 border-2 border-solid border-[#A0CCFF] rounded-xl p-2 justify-between">
+  <div className="rounded-xl bg-[#f3fbff] p-4 flex-shrink-0">
+    <Image
+      src="/icons/megaphoneD.png"
+      width={30}
+      height={30}
+      alt="Carry UP"
+      priority={true}
+    />
+  </div>
+  <div className="flex flex-row items-center gap-[10px] justify-end flex">
+    <span className="text-[#505050] font-semibold">
+      Elanın başlıq adı Lorem Ipsum is simply dummy text
+    </span>
+    <span className="font-semibold text-[#3C87E0]">$20</span>
+    <div className="flex gap-2 items-center mt-2">
+      <Image
+        src="/icons/heartD.png"
+        width={30}
+        height={30}
+        alt="Carry UP"
+        priority={true}
+      />
+      {/* Add other elements as needed */}
+    </div>
+  </div>
+</div>
+
+              <div className="border-2 border-solid border-[#A0CCFF] rounded-xl p-5 mt-6">
+  <h5 className="text-[#3C87E0] font-semibold text-[18px] border-l-4 pl-2.5 mb-4">
+    Details
+  </h5>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="flex items-center gap-3">
+      <div className="border-2 border-solid border-[#A0CCFF] rounded-xl p-2.5 bg-[#f3fbff]">
+        <Image
+          src="/icons/locationD.png"
+          width={30}
+          height={30}
+          alt="Carry UP"
+          priority={true}
+        />
+      </div>
+      <div>
+        <p className="text-[#505050] font-semibold">Ganja</p>
+        <span className="text-[#A0CCFF] font-semibold text-[14px]">From</span>
+      </div>
+    </div>
+    <div className="flex items-center gap-3">
+      <div className="border-2 border-solid border-[#A0CCFF] rounded-xl p-2.5 bg-[#f3fbff]">
+        <Image
+          src="/icons/docD.png"
+          width={30}
+          height={30}
+          alt="Carry UP"
+          priority={true}
+        />
+      </div>
+      <div>
+        <p className="text-[#505050] font-semibold">3</p>
+        <span className="text-[#A0CCFF] font-semibold text-[14px]">
+          Count of documents
+        </span>
+      </div>
+    </div>
+    <div className="flex items-center gap-3 mt-4 md:mt-0">
+      <div className="border-2 border-solid border-[#A0CCFF] rounded-xl p-2.5 bg-[#f3fbff]">
+        <Image
+          src="/icons/flagD.png"
+          width={30}
+          height={30}
+          alt="Carry UP"
+          priority={true}
+        />
+      </div>
+      <div>
+        <p className="text-[#505050] font-semibold">Baku</p>
+        <span className="text-[#A0CCFF] font-semibold text-[14px]">To</span>
+      </div>
+    </div>
+    <div className="flex items-center gap-3 mt-4 md:mt-0">
+      <div className="border-2 border-solid border-[#A0CCFF] rounded-xl p-2.5 bg-[#f3fbff]">
+        <Image
+          src="/icons/cashD.png"
+          width={30}
+          height={30}
+          alt="Carry UP"
+          priority={true}
+        />
+      </div>
+      <div>
+        <p className="text-[#505050] font-semibold">20 USD</p>
+        <span className="text-[#A0CCFF] font-semibold text-[14px]">Price</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+              <div className="border-2 border-solid border-[#A0CCFF] rounded-xl p-5 mt-6">
+                <h5 className="text-[#3C87E0] font-semibold text-[18px] border-l-4 pl-2.5">
+                  Description
+                </h5>
+                <p className="mt-2">
+                  Lorem ipsum dolor sit amet consectetur. Pellentesque feugiat
+                  mauris euismod non tincidunt sodales velit. At eu et donec amet
+                  consectetur eu quis. Nisl lorem amet sed morbi purus vitae dui.
+                  Malesuada egestas malesuada purus vulputate dignissim molestie.
+                </p>
+              </div>
+            </div>
+
+            {/* Right column */}
+            <div className="border-2 border-solid border-[#A0CCFF] rounded-xl p-4 h-auto">
+              <div className="flex gap-[10px]  mb-4 pb-4 border-b-2 border-solid border-[#A0CCFF]">
+                <div className="border-2 border-solid border-[#A0CCFF] rounded-xl p-2.5 bg-[#f3fbff]">
+                  <Image
+                    src="/icons/emailD.png"
+                    width={30}
+                    height={30}
+                    alt="Carry UP"
+                    priority={true}
+                  />
+                </div>
+                <div>
+                  <p className="text-[#505050] font-semibold">
+                    raul.qasimof1@gmail.com
+                  </p>
+                  <span className="text-[#A0CCFF] font-semibold text-[14px]">
+                    Email address
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex  gap-[10px] mb-4 pb-4 border-b-2 border-solid border-[#A0CCFF]">
+                <div className="border-2 border-solid border-[#A0CCFF] rounded-xl p-2.5 bg-[#f3fbff]">
+                  <Image
+                    src="/icons/calendarD.png"
+                    width={30}
+                    height={30}
+                    alt="Carry UP"
+                    priority={true}
+                  />
+                </div>
+                <div>
+                  <p className="text-[#505050] font-semibold">February 12, 2024</p>
+                  <span className="text-[#A0CCFF] font-semibold text-[14px]">
+                    Publication date
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex gap-[10px]  mb-4 pb-4 border-b-2 border-solid border-[#A0CCFF]">
+                <div className="border-2 border-solid border-[#A0CCFF] rounded-xl p-2.5 bg-[#f3fbff]">
+                  <Image
+                    src="/icons/dateD.png"
+                    width={30}
+                    height={30}
+                    alt="Carry UP"
+                    priority={true}
+                  />
+                </div>
+                <div>
+                  <p className="text-[#505050] font-semibold">February 20, 2024</p>
+                  <span className="text-[#A0CCFF] font-semibold text-[14px]">
+                    Last date to apply
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex   gap-[10px]">
+                <div className="border-2 border-solid border-[#A0CCFF] rounded-xl p-2.5 bg-[#f3fbff]">
+                  <Image
+                    src="/icons/handD.png"
+                    width={30}
+                    height={30}
+                    alt="Carry UP"
+                    priority={true}
+                  />
+                </div>
+                <div>
+                  <p className="text-[#505050] font-semibold">2</p>
+                  <span className="text-[#A0CCFF] font-semibold text-[14px]">
+                    Number of applications
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Modal footer */}
+        <div className="p-[18px]  w-full bottom-0 footer flex px-[100px] justify-end gap-[30px]">
+          <button className="border border-solid border-[#4F8BFF] bg-[#669AFF] text-white px-5 py-2 ">
+            Explore Similar Ads
+          </button>
+          <button className="text-[#669AFF] align-center border border-solid border-[#4F8BFF] items-center  flex px-4 ">
+            <Image
+              src="/icons/shareD.svg"
+              className=""
+              width={20}
+              height={15}
+              alt="Carry UP"
+              priority={true}
+            />
+            <span className="pl-2 font-semibold text-[18px]">Share</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{/* for send modal */}
+
+<div
+  id="default-modal"
+  className={`fixed top-0 right-0 left-0 bottom-0 flex items-center justify-center overflow-y-auto ${toggleSendModal ? '' : 'hidden'}`}
+>
+  <div className="relative rounded-lg shadow-lg max-w-[65vw] max-h-[90vh]">
+    {/* Modal content */}
+    <div className="relative bg-white rounded-lg shadow">
+      {/* Modal header */}
+      <div className="flex items-center justify-between p-2 md:p-3 border-b rounded-t">
+        <h3 className="text-xl font-semibold text-gray-900">For Send Details</h3>
+        <button
+          type="button"
+          className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+          onClick={toggleSend}
+        >
+          <svg
+            className="w-3 h-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 14"
+          >
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+            />
+          </svg>
+          <span className="sr-only">Close modal</span>
+        </button>
+      </div>
+      {/* Modal body */}
+      <div className=" space-y-4 overflow-y-auto">
+        <div className="bg-white">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-4 md:px-8 py-6">
+            {/* Left column */}
+            <div className="md:col-span-2">
+            <div className="flex gap-4 border-2 border-solid border-[#A0CCFF] rounded-xl p-2 justify-between">
+  <div className="rounded-xl bg-[#f7f2ff] p-4 flex-shrink-0">
+  <Image
+              src="/icons/megaphoneC.png"
+              className=""
+              width={30}
+              height={30}
+              alt="Carry UP"
+              priority={true}
+            />
+  </div>
+  <div className="flex flex-row items-center gap-[10px] justify-end flex">
+    <span className="text-[#505050] font-semibold">
+      Elanın başlıq adı Lorem Ipsum is simply dummy text
+    </span>
+    <span className="font-semibold text-[#7462DA]">$20</span>
+    <div className="flex gap-2 items-center mt-2">
+    <Image
+              src="/icons/heartC.png"
+              className=""
+              width={30}
+              height={30}
+              alt="Carry UP"
+              priority={true}
+            />
+      {/* Add other elements as needed */}
+    </div>
+  </div>
+</div>
+
+              <div className="border-2 border-solid border-[#B0A3FF] rounded-xl p-5 mt-6">
+  <h5 className="text-[#7462DA] font-semibold text-[18px] border-l-4 pl-2.5 mb-4">
+    Details
+  </h5>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="flex items-center gap-3">
+      <div className="border-2 border-solid border-[#B0A3FF] rounded-xl p-2.5 bg-[#f7f2ff]">
+      <Image
+                    src="/icons/locationC.png"
+                    className=""
+                    width={30}
+                    height={30}
+                    alt="Carry UP"
+                    priority={true}
+                  />
+      </div>
+      <div>
+        <p className="text-[#505050] font-semibold">Ganja</p>
+        <span className="text-[#B0A3FF] font-semibold text-[14px]">From</span>
+      </div>
+    </div>
+    <div className="flex items-center gap-3">
+      <div className="border-2 border-solid border-[#B0A3FF] rounded-xl p-2.5 bg-[#f7f2ff]">
+      <Image
+                    src="/icons/documentC.png"
+                    className=""
+                    width={30}
+                    height={30}
+                    alt="Carry UP"
+                    priority={true}
+                  />
+      </div>
+      <div>
+        <p className="text-[#505050] font-semibold">3</p>
+        <span className="text-[#B0A3FF] font-semibold text-[14px]">
+          Count of documents
+        </span>
+      </div>
+    </div>
+    <div className="flex items-center gap-3 mt-4 md:mt-0">
+      <div className="border-2 border-solid border-[#B0A3FF] rounded-xl p-2.5 bg-[#f7f2ff]">
+      <Image
+                    src="/icons/flagC.png"
+                    className=""
+                    width={30}
+                    height={30}
+                    alt="Carry UP"
+                    priority={true}
+                  />
+      </div>
+      <div>
+        <p className="text-[#505050] font-semibold">Baku</p>
+        <span className="text-[#B0A3FF] font-semibold text-[14px]">To</span>
+      </div>
+    </div>
+    <div className="flex items-center gap-3 mt-4 md:mt-0">
+      <div className="border-2 border-solid border-[#B0A3FF] rounded-xl p-2.5 bg-[#f7f2ff]">
+      <Image
+                    src="/icons/cashC.png"
+                    className=""
+                    width={30}
+                    height={30}
+
+                    alt="Carry UP"
+                    priority={true}
+                  />
+      </div>
+      <div>
+        <p className="text-[#505050] font-semibold">20 USD</p>
+        <span className="text-[#B0A3FF] font-semibold text-[14px]">Price</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+              <div className="border-2 border-solid border-[#B0A3FF] rounded-xl p-5 mt-6">
+                <h5 className="text-[#7462DA] font-semibold text-[18px] border-l-4 pl-2.5">
+                  Description
+                </h5>
+                <p className="mt-2">
+                  Lorem ipsum dolor sit amet consectetur. Pellentesque feugiat
+                  mauris euismod non tincidunt sodales velit. At eu et donec amet
+                  consectetur eu quis. Nisl lorem amet sed morbi purus vitae dui.
+                  Malesuada egestas malesuada purus vulputate dignissim molestie.
+                </p>
+              </div>
+            </div>
+
+            {/* Right column */}
+            <div className="border-2 border-solid border-[#B0A3FF] rounded-xl p-4 h-auto">
+              <div className="flex gap-[10px]  mb-4 pb-4 border-b-2 border-solid border-[#B0A3FF]">
+                <div className="border-2 border-solid border-[#B0A3FF] rounded-xl p-2.5 bg-[#f7f2ff]">
+                <Image
+                src="/icons/emailC.png"
+                className=""
+                width={30}
+                height={30}
+                alt="Carry UP"
+                priority={true}
+              />
+                </div>
+                <div>
+                  <p className="text-[#505050] font-semibold">
+                    raul.qasimof1@gmail.com
+                  </p>
+                  <span className="text-[#B0A3FF] font-semibold text-[14px]">
+                    Email address
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex  gap-[10px] mb-4 pb-4 border-b-2 border-solid border-[#B0A3FF]">
+                <div className="border-2 border-solid border-[#B0A3FF] rounded-xl p-2.5 bg-[#f7f2ff]">
+                <Image
+                src="/icons/calendarC.png"
+                className=""
+                width={30}
+                height={30}
+                alt="Carry UP"
+                priority={true}
+              />
+                </div>
+                <div>
+                  <p className="text-[#505050] font-semibold">February 12, 2024</p>
+                  <span className="text-[#B0A3FF] font-semibold text-[14px]">
+                    Publication date
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex gap-[10px]  mb-4 pb-4 border-b-2 border-solid border-[#B0A3FF]">
+                <div className="border-2 border-solid border-[#B0A3FF] rounded-xl p-2.5 bg-[#f7f2ff]">
+                <Image
+                src="/icons/dateC.png"
+                className=""
+                width={30}
+                height={30}
+                alt="Carry UP"
+                priority={true}
+              />
+                </div>
+                <div>
+                  <p className="text-[#505050] font-semibold">February 20, 2024</p>
+                  <span className="text-[#B0A3FF] font-semibold text-[14px]">
+                    Last date to apply
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex   gap-[10px]">
+                <div className="border-2 border-solid border-[#B0A3FF] rounded-xl p-2.5 bg-[#f7f2ff]">
+                <Image
+                src="/icons/handC.png"
+                className=""
+                width={30}
+                height={30}
+                alt="Carry UP"
+                priority={true}
+              />
+                </div>
+                <div>
+                  <p className="text-[#505050] font-semibold">2</p>
+                  <span className="text-[#B0A3FF] font-semibold text-[14px]">
+                    Number of applications
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Modal footer */}
+        <div className="p-[18px]  w-full bottom-0 footer flex px-[100px] justify-end gap-[30px]">
+          <button className="border border-solid border-[#895AEE] bg-[#895AEE] text-white px-5 py-2 ">
+            Explore Similar Ads
+          </button>
+          <button className="text-[#895AEE] align-center border border-solid border-[#895AEE] items-center  flex px-4 ">
+            <Image
+              src="/icons/shareS.svg"
+              className=""
+              width={20}
+              height={15}
+              alt="Carry UP"
+              priority={true}
+            />
+            <span className="pl-2 font-semibold text-[18px]">Share</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
     </div>
   );
 }
