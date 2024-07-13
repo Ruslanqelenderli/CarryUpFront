@@ -1,12 +1,11 @@
 "use client";
 
-
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Navbar from "../components/navbar";
-import { LoginSocialFacebook, LoginSocialGoogle } from "reactjs-social-login"
+import { LoginSocialFacebook, LoginSocialGoogle } from "reactjs-social-login";
 
 export default function LogIn() {
   const [users, setUsers] = useState({
@@ -18,8 +17,7 @@ export default function LogIn() {
   const [data, setData] = useState([]);
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
-  const [code, setCode] = useState("")
-
+  const [code, setCode] = useState("");
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -38,18 +36,21 @@ export default function LogIn() {
   const signIn = async () => {
     try {
       // const router = useRouter();
-      const res = await fetch("http://carryforus123-001-site1.jtempurl.com/api/Manage/Login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firstTab: users.userName,
-          password: users.password,
-          rememberMe: true,
-        }),
-        cache: "force-cache",
-      });
+      const res = await fetch(
+        "http://carryforus123-001-site1.jtempurl.com/api/Manage/Login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firstTab: users.userName,
+            password: users.password,
+            rememberMe: true,
+          }),
+          cache: "force-cache",
+        }
+      );
 
       const responseData = await res.json();
       console.log("responseData", responseData);
@@ -57,12 +58,9 @@ export default function LogIn() {
       const accessToken = responseData?.list[0]?.accessToken;
       const refreshToken = responseData?.list[0]?.refreshToken;
 
-
-
       if (accessToken && refreshToken) {
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
-
 
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
@@ -79,29 +77,31 @@ export default function LogIn() {
 
   const loginByGoogle = async (code) => {
     try {
-      const res = await fetch("http://carryforus123-001-site1.jtempurl.com/api/Manage/LoginByGoogle", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-         code: code
-        }),
-        cache: "force-cache",
-      });
+      const res = await fetch(
+        "http://carryforus123-001-site1.jtempurl.com/api/Manage/LoginByGoogle",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            code: code,
+          }),
+          cache: "force-cache",
+        }
+      );
 
       const responseData = await res.json();
       console.log("responseData", responseData);
     } catch (error) {
-      console.log("loginByGoogle",error);
+      console.log("loginByGoogle", error);
     }
-  }
+  };
 
   return (
     <>
       <Navbar />
       <main className=" flex flex-col items-center justify-center w-full flex-1 px-20  md:flex-row min-h-screen">
-
         <div className="main flex flex-col bg-white rounded-2xl shadow-2xl justify-center  items-center px-7 pt-6 ">
           <Image
             src="/images/carry.png"
@@ -128,11 +128,7 @@ export default function LogIn() {
               </div>
 
               <div className="w-full px-3 relative">
-                <label
-                  className="block text-sm  mb-2"
-                >
-                  Create Password
-                </label>
+                <label className="block text-sm  mb-2">Create Password</label>
                 <input
                   className="border w-full py-2.5 px-3  mb-3 focus:outline-none focus:shadow-outline"
                   type={visible ? "text" : "password"}
@@ -140,28 +136,27 @@ export default function LogIn() {
                   name="password"
                   value={users.password}
                   onChange={handleChange}
-
-
                 />
-                <div
-
-                  onClick={() => setVisible(!visible)}
-                >
-                  {visible ? <Image
-                    src="/icons/hidden.png"
-                    width={25}
-                    height={35}
-                    alt="Hide"
-                    className="mt-0.5 hide"
-                    priority={true}
-                  /> : <Image
-                    src="/icons/eye.png"
-                    width={25}
-                    height={35}
-                    alt="Hide"
-                    className="mt-0.5 hide"
-                    priority={true}
-                  />}
+                <div onClick={() => setVisible(!visible)}>
+                  {visible ? (
+                    <Image
+                      src="/icons/hidden.png"
+                      width={25}
+                      height={35}
+                      alt="Hide"
+                      className="mt-0.5 hide"
+                      priority={true}
+                    />
+                  ) : (
+                    <Image
+                      src="/icons/eye.png"
+                      width={25}
+                      height={35}
+                      alt="Hide"
+                      className="mt-0.5 hide"
+                      priority={true}
+                    />
+                  )}
                 </div>
               </div>
             </div>
@@ -208,17 +203,19 @@ export default function LogIn() {
               <LoginSocialFacebook
                 appId="1353360878656411"
                 onResolve={(res) => {
-                  console.log('res', res);
+                  console.log("res", res);
                 }}
                 onReject={(error) => {
-                  console.log('error', error);
+                  console.log("error", error);
                 }}
               >
-                <span className="px-1 font-bold cursor-pointer" style={{ color: "#746bd4" }}>
+                <span
+                  className="px-1 font-bold cursor-pointer"
+                  style={{ color: "#746bd4" }}
+                >
                   Log in with Facebook
                 </span>
               </LoginSocialFacebook>
-
             </div>
             <div className="flex justify-center items-center mb-4 cursor-pointer">
               <Image
@@ -231,19 +228,20 @@ export default function LogIn() {
               />
 
               <LoginSocialGoogle
-                client_id={"650935634351-7mr5vjrtaarg7t4s9ogetopg0mfll6cu.apps.googleusercontent.com"}
+                client_id={
+                  "650935634351-7mr5vjrtaarg7t4s9ogetopg0mfll6cu.apps.googleusercontent.com"
+                }
                 scope="openid profile email"
                 discoveryDocs="claims_supported"
                 access_type="offline"
                 onResolve={(provider, data) => {
-                
-                 loginByGoogle(provider?.data?.code)
+                  loginByGoogle(provider?.data?.code);
                 }}
                 onReject={(error) => {
-                  console.log('error', error);
+                  console.log("error", error);
                 }}
               >
-                <span className="px-2 font-bold" style={{ color: "#746bd4" }} >
+                <span className="px-2 font-bold" style={{ color: "#746bd4" }}>
                   Log in with Google
                 </span>
               </LoginSocialGoogle>
@@ -264,6 +262,5 @@ export default function LogIn() {
         </div>
       </main>
     </>
-
   );
 }
