@@ -8,6 +8,14 @@ import style from "../app.module.css";
 import toast from "react-hot-toast";
 
 const Create = () => {
+<<<<<<< HEAD
+=======
+  const [text, setText] = useState("");
+  const [text1, setText1] = useState("");
+  const [textCarry, setTextCarry] = useState("");
+  const [textCarry1, setTextCarry1] = useState("");
+
+>>>>>>> 79a28278c56b092e681745e52ccfd6990d2d4e66
   const [forCarryClicked, setForCarryClicked] = useState(false);
   const [forSendClicked, setForSendClicked] = useState(false);
   const [activeButton, setActiveButton] = useState("forSend");
@@ -69,10 +77,21 @@ const Create = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
+<<<<<<< HEAD
+=======
+    setTextCarry1(value);
+    setTextCarry(value);
+
+>>>>>>> 79a28278c56b092e681745e52ccfd6990d2d4e66
     setFormData({ ...formData, [name]: value });
   };
   const handleSendChange = (e) => {
     const { name, value } = e.target;
+<<<<<<< HEAD
+=======
+    setText(value);
+    setText1(value);
+>>>>>>> 79a28278c56b092e681745e52ccfd6990d2d4e66
 
     setSendFormData({ ...sendFormData, [name]: value });
   };
@@ -141,7 +160,10 @@ const Create = () => {
   const carryCreate = async () => {
     try {
       setLoading(true);
+<<<<<<< HEAD
       // setTableData((prevTableData) => [...prevTableData, formData]);
+=======
+>>>>>>> 79a28278c56b092e681745e52ccfd6990d2d4e66
       const selectedCurrencyValue = currency[selectedCurrencyCarry];
       const selectedtravelTypeValue = travelType[selectedTravelType];
 
@@ -172,8 +194,13 @@ const Create = () => {
                 toPlace: formData.toPlace,
                 toTripDate: formData?.toTripDate,
                 travelType: selectedtravelTypeValue,
+<<<<<<< HEAD
               }
             ]
+=======
+              },
+            ],
+>>>>>>> 79a28278c56b092e681745e52ccfd6990d2d4e66
           }),
         }
       );
@@ -197,6 +224,18 @@ const Create = () => {
 
   const handleButtonClick = (button) => {
     setActiveButton(button);
+<<<<<<< HEAD
+=======
+
+    // setLoading(true);
+
+    // try {
+    //   if (button === "forSend") sendCreate();
+    //   if (button === "forCarry") carryCreate();
+    // } finally {
+    //   setLoading(false);
+    // }
+>>>>>>> 79a28278c56b092e681745e52ccfd6990d2d4e66
   };
 
   // const handleAddAnother2 = () => {
@@ -262,6 +301,7 @@ const Create = () => {
     setShowTableList(true);
   };
 
+<<<<<<< HEAD
   const clearCarryData = () => {
     setFormData({
       title: "",
@@ -305,6 +345,12 @@ const Create = () => {
     setSelectedCurrency("")
 
   };
+=======
+  const limit = 200;
+  const limit1 = 200;
+  const limitCarry = 200;
+  const limitCarry1 = 200;
+>>>>>>> 79a28278c56b092e681745e52ccfd6990d2d4e66
 
   return (
     <div className={style.create}>
@@ -655,7 +701,11 @@ const Create = () => {
                         id="result"
                         className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
                       >
+<<<<<<< HEAD
                         {formData.title?.length} / 200
+=======
+                        {textCarry.length} / {limitCarry}
+>>>>>>> 79a28278c56b092e681745e52ccfd6990d2d4e66
                       </p>
                     </div>
                     <div className="font-semibold text-lg">
@@ -685,7 +735,11 @@ const Create = () => {
                             id="result"
                             className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
                           >
+<<<<<<< HEAD
                             {formData.description?.length} / 200
+=======
+                            {textCarry1.length} / {limitCarry1}
+>>>>>>> 79a28278c56b092e681745e52ccfd6990d2d4e66
                           </p>
                         </div>
                       </div>
@@ -863,6 +917,7 @@ const Create = () => {
                           Transport
                         </label>
 
+<<<<<<< HEAD
                         <div className="mt-1.5">
                           <label className="text-[#5C5C5C] mr-3">
                             <input
@@ -920,6 +975,63 @@ const Create = () => {
                             Train
                           </label>
                         </div>
+=======
+                        <label className="text-[#5C5C5C] mr-3">
+                          <input
+                            type="radio"
+                            name="radioTravel"
+                            className="mr-1"
+                            value="Bus"
+                            checked={selectedTravelType === "Bus"}
+                            onChange={handleTravelType}
+                          />
+                          Bus
+                        </label>
+                        <label className="text-[#5C5C5C] mr-3">
+                          <input
+                            type="radio"
+                            name="radioTravel"
+                            className="mr-1"
+                            value="Car"
+                            checked={selectedTravelType === "Car"}
+                            onChange={handleTravelType}
+                          />
+                          Car
+                        </label>
+                        <label className="text-[#5C5C5C] mr-3">
+                          <input
+                            type="radio"
+                            name="radioTravel"
+                            className="mr-1"
+                            value="Plane"
+                            checked={selectedTravelType === "Plane"}
+                            onChange={handleTravelType}
+                          />
+                          Plane
+                        </label>
+                        <label className="text-[#5C5C5C] mr-3">
+                          <input
+                            type="radio"
+                            name="radioTravel"
+                            className="mr-1"
+                            value="Ship"
+                            checked={selectedTravelType === "Ship"}
+                            onChange={handleTravelType}
+                          />
+                          Ship
+                        </label>
+                        <label className="text-[#5C5C5C]">
+                          <input
+                            type="radio"
+                            name="radioTravel"
+                            className="mr-1"
+                            value="Train"
+                            checked={selectedTravelType === "Train"}
+                            onChange={handleTravelType}
+                          />
+                          Train
+                        </label>
+>>>>>>> 79a28278c56b092e681745e52ccfd6990d2d4e66
                       </div>
 
                       <div className="self-center mt-6 flex justify-end ">
