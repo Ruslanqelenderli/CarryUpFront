@@ -7,7 +7,11 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/navbar";
 import { LoginSocialFacebook, LoginSocialGoogle } from "reactjs-social-login";
 
+
 export default function LogIn() {
+
+  const apiurl = process.env.NEXT_PUBLIC_API_URL;
+
   const [users, setUsers] = useState({
     userName: "",
     password: "",
@@ -37,7 +41,7 @@ export default function LogIn() {
     try {
       // const router = useRouter();
       const res = await fetch(
-        "http://carryforus123-001-site1.jtempurl.com/api/Manage/Login",
+        `${apiurl}/Manage/Login`,
         {
           method: "POST",
           headers: {
@@ -78,7 +82,7 @@ export default function LogIn() {
   const loginByGoogle = async (code) => {
     try {
       const res = await fetch(
-        "http://carryforus123-001-site1.jtempurl.com/api/Manage/LoginByGoogle",
+        `${apiurl}/Manage/LoginByGoogle`,
         {
           method: "POST",
           headers: {

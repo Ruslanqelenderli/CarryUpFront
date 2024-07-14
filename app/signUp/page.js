@@ -6,7 +6,9 @@ import { FaPhoneAlt, FaGoogle, FaRegEyeSlash, FaEye } from "react-icons/fa";
 import Navbar from "../components/navbar";
 import Image from "next/image";
 import styles from "./page.module.css"
+
 export default function SignUp() {
+  const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
   const [formData, setformData] = useState({
     name: "",
@@ -32,7 +34,7 @@ export default function SignUp() {
     }
 
     try {
-      const response = await fetch('http://carryforus123-001-site1.jtempurl.com/api/Manage/Register', {
+      const response = await fetch( `${apiurl}/Manage/Register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

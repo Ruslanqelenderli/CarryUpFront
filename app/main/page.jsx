@@ -22,7 +22,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
+
 function MainPage() {
+
+  const apiurl = process.env.NEXT_PUBLIC_API_URL;
+
   const [formData, setFormData] = useState({
     tripCreateDate: "",
     tripTitle: "",
@@ -112,7 +116,7 @@ function MainPage() {
     try {
       setLoading(true);
       let tripsData = await fetch(
-        "http://carryforus123-001-site1.jtempurl.com/api/trip/gettrips ",
+        `${apiurl}/trip/gettrips`,
         //"http://carryforus-001-site1.htempurl.com/api/Trip/GetTrips",
         {
           method: "POST",
@@ -165,7 +169,7 @@ function MainPage() {
     try {
       setSendLoading(true)
       let sendsData = await fetch(
-        "http://carryforus123-001-site1.jtempurl.com/api/send/getsends ",
+        `${apiurl}/send/getsends`,
         {
           method: "POST",
           headers: {

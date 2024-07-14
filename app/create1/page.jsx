@@ -7,7 +7,11 @@ import Navbar1 from "../components/navbar1";
 import TableList from "../components/tableList";
 import { currency, travelType } from "../components/constant";
 
+
 const Create1 = () => {
+  const apiurl = process.env.NEXT_PUBLIC_API_URL;
+
+
   const [text, setText] = useState("");
   const [text1, setText1] = useState("");
   const [open, setOpen] = useState(false);
@@ -107,7 +111,7 @@ const Create1 = () => {
     console.log("form", formData);
     try {
       const response = await fetch(
-        "http://carryforus123-001-site1.jtempurl.com/api/Trip/Create",
+        `${apiurl}/Trip/Create`,
         {
           method: "POST",
           headers: {
@@ -158,7 +162,7 @@ const Create1 = () => {
   const sendCreate = async (current) => {
     try {
       let sendsData = await fetch(
-        "http://carryforus123-001-site1.jtempurl.com/api/Send/Create",
+        `${apiurl}/Send/Create`,
         {
           method: "POST",
           headers: {
