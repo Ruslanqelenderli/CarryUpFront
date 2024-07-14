@@ -7,17 +7,13 @@ import TableList from "../components/tableList";
 import style from "../app.module.css";
 import toast from "react-hot-toast";
 
-
-
 const Create = () => {
-
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
   const [text, setText] = useState("");
   const [text1, setText1] = useState("");
   const [textCarry, setTextCarry] = useState("");
   const [textCarry1, setTextCarry1] = useState("");
-
 
   const [forCarryClicked, setForCarryClicked] = useState(false);
   const [forSendClicked, setForSendClicked] = useState(false);
@@ -80,7 +76,6 @@ const Create = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-
     setTextCarry1(value);
     setTextCarry(value);
 
@@ -91,7 +86,6 @@ const Create = () => {
 
     setText(value);
     setText1(value);
-
 
     setSendFormData({ ...sendFormData, [name]: value });
   };
@@ -104,41 +98,38 @@ const Create = () => {
     try {
       setSendLoading(true);
       const selectedCurrencyValue = currency[selectedCurrency];
-      const response = await fetch(
-        `${apiurl}/Send/Create`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(
-            {
-              title: sendFormData.title,
-              description: sendFormData.description,
-              case: {
-                userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      const response = await fetch(`${apiurl}/Send/Create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(
+          {
+            title: sendFormData.title,
+            description: sendFormData.description,
+            case: {
+              userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            },
+            package: {
+              currency: selectedCurrencyValue,
+              price: Number(sendFormData.price),
+              count: Number(sendFormData.count),
+              deadline: "2024-01-30T22:51:52.792Z",
+              packageCategoryId: 0,
+              packageSubCategoryId: 0,
+            },
+            sendPlaceDetailAddModels: [
+              {
+                fromPlace: sendFormData.fromPlace,
+                toPlace: sendFormData.toPlace,
+                catchDate: sendFormData.catchDate,
               },
-              package: {
-                currency: selectedCurrencyValue,
-                price: Number(sendFormData.price),
-                count: Number(sendFormData.count),
-                deadline: "2024-01-30T22:51:52.792Z",
-                packageCategoryId: 0,
-                packageSubCategoryId: 0,
-              },
-              sendPlaceDetailAddModels: [
-                {
-                  fromPlace: sendFormData.fromPlace,
-                  toPlace: sendFormData.toPlace,
-                  catchDate: sendFormData.catchDate,
-                },
-              ],
-            }
-            //   current: current,
-          ),
-          //   cache: "force-cache",
-        }
-      );
+            ],
+          }
+          //   current: current,
+        ),
+        //   cache: "force-cache",
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -163,39 +154,38 @@ const Create = () => {
       const selectedCurrencyValue = currency[selectedCurrencyCarry];
       const selectedtravelTypeValue = travelType[selectedTravelType];
 
-      const response = await fetch(
-        `${apiurl}/Trip/Create`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+      const response = await fetch(`${apiurl}/Trip/Create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: formData.title,
+          description: formData.description,
+          package: {
+            currency: selectedCurrencyValue,
+            price: Number(formData?.price),
+            count: Number(formData?.count),
+            packageCategoryId: Number(formData?.packageCategoryId),
+            packageSubCategoryId: Number(formData?.packageSubCategoryId),
           },
-          body: JSON.stringify({
-            title: formData.title,
-            description: formData.description,
-            package: {
-              currency: selectedCurrencyValue,
-              price: Number(formData?.price),
-              count: Number(formData?.count),
-              packageCategoryId: Number(formData?.packageCategoryId),
-              packageSubCategoryId: Number(formData?.packageSubCategoryId),
-            },
-            case: {
-              userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            },
-            tripPlaceDetailAddModels: tableData.length > 0 ? tableData : [
-              {
-                fromPlace: formData.fromPlace,
-                fromTripDate: formData?.fromTripDate,
-                toPlace: formData.toPlace,
-                toTripDate: formData?.toTripDate,
-                travelType: selectedtravelTypeValue,
-
-              }
-            ]
-     }),
-        }
-      );
+          case: {
+            userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          },
+          tripPlaceDetailAddModels:
+            tableData.length > 0
+              ? tableData
+              : [
+                  {
+                    fromPlace: formData.fromPlace,
+                    fromTripDate: formData?.fromTripDate,
+                    toPlace: formData.toPlace,
+                    toTripDate: formData?.toTripDate,
+                    travelType: selectedtravelTypeValue,
+                  },
+                ],
+        }),
+      });
       console.log("res", response);
 
       if (response.ok) {
@@ -216,7 +206,6 @@ const Create = () => {
 
   const handleButtonClick = (button) => {
     setActiveButton(button);
-
   };
 
   // const handleAddAnother2 = () => {
@@ -299,10 +288,9 @@ const Create = () => {
       toTripDate: "",
       travelType: null,
     });
-    setTableData([])
-    setSelectedTravelType("")
-    setSelectedCurrencyCarry("")
-
+    setTableData([]);
+    setSelectedTravelType("");
+    setSelectedCurrencyCarry("");
   };
 
   const clearSendData = () => {
@@ -322,8 +310,7 @@ const Create = () => {
       catchDate: "",
       toPlace: "",
     });
-    setSelectedCurrency("")
-
+    setSelectedCurrency("");
   };
 
   const limit = 200;
@@ -680,9 +667,6 @@ const Create = () => {
                         id="result"
                         className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
                       >
-
-                        
-
                         {textCarry.length} / {limitCarry}
                       </p>
                     </div>
@@ -713,11 +697,7 @@ const Create = () => {
                             id="result"
                             className="text-[#85AEFF] text-xs leading-normal font-medium md:text-right"
                           >
-
-                            
-
                             {textCarry1.length} / {limitCarry1}
-
                           </p>
                         </div>
                       </div>
