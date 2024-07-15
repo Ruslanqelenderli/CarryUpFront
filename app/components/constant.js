@@ -11,3 +11,8 @@ export const travelType =
     Ship: 3,
     Train: 4,
 }
+
+export const gender = {
+    Male: 0,
+    Female: 1
+}
