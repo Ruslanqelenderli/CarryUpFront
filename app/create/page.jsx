@@ -394,10 +394,7 @@ const Create = () => {
               <>
                 <div
                   className="section"
-                  style={{
-                    height: "calc(100vh - 388px)",
-                    overflowY: "auto",
-                  }}
+               
                 >
                   <div className="flex md:flex-row flex-col mt-4 p-4 gap-10 justify-between">
                     <div className="font-semibold text-lg">
@@ -635,12 +632,9 @@ const Create = () => {
               <>
                 <div
                   className="section"
-                  style={{
-                    height: "calc(100vh - 388px)",
-                    overflowY: "auto",
-                  }}
+                
                 >
-                  <div className="flex md:flex-row flex-col mt-4 p-4 gap-10">
+                  <div className="flex md:flex-row flex-col mt-4 p-4 gap-10 justify-between">
                     <div className="font-semibold text-lg">
                       <h2
                         htmlFor="#"
@@ -869,125 +863,27 @@ const Create = () => {
                     <div className="grid grid-cols-3 gap-4 p-4 ">
                       <div className="col-span-2">
                         <label
-                          htmlFor="countries"
-                          className="block mb-2 text-sm font-medium text-gray-900 col-span-2 "
+                      
                         >
                           Transport
                         </label>
 
                         <div className="mt-1.5">
-                          <label className="text-[#5C5C5C] mr-3">
-                            <input
-                              type="radio"
-                              name="radioTravel"
-                              className="mr-1"
-                              value="Bus"
-                              checked={selectedTravelType === "Bus"}
-                              onChange={handleTravelType}
-                            />
-                            Bus
-                          </label>
-                          <label className="text-[#5C5C5C] mr-3">
-                            <input
-                              type="radio"
-                              name="radioTravel"
-                              className="mr-1"
-                              value="Car"
-                              checked={selectedTravelType === "Car"}
-                              onChange={handleTravelType}
-                            />
-                            Car
-                          </label>
-                          <label className="text-[#5C5C5C] mr-3">
-                            <input
-                              type="radio"
-                              name="radioTravel"
-                              className="mr-1"
-                              value="Plane"
-                              checked={selectedTravelType === "Plane"}
-                              onChange={handleTravelType}
-                            />
-                            Plane
-                          </label>
-                          <label className="text-[#5C5C5C] mr-3">
-                            <input
-                              type="radio"
-                              name="radioTravel"
-                              className="mr-1"
-                              value="Ship"
-                              checked={selectedTravelType === "Ship"}
-                              onChange={handleTravelType}
-                            />
-                            Ship
-                          </label>
-                          <label className="text-[#5C5C5C]">
-                            <input
-                              type="radio"
-                              name="radioTravel"
-                              className="mr-1"
-                              value="Train"
-                              checked={selectedTravelType === "Train"}
-                              onChange={handleTravelType}
-                            />
-                            Train
-                          </label>
-                        </div>
+                        <select
+      name="selectTravel"
+      className=" p-2 border  border border-[#C5D9FF] rounded-md p-2 w-80 focus:outline-none focus:border-[#C5D9FF] rounded-md shadow-sm focus:outline-none  transition duration-200"
+      value={selectedTravelType}
+      onChange={handleTravelType}
+    >
+      <option value="Bus">Bus</option>
+      <option value="Car">Car</option>
+      <option value="Plane">Plane</option>
+      <option value="Ship">Ship</option>
+      <option value="Train">Train</option>
+    </select>
+</div>
 
-                        <label className="text-[#5C5C5C] mr-3">
-                          <input
-                            type="radio"
-                            name="radioTravel"
-                            className="mr-1"
-                            value="Bus"
-                            checked={selectedTravelType === "Bus"}
-                            onChange={handleTravelType}
-                          />
-                          Bus
-                        </label>
-                        <label className="text-[#5C5C5C] mr-3">
-                          <input
-                            type="radio"
-                            name="radioTravel"
-                            className="mr-1"
-                            value="Car"
-                            checked={selectedTravelType === "Car"}
-                            onChange={handleTravelType}
-                          />
-                          Car
-                        </label>
-                        <label className="text-[#5C5C5C] mr-3">
-                          <input
-                            type="radio"
-                            name="radioTravel"
-                            className="mr-1"
-                            value="Plane"
-                            checked={selectedTravelType === "Plane"}
-                            onChange={handleTravelType}
-                          />
-                          Plane
-                        </label>
-                        <label className="text-[#5C5C5C] mr-3">
-                          <input
-                            type="radio"
-                            name="radioTravel"
-                            className="mr-1"
-                            value="Ship"
-                            checked={selectedTravelType === "Ship"}
-                            onChange={handleTravelType}
-                          />
-                          Ship
-                        </label>
-                        <label className="text-[#5C5C5C]">
-                          <input
-                            type="radio"
-                            name="radioTravel"
-                            className="mr-1"
-                            value="Train"
-                            checked={selectedTravelType === "Train"}
-                            onChange={handleTravelType}
-                          />
-                          Train
-                        </label>
+                 
                       </div>
 
                       <div className="self-center mt-6 flex justify-end ">
