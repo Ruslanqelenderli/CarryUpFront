@@ -2,22 +2,18 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Navbar from "../components/navbar";
 import { LoginSocialFacebook, LoginSocialGoogle } from "reactjs-social-login";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function LogIn() {
-
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
-  const [users, setUsers] = useState({
-
-  });
-  const [error, setError] = useState('');
+  const [users, setUsers] = useState({});
+  const [error, setError] = useState("");
   const [visible, setVisible] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [data, setData] = useState([]);
@@ -25,8 +21,6 @@ export default function LogIn() {
   const [refreshToken, setRefreshToken] = useState("");
   const [code, setCode] = useState("");
   const navigate = useRouter();
-
-
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -36,12 +30,11 @@ export default function LogIn() {
     }));
   };
 
-
   const signIn = async () => {
     try {
       // Check if username and password are filled
       if (!users.userName || !users.password) {
-        throw new Error('Please fill in all fields');
+        throw new Error("Please fill in all fields");
       }
 
       const res = await fetch(`${apiurl}/Manage/Login`, {
@@ -58,7 +51,7 @@ export default function LogIn() {
       });
 
       if (!res.ok) {
-        throw new Error('API request failed');
+        throw new Error("API request failed");
       }
 
       const responseData = await res.json();
@@ -66,8 +59,10 @@ export default function LogIn() {
       if (responseData.success === false && responseData.errors) {
         // Handle specific errors if available
         if (responseData.errors.length > 0) {
-          const errorMessages = responseData.errors.map(error => error.message);
-          errorMessages.forEach(message => toast.error(message));
+          const errorMessages = responseData.errors.map(
+            (error) => error.message
+          );
+          errorMessages.forEach((message) => toast.error(message));
         }
         return; // Stop further execution
       }
@@ -84,15 +79,13 @@ export default function LogIn() {
         setRefreshToken(refreshToken);
         setData(responseData?.list);
 
-        router.push('/');
+        router.push("/");
       }
     } catch (error) {
       console.error("signIn error: ", error.message); // Log the specific error message
       toast.error(error?.message); // Show the specific error message to the user
     }
   };
-
-
 
   return (
     <>
@@ -156,12 +149,17 @@ export default function LogIn() {
                 </div>
               </div>
             </div>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {error && <p style={{ color: "red" }}>{error}</p>}
             <ToastContainer />
             <div className="flex justify-between items-center">
               <label className="block text-gray-500 font-bold my-4">
-                <input type="checkbox" className="leading-loose " name="rememberMe"  checked={users.rememberMe}
-                  onChange={handleChange}/>
+                <input
+                  type="checkbox"
+                  className="leading-loose "
+                  name="rememberMe"
+                  checked={users.rememberMe}
+                  onChange={handleChange}
+                />
                 <span className="py-2 text-sm text-[#706AB5] leading-snug ml-2">
                   Remember Me
                 </span>
