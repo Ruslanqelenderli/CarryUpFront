@@ -2,10 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 import Navbar from "../components/navbar";
 import { LoginSocialFacebook, LoginSocialGoogle } from "reactjs-social-login";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function LogIn() {
@@ -13,94 +15,84 @@ export default function LogIn() {
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
   const [users, setUsers] = useState({
-    userName: "",
-    password: "",
+
   });
+  const [error, setError] = useState('');
   const [visible, setVisible] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [data, setData] = useState([]);
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
   const [code, setCode] = useState("");
+  const navigate = useRouter();
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setUsers((values) => ({ ...values, [name]: value }));
-    setIsButtonDisabled(
-      !(
-        users.userName &&
-        users.userName.length >= 1 &&
-        users.password &&
-        users.password.length >= 6
-      )
-    );
+
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setUsers((values) => ({
+      ...values,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
+
 
   const signIn = async () => {
     try {
-      // const router = useRouter();
-      const res = await fetch(
-        `${apiurl}/Manage/Login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            firstTab: users.userName,
-            password: users.password,
-            rememberMe: true,
-          }),
-          cache: "force-cache",
-        }
-      );
+      // Check if username and password are filled
+      if (!users.userName || !users.password) {
+        throw new Error('Please fill in all fields');
+      }
+
+      const res = await fetch(`${apiurl}/Manage/Login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstTab: users.userName,
+          password: users.password,
+          rememberMe: users.rememberMe,
+        }),
+        cache: "force-cache",
+      });
+
+      if (!res.ok) {
+        throw new Error('API request failed');
+      }
 
       const responseData = await res.json();
-      console.log("responseData", responseData);
 
-      const accessToken = responseData?.list[0]?.accessToken;
-      const refreshToken = responseData?.list[0]?.refreshToken;
+      if (responseData.success === false && responseData.errors) {
+        // Handle specific errors if available
+        if (responseData.errors.length > 0) {
+          const errorMessages = responseData.errors.map(error => error.message);
+          errorMessages.forEach(message => toast.error(message));
+        }
+        return; // Stop further execution
+      }
 
-      if (accessToken && refreshToken) {
+      const accessToken = responseData?.list?.[0]?.accessToken;
+      const refreshToken = responseData?.list?.[0]?.refreshToken;
+
+      if (accessToken && refreshToken && responseData.success === true) {
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
 
+        // Update state with tokens or data
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
-
         setData(responseData?.list);
-        // router.push("/profile")
-      } else {
-        console.log("error");
+
+        router.push('/');
       }
     } catch (error) {
-      console.error("signIn error: ", error);
+      console.error("signIn error: ", error.message); // Log the specific error message
+      toast.error(error?.message); // Show the specific error message to the user
     }
   };
 
-  const loginByGoogle = async (code) => {
-    try {
-      const res = await fetch(
-        `${apiurl}/Manage/LoginByGoogle`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            code: code,
-          }),
-          cache: "force-cache",
-        }
-      );
 
-      const responseData = await res.json();
-      console.log("responseData", responseData);
-    } catch (error) {
-      console.log("loginByGoogle", error);
-    }
-  };
 
   return (
     <>
@@ -164,11 +156,13 @@ export default function LogIn() {
                 </div>
               </div>
             </div>
-
-            <div className="flex justify-between">
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <ToastContainer />
+            <div className="flex justify-between items-center">
               <label className="block text-gray-500 font-bold my-4">
-                <input type="checkbox" className="leading-loose " />{" "}
-                <span className="py-2 text-sm text-[#706AB5] leading-snug">
+                <input type="checkbox" className="leading-loose " name="rememberMe"  checked={users.rememberMe}
+                  onChange={handleChange}/>
+                <span className="py-2 text-sm text-[#706AB5] leading-snug ml-2">
                   Remember Me
                 </span>
               </label>
@@ -221,35 +215,7 @@ export default function LogIn() {
                 </span>
               </LoginSocialFacebook>
             </div>
-            <div className="flex justify-center items-center mb-4 cursor-pointer">
-              <Image
-                src="/icons/google.png"
-                width={20}
-                height={30}
-                alt="Google"
-                className="mt-0.5"
-                priority={true}
-              />
 
-              <LoginSocialGoogle
-                client_id={
-                  "650935634351-7mr5vjrtaarg7t4s9ogetopg0mfll6cu.apps.googleusercontent.com"
-                }
-                scope="openid profile email"
-                discoveryDocs="claims_supported"
-                access_type="offline"
-                onResolve={(provider, data) => {
-                  loginByGoogle(provider?.data?.code);
-                }}
-                onReject={(error) => {
-                  console.log("error", error);
-                }}
-              >
-                <span className="px-2 font-bold" style={{ color: "#746bd4" }}>
-                  Log in with Google
-                </span>
-              </LoginSocialGoogle>
-            </div>
             <div className="mb-5 text-center">
               <span className=" mr-2" style={{ color: "#746bd4" }}>
                 Don’t have an account?
