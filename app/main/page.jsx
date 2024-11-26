@@ -1490,7 +1490,7 @@ function MainPage() {
           </div>
         </div>
         {/* Modal footer */}
-        <div className="p-[18px]  w-full bottom-0 footer flex px-[100px] justify-end gap-[30px]">
+        {/* <div className="p-[18px]  w-full bottom-0 footer flex px-[100px] justify-end gap-[30px]">
           <button className="border border-solid border-[#4F8BFF] bg-[#669AFF] text-white px-5 py-2 ">
             Explore Similar Ads
           </button>
@@ -1505,7 +1505,7 @@ function MainPage() {
             />
             <span className="pl-2 font-semibold text-[18px]">Share</span>
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   </div>
@@ -1753,7 +1753,7 @@ function MainPage() {
           </div>
         </div>
         {/* Modal footer */}
-        <div className="p-[18px]  w-full bottom-0 footer flex px-[100px] justify-end gap-[30px]">
+        {/* <div className="p-[18px]  w-full bottom-0 footer flex px-[100px] justify-end gap-[30px]">
           <button className="border border-solid border-[#895AEE] bg-[#895AEE] text-white px-5 py-2 ">
             Explore Similar Ads
           </button>
@@ -1768,7 +1768,7 @@ function MainPage() {
             />
             <span className="pl-2 font-semibold text-[18px]">Share</span>
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   </div>

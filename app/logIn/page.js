@@ -1,15 +1,289 @@
+// "use client";
+
+// import Image from "next/image";
+// import Link from "next/link";
+// import { useRouter } from "next/navigation";
+// import { useEffect, useState } from "react";
+// import Navbar from "../components/navbar";
+// import { LoginSocialFacebook, LoginSocialGoogle } from "reactjs-social-login";
+
+
+// export default function LogIn() {
+
+//   const apiurl = process.env.NEXT_PUBLIC_API_URL;
+
+//   const [users, setUsers] = useState({
+//     userName: "",
+//     password: "",
+//   });
+//   const [visible, setVisible] = useState("");
+//   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+//   const [data, setData] = useState([]);
+//   const [accessToken, setAccessToken] = useState("");
+//   const [refreshToken, setRefreshToken] = useState("");
+//   const [code, setCode] = useState("");
+
+//   const handleChange = (event) => {
+//     const name = event.target.name;
+//     const value = event.target.value;
+//     setUsers((values) => ({ ...values, [name]: value }));
+//     setIsButtonDisabled(
+//       !(
+//         users.userName &&
+//         users.userName.length >= 1 &&
+//         users.password &&
+//         users.password.length >= 6
+//       )
+//     );
+//   };
+
+//   const router = useRouter();
+
+
+//   const signIn = async () => {
+//     try {
+//       const res = await fetch(`${apiurl}/Manage/Login`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({
+//           firstTab: users.userName,
+//           password: users.password,
+//           rememberMe: true,
+//         }),
+//         cache: "force-cache",
+//       });
+  
+//       const responseData = await res.json();
+  
+//       const accessToken = responseData?.list[0]?.accessToken;
+//       const refreshToken = responseData?.list[0]?.refreshToken;
+//       const user = responseData?.list[0]?.user; 
+  
+//       if (accessToken && refreshToken && user) {
+//         localStorage.setItem("accessToken", accessToken);
+//         localStorage.setItem("refreshToken", refreshToken);
+//         localStorage.setItem("user", JSON.stringify(user)); 
+//         setAccessToken(accessToken);
+//         setRefreshToken(refreshToken);
+//         setData(responseData?.list);
+  
+//         if (responseData?.success) {
+//           router.push("/"); 
+//         } else {
+//           console.log("Login unsuccessful");
+//         }
+//       } else {
+//         console.log("Error: Missing tokens or user information");
+//       }
+//     } catch (error) {
+//       console.error("signIn error: ", error);
+//     }
+//   };
+
+//   const loginByGoogle = async (code) => {
+//     try {
+//       const res = await fetch(
+//         `${apiurl}/Manage/LoginByGoogle`,
+//         {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify({
+//             code: code,
+//           }),
+//           cache: "force-cache",
+//         }
+//       );
+
+//       const responseData = await res.json();
+//       console.log("responseData", responseData);
+//     } catch (error) {
+//       console.log("loginByGoogle", error);
+//     }
+//   };
+
+//   return (
+//     <>
+//       <Navbar />
+//       <main className=" flex flex-col items-center justify-center w-full flex-1 px-20  md:flex-row min-h-screen">
+//         <div className="main flex flex-col bg-white rounded-2xl shadow-2xl justify-center  items-center px-7 pt-6 ">
+//           <Image
+//             src="/images/carry.png"
+//             width={150}
+//             height={50}
+//             alt="Carry UP"
+//             priority={true}
+//           />
+
+//           <form className="w-full max-w-lg">
+//             <div className="flex flex-wrap -mx-3 pt-7">
+//               <div className="w-full  px-3 md:mb-0">
+//                 <label className="block  text-sm  mb-2">
+//                   Email
+//                 </label>
+//                 <input
+//                   className="border w-full py-2.5 px-3 mb-3 focus:outline-none focus:shadow-outline"
+//                   type="text"
+//                   placeholder="Number or Email"
+//                   name="userName"
+//                   value={users.userName}
+//                   onChange={handleChange}
+//                 />
+//               </div>
+
+//               <div className="w-full px-3 relative">
+//                 <label className="block text-sm  mb-2">Create Password</label>
+//                 <input
+//                   className="border w-full py-2.5 px-3  mb-3 focus:outline-none focus:shadow-outline"
+//                   type={visible ? "text" : "password"}
+//                   placeholder="Password"
+//                   name="password"
+//                   value={users.password}
+//                   onChange={handleChange}
+//                 />
+//                 <div onClick={() => setVisible(!visible)}>
+//                   {visible ? (
+//                     <Image
+//                       src="/icons/hidden.png"
+//                       width={25}
+//                       height={35}
+//                       alt="Hide"
+//                       className="mt-0.5 hide"
+//                       priority={true}
+//                     />
+//                   ) : (
+//                     <Image
+//                       src="/icons/eye.png"
+//                       width={25}
+//                       height={35}
+//                       alt="Hide"
+//                       className="mt-0.5 hide"
+//                       priority={true}
+//                     />
+//                   )}
+//                 </div>
+//               </div>
+//             </div>
+
+//             <div className="flex justify-between">
+//               <label className="block text-gray-500 font-bold my-4">
+//                 <input type="checkbox" className="leading-loose " />{" "}
+//                 <span className="py-2 text-sm text-[#706AB5] leading-snug">
+//                   Remember Me
+//                 </span>
+//               </label>
+//               <label className="block text-gray-500 font-bold my-4">
+//                 <Link href="/forgotpassword" className="link cursor-pointer tracking-tighter ">
+//                   <span>Forgot Password?</span>
+//                 </Link>
+//               </label>
+//             </div>
+//             <button
+//               className={`bg-[#635bb2] w-full text-white font-bold py-2.5 px-4 mt-4 transition-colors `}
+//               type="button"
+//               onClick={signIn}
+//               // disabled={isButtonDisabled}
+//             >
+//               Log In
+//             </button>
+//             {/* <div className="inline-flex items-center justify-center w-full mb-6 mt-12">
+//               <hr className="w-full h-px border-0 " />
+//               <span
+//                 style={{ color: "#645ACF" }}
+//                 className="uppercase absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2"
+//               >
+//                 or
+//               </span>
+//             </div>
+//             <div className="flex justify-center items-center mb-2">
+//               <Image
+//                 src="/icons/phone.png"
+//                 width={20}
+//                 height={30}
+//                 alt="Phone"
+//                 className="mt-0.5"
+//                 priority={true}
+//               />
+//               <LoginSocialFacebook
+//                 appId="1353360878656411"
+//                 onResolve={(res) => {
+//                   console.log("res", res);
+//                 }}
+//                 onReject={(error) => {
+//                   console.log("error", error);
+//                 }}
+//               >
+//                 <span
+//                   className="px-1 font-bold cursor-pointer"
+//                   style={{ color: "#746bd4" }}
+//                 >
+//                   Log in with Facebook
+//                 </span>
+//               </LoginSocialFacebook>
+//             </div>
+//             <div className="flex justify-center items-center mb-4 cursor-pointer">
+//               <Image
+//                 src="/icons/google.png"
+//                 width={20}
+//                 height={30}
+//                 alt="Google"
+//                 className="mt-0.5"
+//                 priority={true}
+//               />
+
+//               <LoginSocialGoogle
+//                 client_id={
+//                   "650935634351-7mr5vjrtaarg7t4s9ogetopg0mfll6cu.apps.googleusercontent.com"
+//                 }
+//                 scope="openid profile email"
+//                 discoveryDocs="claims_supported"
+//                 access_type="offline"
+//                 onResolve={(provider, data) => {
+//                   loginByGoogle(provider?.data?.code);
+//                 }}
+//                 onReject={(error) => {
+//                   console.log("error", error);
+//                 }}
+//               >
+//                 <span className="px-2 font-bold" style={{ color: "#746bd4" }}>
+//                   Log in with Google
+//                 </span>
+//               </LoginSocialGoogle>
+//             </div> */}
+//             <div className="mb-5 text-center  mt-12">
+//               <span className=" mr-2" style={{ color: "#746bd4" }}>
+//                 Don’t have an account?
+//               </span>
+//               <Link
+//                 className="font-bold"
+//                 style={{ color: "#38B4FF" }}
+//                 href="/signUp"
+//               >
+//                 Sign Up
+//               </Link>
+//             </div>
+//           </form>
+//         </div>
+//       </main>
+//     </>
+//   );
+// }
+
+
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Navbar from "../components/navbar";
-import { LoginSocialFacebook, LoginSocialGoogle } from "reactjs-social-login";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';  // Make sure you import styles
 
 export default function LogIn() {
-
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
   const [users, setUsers] = useState({
@@ -37,68 +311,55 @@ export default function LogIn() {
     );
   };
 
+  const router = useRouter();
+
   const signIn = async () => {
     try {
-      // const router = useRouter();
-      const res = await fetch(
-        `${apiurl}/Manage/Login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            firstTab: users.userName,
-            password: users.password,
-            rememberMe: true,
-          }),
-          cache: "force-cache",
-        }
-      );
+      const res = await fetch(`${apiurl}/Manage/Login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstTab: users.userName,
+          password: users.password,
+          rememberMe: true,
+        }),
+        cache: "force-cache",
+      });
 
       const responseData = await res.json();
-      console.log("responseData", responseData);
+
+      // Check if there are any error messages in the response
+      if (responseData?.errors && responseData.errors.length > 0) {
+        responseData.errors.forEach((error) => {
+          toast.error(error.message);  // Display each error message as a toast
+        });
+      }
 
       const accessToken = responseData?.list[0]?.accessToken;
       const refreshToken = responseData?.list[0]?.refreshToken;
+      const user = responseData?.list[0]?.user;
 
-      if (accessToken && refreshToken) {
+      if (accessToken && refreshToken && user) {
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
-
+        localStorage.setItem("user", JSON.stringify(user));
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
-
         setData(responseData?.list);
-        // router.push("/profile")
+
+        if (responseData?.success) {
+          router.push("/");
+        } else {
+          console.log("Login unsuccessful");
+        }
       } else {
-        console.log("error");
+        console.log("Error: Missing tokens or user information");
       }
     } catch (error) {
       console.error("signIn error: ", error);
-    }
-  };
-
-  const loginByGoogle = async (code) => {
-    try {
-      const res = await fetch(
-        `${apiurl}/Manage/LoginByGoogle`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            code: code,
-          }),
-          cache: "force-cache",
-        }
-      );
-
-      const responseData = await res.json();
-      console.log("responseData", responseData);
-    } catch (error) {
-      console.log("loginByGoogle", error);
+      toast.error("An error occurred while signing in.");
     }
   };
 
@@ -114,17 +375,14 @@ export default function LogIn() {
             alt="Carry UP"
             priority={true}
           />
-
           <form className="w-full max-w-lg">
             <div className="flex flex-wrap -mx-3 pt-7">
               <div className="w-full  px-3 md:mb-0">
-                <label className="block  text-sm  mb-2">
-                  Phone Number or Email
-                </label>
+                <label className="block text-sm mb-2">Email</label>
                 <input
                   className="border w-full py-2.5 px-3 mb-3 focus:outline-none focus:shadow-outline"
                   type="text"
-                  placeholder="Number or Email"
+                  placeholder=" Email"
                   name="userName"
                   value={users.userName}
                   onChange={handleChange}
@@ -132,9 +390,9 @@ export default function LogIn() {
               </div>
 
               <div className="w-full px-3 relative">
-                <label className="block text-sm  mb-2">Create Password</label>
+                <label className="block text-sm mb-2">Create Password</label>
                 <input
-                  className="border w-full py-2.5 px-3  mb-3 focus:outline-none focus:shadow-outline"
+                  className="border w-full py-2.5 px-3 mb-3 focus:outline-none focus:shadow-outline"
                   type={visible ? "text" : "password"}
                   placeholder="Password"
                   name="password"
@@ -173,98 +431,31 @@ export default function LogIn() {
                 </span>
               </label>
               <label className="block text-gray-500 font-bold my-4">
-                <a href="#" className="link cursor-pointer tracking-tighter ">
+                <Link href="/forgotpassword" className="link cursor-pointer tracking-tighter ">
                   <span>Forgot Password?</span>
-                </a>
+                </Link>
               </label>
             </div>
             <button
-              className={`bg-[#635bb2] w-full text-white font-bold py-2.5 px-4 mt-4 transition-colors `}
+              className={`bg-[#635bb2] w-full text-white font-bold py-2.5 px-4 mt-4 transition-colors`}
               type="button"
               onClick={signIn}
-              // disabled={isButtonDisabled}
             >
               Log In
             </button>
-            <div className="inline-flex items-center justify-center w-full mb-6 mt-12">
-              <hr className="w-full h-px border-0 " />
-              <span
-                style={{ color: "#645ACF" }}
-                className="uppercase absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2"
-              >
-                or
-              </span>
-            </div>
-            <div className="flex justify-center items-center mb-2">
-              <Image
-                src="/icons/phone.png"
-                width={20}
-                height={30}
-                alt="Phone"
-                className="mt-0.5"
-                priority={true}
-              />
-              <LoginSocialFacebook
-                appId="1353360878656411"
-                onResolve={(res) => {
-                  console.log("res", res);
-                }}
-                onReject={(error) => {
-                  console.log("error", error);
-                }}
-              >
-                <span
-                  className="px-1 font-bold cursor-pointer"
-                  style={{ color: "#746bd4" }}
-                >
-                  Log in with Facebook
-                </span>
-              </LoginSocialFacebook>
-            </div>
-            <div className="flex justify-center items-center mb-4 cursor-pointer">
-              <Image
-                src="/icons/google.png"
-                width={20}
-                height={30}
-                alt="Google"
-                className="mt-0.5"
-                priority={true}
-              />
 
-              <LoginSocialGoogle
-                client_id={
-                  "650935634351-7mr5vjrtaarg7t4s9ogetopg0mfll6cu.apps.googleusercontent.com"
-                }
-                scope="openid profile email"
-                discoveryDocs="claims_supported"
-                access_type="offline"
-                onResolve={(provider, data) => {
-                  loginByGoogle(provider?.data?.code);
-                }}
-                onReject={(error) => {
-                  console.log("error", error);
-                }}
-              >
-                <span className="px-2 font-bold" style={{ color: "#746bd4" }}>
-                  Log in with Google
-                </span>
-              </LoginSocialGoogle>
-            </div>
-            <div className="mb-5 text-center">
-              <span className=" mr-2" style={{ color: "#746bd4" }}>
+            <div className="mb-5 text-center mt-12">
+              <span className="mr-2" style={{ color: "#746bd4" }}>
                 Don’t have an account?
               </span>
-              <Link
-                className="font-bold"
-                style={{ color: "#38B4FF" }}
-                href="/signUp"
-              >
+              <Link className="font-bold" style={{ color: "#38B4FF" }} href="/signUp">
                 Sign Up
               </Link>
             </div>
           </form>
         </div>
       </main>
+      <ToastContainer /> {/* This will display your toast messages */}
     </>
   );
 }

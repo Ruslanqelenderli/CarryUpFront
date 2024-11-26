@@ -6,9 +6,12 @@ import { FaPhoneAlt, FaGoogle, FaRegEyeSlash, FaEye } from "react-icons/fa";
 import Navbar from "../components/navbar";
 import Image from "next/image";
 import styles from "./page.module.css"
+import { useRouter } from "next/navigation";
 
 export default function SignUp() {
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
+
+  const router = useRouter();
 
   const [formData, setformData] = useState({
     name: "",
@@ -34,17 +37,24 @@ export default function SignUp() {
     }
 
     try {
-      const response = await fetch( `${apiurl}/Manage/Register`, {
+      const response = await fetch(`${apiurl}/Manage/Register`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Data sent', data);
+
+        if (data.success) {
+          console.log('Registration successful', data);
+          router.push('/logIn');
+        } else {
+          setError('Registration failed');
+          console.error('Error:', data.message);
+        }
       } else {
         const errorData = await response.json();
         console.error('Error sending data:', errorData);
@@ -56,7 +66,6 @@ export default function SignUp() {
       console.error('Fetch error:', error);
     }
   };
-
   return (
     <div>
       <Navbar />
