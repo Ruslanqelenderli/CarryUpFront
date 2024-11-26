@@ -286,29 +286,22 @@ import 'react-toastify/dist/ReactToastify.css';  // Make sure you import styles
 export default function LogIn() {
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
-  const [users, setUsers] = useState({
-    userName: "",
-    password: "",
-  });
+  const [users, setUsers] = useState({});
+  const [error, setError] = useState("");
   const [visible, setVisible] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [data, setData] = useState([]);
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
   const [code, setCode] = useState("");
+  const navigate = useRouter();
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setUsers((values) => ({ ...values, [name]: value }));
-    setIsButtonDisabled(
-      !(
-        users.userName &&
-        users.userName.length >= 1 &&
-        users.password &&
-        users.password.length >= 6
-      )
-    );
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setUsers((values) => ({
+      ...values,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const router = useRouter();
@@ -422,11 +415,18 @@ export default function LogIn() {
                 </div>
               </div>
             </div>
-
-            <div className="flex justify-between">
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            <ToastContainer />
+            <div className="flex justify-between items-center">
               <label className="block text-gray-500 font-bold my-4">
-                <input type="checkbox" className="leading-loose " />{" "}
-                <span className="py-2 text-sm text-[#706AB5] leading-snug">
+                <input
+                  type="checkbox"
+                  className="leading-loose "
+                  name="rememberMe"
+                  checked={users.rememberMe}
+                  onChange={handleChange}
+                />
+                <span className="py-2 text-sm text-[#706AB5] leading-snug ml-2">
                   Remember Me
                 </span>
               </label>
