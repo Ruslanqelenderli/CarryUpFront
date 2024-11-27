@@ -20,19 +20,23 @@ export default function SignUp() {
     phoneNumber: "",
     password: "",
     confirmPassword: "",
-    birthDate: ""
-  })
-  const [error, setError] = useState('');
+    birthDate: "",
+    gender: null,
+  });
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setformData({ ...formData, [name]: value })
-  }
+    const updatedValue = name === "gender" ? Number(value) : value;
+    // setFormData({ ...formData, [name]: value });
+
+    setFormData({ ...formData, [name]: updatedValue });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return;
     }
 
@@ -57,13 +61,13 @@ export default function SignUp() {
         }
       } else {
         const errorData = await response.json();
-        console.error('Error sending data:', errorData);
+        console.error("Error sending data:", errorData);
         if (errorData.errors) {
-          console.log('Validation errors:', errorData.errors);
+          console.log("Validation errors:", errorData.errors);
         }
       }
     } catch (error) {
-      console.error('Fetch error:', error);
+      console.error("Fetch error:", error);
     }
   };
   return (
@@ -71,7 +75,13 @@ export default function SignUp() {
       <Navbar />
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center md:flex-row min-h-screen">
         <div className="flex flex-col bg-white rounded-2xl shadow-2xl justify-center text-center items-center px-7">
-          <Image src="/carry.png" width={150} height={150} className="my-5" alt="carry"/>
+          <Image
+            src="/carry.png"
+            width={150}
+            height={150}
+            className="my-5"
+            alt="carry"
+          />
           <form className="w-full max-w-lg" onSubmit={handleSubmit}>
             <div className="flex flex-wrap -mx-3">
               <div className="w-full md:w-1/2 px-3 md:mb-0">
@@ -83,7 +93,10 @@ export default function SignUp() {
                   Name
                 </label>
                 <input
-                  style={{ borderImage: "linear-gradient(to right, #f8ccfd, #cbfbff) 1", }}
+                  style={{
+                    borderImage:
+                      "linear-gradient(to right, #f8ccfd, #cbfbff) 1",
+                  }}
                   className="appearance-none block w-full text-gray-400 border py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   id="grid-first-name"
                   type="text"
@@ -103,7 +116,10 @@ export default function SignUp() {
                 </label>
                 <input
                   // style={{ borderIma: "1px solid #c2deff" }}
-                  style={{ borderImage: "linear-gradient(to right, #f8ccfd, #cbfbff) 1" }}
+                  style={{
+                    borderImage:
+                      "linear-gradient(to right, #f8ccfd, #cbfbff) 1",
+                  }}
                   className="appearance-none block w-full text-gray-400 border border-gray-200 rounded-lg py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-last-name"
                   type="text"
@@ -114,7 +130,7 @@ export default function SignUp() {
                 />
               </div>
             </div>
-            <div className="flex flex-wrap -mx-3">
+            <div className="flex flex-wrap -mx-3 items-center">
               <div className="w-full md:w-1/2 px-3 md:mb-0">
                 <label
                   style={{ color: "rgba(117, 107, 227, 0.70)" }}
@@ -124,7 +140,10 @@ export default function SignUp() {
                   Birthday
                 </label>
                 <input
-                  style={{ borderImage: "linear-gradient(to right, #f8ccfd, #cbfbff) 1" }}
+                  style={{
+                    borderImage:
+                      "linear-gradient(to right, #f8ccfd, #cbfbff) 1",
+                  }}
                   className="appearance-none block w-full  text-gray-400 border rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   id="grid-first-name"
                   type="date"
@@ -136,22 +155,30 @@ export default function SignUp() {
               </div>
 
               {/* gender */}
-              <div className="w-full md:w-1/2 px-3 text-left">
-                <label style={{ color: "rgba(117, 107, 227, 0.70)", marginBottom: "12px" }} className="block tracking-wide text-gray-700 text-xs font-bold text-left mb-1">
-                  Gender
-                </label>
 
-                <label htmlFor="male" id="male-label" className={styles["male-label"]}>
-                  <input type="radio" id="male" name="gender" className={`${styles.male} ${styles['custom-radio']}`} />
-                  Male
-                  {/* <Image src="/userMale.png" width={20} height={20} /> */}
-                </label>
-                <label htmlFor="female" className={styles["female-label"]}>
-                  <input type="radio" id="female" name="gender" className={`${styles.female} ${styles['custom-radio']}`} />
-                  Female
-                </label>
-
+              <div className="px-3 mt-2 justify-between w-full md:w-1/2 px-3 md:mb-0">
+                <div className="">
+                  <div>
+                    <div className="border border-solid border-[#b532ff75] rounded-lg py-2 leading-tight text-[#CFCAFF]">
+                      <select
+                        style={{ border: "none" }}
+                        className="focus:outline-none mt-2 md:mb-0 text-center"
+                        name="gender"
+                        value={formData.gender}
+                        onChange={handleChange}
+                      >
+                        {Object.entries(gender).map((v) => (
+                          <>
+                            <option value={v[1]}>{v[0]}</option>
+                          </>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
               </div>
+
+              {/*  */}
             </div>
             <div className="flex flex-wrap -mx-3">
               <div className="w-full md:w-1/2 px-3 md:mb-0">
@@ -163,7 +190,10 @@ export default function SignUp() {
                   Email
                 </label>
                 <input
-                  style={{ borderImage: "linear-gradient(to right, #f8ccfd, #cbfbff) 1" }}
+                  style={{
+                    borderImage:
+                      "linear-gradient(to right, #f8ccfd, #cbfbff) 1",
+                  }}
                   className="appearance-none block w-full  text-gray-400 border border-gray-200 rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   id="grid-first-name"
                   type="text"
@@ -182,7 +212,10 @@ export default function SignUp() {
                   Phone Number
                 </label>
                 <input
-                  style={{ borderImage: "linear-gradient(to right, #f8ccfd, #cbfbff) 1" }}
+                  style={{
+                    borderImage:
+                      "linear-gradient(to right, #f8ccfd, #cbfbff) 1",
+                  }}
                   className={`block w-full text-gray-400 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ${styles.phoneNumber}`}
                   id="grid-last-name"
                   type="text"
@@ -203,7 +236,11 @@ export default function SignUp() {
                   Create Password
                 </label>
                 <input
-                  style={{ borderImage: "linear-gradient(to right, #f8ccfd, #cbfbff) 1", color: "#9e97ecb" }}
+                  style={{
+                    borderImage:
+                      "linear-gradient(to right, #f8ccfd, #cbfbff) 1",
+                    color: "#9e97ecb",
+                  }}
                   className="appearance-none block w-full  text-gray-400 border border-gray-200 rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   id="grid-first-name"
                   type="password"
@@ -224,7 +261,11 @@ export default function SignUp() {
                 </label>
 
                 <input
-                  style={{ borderImage: "linear-gradient(to right, #f8ccfd, #cbfbff) 1", color: "#9e97ecb", }}
+                  style={{
+                    borderImage:
+                      "linear-gradient(to right, #f8ccfd, #cbfbff) 1",
+                    color: "#9e97ecb",
+                  }}
                   className="appearance-none block w-full text-gray-400 border border-gray-200 rounded-lg py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-last-name"
                   type="password"
@@ -235,11 +276,7 @@ export default function SignUp() {
                 />
               </div>
             </div>
-            {error && (
-              <div className="text-red-500 text-sm mt-2">
-                {error}
-              </div>
-            )}
+            {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
             <div className="flex flex-wrap -mx-3 mb-6">
               <div className="w-full px-3 mb-6 md:mb-0 text-left">
                 <label className="text-gray-500 font-bold flex">
@@ -299,8 +336,11 @@ export default function SignUp() {
               <span className=" mr-2" style={{ color: "#746bd4" }}>
                 Already have an account?
               </span>
-              <Link href="/logIn"
-                className="font-bold" style={{ color: "#38B4FF", background: "transparent" }}>
+              <Link
+                href="/logIn"
+                className="font-bold"
+                style={{ color: "#38B4FF", background: "transparent" }}
+              >
                 Sign In
               </Link>
             </div>
