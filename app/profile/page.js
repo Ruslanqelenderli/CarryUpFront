@@ -7,6 +7,7 @@ import Navbar from "../components/navbar";
 import MyAds from "../myAds/page";
 import MyPackages from "../myPackages/page";
 import { useRouter } from "next/navigation";
+import MyAdsTrip from "../myAdsTrip/page";
 
 export default function Profile() {
   const [profileImage, setProfileImage] = useState(null); // State for the profile image
@@ -61,6 +62,27 @@ export default function Profile() {
       reader.readAsDataURL(file); // Convert the image file to a base64 URL
     }
   };
+
+
+  // const updateUserData = async () => {
+  //   try {
+  //     const response = await fetch(`${apiurl}/`, {
+  //       method: "PUT",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(
+        
+  //         //   current: current,
+  //       ),
+  //       //   cache: "force-cache",
+  //     });
+      
+  //   } catch (error) {
+  //     console.log('error',error);
+      
+  //   }
+  // }
 
 
   if (!user) return null;
@@ -330,7 +352,7 @@ export default function Profile() {
             </div>
           </div>
         ) : toggleState === 2 ? (
-          <MyAds />
+          <MyAdsTrip />
         ) : toggleState === 3 ? (
           <MyAds />
         ) : toggleState === 4 ? (

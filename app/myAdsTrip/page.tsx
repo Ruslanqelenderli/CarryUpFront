@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
-function MyAds() {
+function MyAdsTrip() {
   const [activeButton, setActiveButton] = useState(1);
   const [list, setList] = useState([]);
   const [sendLoading, setSendLoading] = useState(false);
@@ -16,15 +16,16 @@ function MyAds() {
     setActiveButton(index);
   };
 
-  const getSends = async (currentPage) => {
+  const getTrips = async (currentPage) => {
     try {
       setSendLoading(true);
 
       const user = JSON.parse(localStorage.getItem("user"));
-
+      console.log(user);
+      
       const accessToken = localStorage.getItem("accessToken");
 
-  
+   
       
 
       if (!user?.id || !accessToken) {
@@ -32,7 +33,7 @@ function MyAds() {
         return;
       }
 
-      const response = await fetch(`${apiurl}/Send/GetSendsByUserId`, {
+      const response = await fetch(`${apiurl}/Send/GetTripsByUserId`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,7 +49,7 @@ function MyAds() {
 
 
       const responseData = await response.json();
-   
+
 
       if (response.ok && responseData?.list?.length > 0) {
         setList(responseData.list);
@@ -68,7 +69,7 @@ function MyAds() {
   };
 
   useEffect(() => {
-    getSends(1); 
+    getTrips(1); 
   }, []);
 
   return (
@@ -132,7 +133,7 @@ function MyAds() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="5" className="text-center py-4">
+                    <td colSpan={5} className="text-center py-4">
                       No data available
                     </td>
                   </tr>
@@ -146,4 +147,4 @@ function MyAds() {
   );
 }
 
-export default MyAds;
+export default MyAdsTrip;
